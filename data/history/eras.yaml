@@ -1,0 +1,27 @@
+- id: antiquity
+  title: Antiguidade
+  span: até 500
+- id: medieval
+  title: Ciência medieval e islâmica
+  span: 500 a 1500
+- id: scientific-revolution
+  title: Revolução científica
+  span: 1543 a 1687
+- id: classical-mechanics-era
+  title: Mecânica clássica e Iluminismo
+  span: 1687 a 1800
+- id: nineteenth-century
+  title: 'Século XIX: calor, eletricidade e luz'
+  span: 1800 a 1900
+- id: modern-revolution
+  title: 'Revolução moderna: relatividade e quântica'
+  span: 1900 a 1930
+- id: nuclear-age
+  title: Era nuclear e das partículas
+  span: 1930 a 1970
+- id: standard-model-era
+  title: Modelo padrão e cosmologia de precisão
+  span: 1970 a 2000
+- id: contemporary
+  title: Física contemporânea
+  span: 2000 em diante

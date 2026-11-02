@@ -1,0 +1,616 @@
+modules:
+- id: foundations
+  title: Ferramentas matemáticas
+  concepts:
+  - id: what-is-physics
+    title: O que é física e o método científico
+    requires: []
+  - id: reading-equations
+    title: Como ler uma equação
+    requires: []
+  - id: units-and-si
+    title: Unidades, SI e notação científica
+    requires: [reading-equations]
+  - id: dimensional-analysis
+    title: Análise dimensional e ordens de grandeza
+    requires: [units-and-si]
+  - id: measurement-and-uncertainty
+    title: Medida, erro e incerteza
+    requires: [units-and-si, what-is-physics]
+  - id: functions-and-graphs
+    title: Funções e gráficos
+    requires: [reading-equations]
+  - id: trigonometry
+    title: Trigonometria
+    requires: [functions-and-graphs]
+  - id: vectors
+    title: Vetores
+    requires: [trigonometry]
+  - id: exponentials-and-logarithms
+    title: Exponenciais e logaritmos
+    requires: [functions-and-graphs]
+  - id: rates-of-change
+    title: Taxa de variação e derivada
+    requires: [functions-and-graphs]
+  - id: area-under-curve
+    title: Área sob a curva e integral
+    requires: [rates-of-change]
+  - id: differential-equations
+    title: Equações diferenciais simples
+    requires: [area-under-curve, exponentials-and-logarithms]
+  - id: probability-basics
+    title: Probabilidade
+    requires: [functions-and-graphs]
+  - id: statistics-and-noise
+    title: Estatística, média e ruído
+    requires: [probability-basics, measurement-and-uncertainty]
+  - id: complex-numbers
+    title: Números complexos
+    requires: [trigonometry, exponentials-and-logarithms]
+  - id: linear-algebra
+    title: 'Álgebra linear: matrizes e autovalores'
+    requires: [vectors]
+  - id: series-and-approximations
+    title: Séries e aproximações
+    requires: [rates-of-change]
+  - id: fourier-analysis
+    title: Ondas como soma de senos (Fourier)
+    requires: [trigonometry, area-under-curve, complex-numbers]
+- id: mechanics
+  title: Mecânica
+  concepts:
+  - id: kinematics-1d
+    title: Posição, velocidade e aceleração
+    requires: [units-and-si, rates-of-change]
+  - id: free-fall
+    title: Queda livre e Galileu
+    requires: [kinematics-1d]
+  - id: projectile-motion
+    title: Movimento em duas dimensões e projéteis
+    requires: [free-fall, vectors]
+  - id: inertia
+    title: 'Inércia: a primeira lei de Newton'
+    requires: [kinematics-1d]
+  - id: force-and-motion
+    title: Força e movimento
+    requires: [inertia]
+  - id: action-reaction
+    title: 'Ação e reação: a terceira lei'
+    requires: [force-and-motion]
+  - id: friction-and-normal
+    title: Peso, normal e atrito
+    requires: [force-and-motion]
+  - id: circular-motion
+    title: Movimento circular
+    requires: [projectile-motion, force-and-motion]
+  - id: newton-gravity
+    title: Gravidade de Newton
+    requires: [force-and-motion]
+  - id: kepler-laws
+    title: Leis de Kepler
+    requires: [newton-gravity]
+  - id: work-and-kinetic-energy
+    title: Trabalho e energia cinética
+    requires: [force-and-motion, area-under-curve]
+  - id: potential-energy
+    title: Energia potencial
+    requires: [work-and-kinetic-energy]
+  - id: energy-conservation
+    title: Conservação da energia
+    requires: [potential-energy]
+  - id: power
+    title: Potência
+    requires: [work-and-kinetic-energy]
+  - id: momentum
+    title: Momento linear e impulso
+    requires: [action-reaction]
+  - id: collisions
+    title: Colisões
+    requires: [momentum, energy-conservation]
+  - id: center-of-mass
+    title: Centro de massa
+    requires: [momentum]
+  - id: torque
+    title: Torque e equilíbrio
+    requires: [force-and-motion, vectors]
+  - id: angular-momentum
+    title: Momento angular
+    requires: [torque, circular-motion]
+  - id: rigid-body-rotation
+    title: Rotação de corpos rígidos
+    requires: [angular-momentum]
+  - id: harmonic-oscillator
+    title: Oscilador harmônico
+    requires: [energy-conservation, differential-equations]
+  - id: pendulum
+    title: Pêndulo
+    requires: [harmonic-oscillator]
+  - id: resonance
+    title: Ressonância e oscilações forçadas
+    requires: [harmonic-oscillator]
+  - id: non-inertial-frames
+    title: Referenciais não inerciais e forças fictícias
+    requires: [circular-motion]
+  - id: pressure-and-buoyancy
+    title: Pressão e empuxo
+    requires: [force-and-motion]
+  - id: fluid-flow
+    title: Escoamento e Bernoulli
+    requires: [pressure-and-buoyancy, energy-conservation]
+  - id: escape-velocity
+    title: Velocidade de escape
+    requires: [newton-gravity, energy-and-mass]
+  - id: least-action
+    title: Princípio de mínima ação
+    requires: [energy-conservation, area-under-curve]
+  - id: lagrangian-mechanics
+    title: Mecânica lagrangiana
+    requires: [least-action]
+  - id: hamiltonian-mechanics
+    title: Mecânica hamiltoniana
+    requires: [lagrangian-mechanics]
+  - id: noether-theorem
+    title: 'Simetrias e conservação: teorema de Noether'
+    requires: [lagrangian-mechanics]
+  - id: chaos
+    title: Caos e sensibilidade às condições iniciais
+    requires: [pendulum, differential-equations]
+- id: waves-optics
+  title: Ondas e óptica
+  concepts:
+  - id: waves
+    title: O que é uma onda
+    requires: [harmonic-oscillator]
+  - id: sound
+    title: Som
+    requires: [waves]
+  - id: superposition-interference
+    title: Superposição e interferência
+    requires: [waves]
+  - id: standing-waves
+    title: Ondas estacionárias e instrumentos musicais
+    requires: [superposition-interference]
+  - id: doppler-effect
+    title: Efeito Doppler
+    requires: [waves, nature-of-light]
+  - id: nature-of-light
+    title: 'A natureza da luz: partícula ou onda'
+    requires: [waves]
+  - id: reflection-refraction
+    title: Reflexão e refração
+    requires: [nature-of-light]
+  - id: lenses-and-mirrors
+    title: Lentes, espelhos e formação de imagem
+    requires: [reflection-refraction]
+  - id: optical-instruments
+    title: Telescópios e microscópios
+    requires: [lenses-and-mirrors]
+  - id: diffraction
+    title: Difração
+    requires: [superposition-interference, nature-of-light]
+  - id: double-slit-young
+    title: O experimento de Young
+    requires: [diffraction]
+  - id: polarization
+    title: Polarização
+    requires: [electromagnetic-waves]
+  - id: electromagnetic-spectrum
+    title: Espectro eletromagnético
+    requires: [electromagnetic-waves]
+  - id: spectroscopy
+    title: Espectroscopia e linhas espectrais
+    requires: [electromagnetic-spectrum, diffraction]
+- id: thermodynamics
+  title: Termodinâmica e física estatística
+  concepts:
+  - id: temperature-and-heat
+    title: Temperatura e calor
+    requires: [energy-conservation]
+  - id: temperature-and-radiation
+    title: Temperatura e radiação
+    requires: [energy-and-mass]
+  - id: thermal-expansion
+    title: Dilatação térmica
+    requires: [temperature-and-heat]
+  - id: ideal-gas
+    title: Gases ideais
+    requires: [temperature-and-heat, pressure-and-buoyancy]
+  - id: kinetic-theory
+    title: Teoria cinética dos gases
+    requires: [ideal-gas, momentum, statistics-and-noise]
+  - id: first-law-thermodynamics
+    title: Primeira lei da termodinâmica
+    requires: [temperature-and-heat, work-and-kinetic-energy]
+  - id: heat-engines
+    title: Máquinas térmicas e o ciclo de Carnot
+    requires: [first-law-thermodynamics]
+  - id: second-law-thermodynamics
+    title: Segunda lei da termodinâmica
+    requires: [heat-engines]
+  - id: entropy
+    title: Entropia
+    requires: [temperature-and-radiation, second-law-thermodynamics]
+  - id: third-law-thermodynamics
+    title: Terceira lei e o zero absoluto
+    requires: [entropy]
+  - id: free-energy
+    title: Energia livre
+    requires: [entropy]
+  - id: boltzmann-distribution
+    title: Distribuição de Boltzmann
+    requires: [entropy, probability-basics]
+  - id: statistical-ensembles
+    title: Ensembles estatísticos
+    requires: [boltzmann-distribution]
+  - id: blackbody-radiation
+    title: Radiação de corpo negro
+    requires: [temperature-and-radiation, electromagnetic-spectrum]
+  - id: phase-transitions
+    title: Transições de fase
+    requires: [free-energy]
+  - id: information-entropy
+    title: Entropia de Shannon e informação
+    requires: [entropy, probability-basics]
+  - id: arrow-of-time
+    title: A seta do tempo
+    requires: [second-law-thermodynamics, entropy]
+- id: electromagnetism
+  title: Eletromagnetismo
+  concepts:
+  - id: electric-charge
+    title: Carga elétrica
+    requires: [force-and-motion]
+  - id: coulomb-law
+    title: Lei de Coulomb
+    requires: [electric-charge, newton-gravity]
+  - id: electric-field
+    title: Campo elétrico
+    requires: [coulomb-law, vectors]
+  - id: electric-potential
+    title: Potencial elétrico e voltagem
+    requires: [electric-field, potential-energy]
+  - id: capacitors
+    title: Capacitores
+    requires: [electric-potential]
+  - id: current-and-resistance
+    title: Corrente e resistência (lei de Ohm)
+    requires: [electric-potential]
+  - id: circuits
+    title: Circuitos elétricos
+    requires: [current-and-resistance, capacitors]
+  - id: magnetism
+    title: Ímãs e magnetismo
+    requires: [electric-charge]
+  - id: magnetic-field-lorentz-force
+    title: Campo magnético e força de Lorentz
+    requires: [magnetism, electric-field]
+  - id: ampere-law
+    title: 'Correntes geram campos: Ørsted e Ampère'
+    requires: [magnetic-field-lorentz-force, current-and-resistance]
+  - id: electromagnetic-induction
+    title: Indução eletromagnética (Faraday)
+    requires: [ampere-law]
+  - id: maxwell-equations
+    title: Equações de Maxwell
+    requires: [electromagnetic-induction, electric-field, rates-of-change]
+  - id: electromagnetic-waves
+    title: 'Ondas eletromagnéticas: a luz é eletromagnetismo'
+    requires: [maxwell-equations, waves]
+  - id: radiation-from-charges
+    title: Cargas aceleradas irradiam
+    requires: [electromagnetic-waves]
+- id: relativity
+  title: Relatividade
+  concepts:
+  - id: aether-and-michelson-morley
+    title: O éter e o experimento de Michelson-Morley
+    requires: [nature-of-light, superposition-interference]
+  - id: special-relativity
+    title: Relatividade restrita
+    requires: [force-and-motion, aether-and-michelson-morley]
+  - id: relativity-of-simultaneity
+    title: Relatividade da simultaneidade
+    requires: [special-relativity]
+  - id: time-dilation-length-contraction
+    title: Dilatação do tempo e contração do espaço
+    requires: [special-relativity]
+  - id: minkowski-spacetime
+    title: Espaço-tempo de Minkowski
+    requires: [relativity-of-simultaneity, time-dilation-length-contraction]
+  - id: energy-and-mass
+    title: Energia e E = mc²
+    requires: [force-and-motion]
+  - id: relativistic-momentum
+    title: Momento e energia relativísticos
+    requires: [minkowski-spacetime, energy-and-mass]
+  - id: equivalence-principle
+    title: Princípio de equivalência
+    requires: [special-relativity, newton-gravity]
+  - id: general-relativity
+    title: Relatividade geral
+    requires: [newton-gravity, special-relativity, equivalence-principle]
+  - id: classic-tests-gr
+    title: Testes clássicos da relatividade geral
+    requires: [general-relativity]
+  - id: gravitational-time-dilation-gps
+    title: Tempo gravitacional e GPS
+    requires: [general-relativity]
+  - id: schwarzschild-black-hole
+    title: Buraco negro de Schwarzschild
+    requires: [escape-velocity, general-relativity]
+  - id: gravitational-lensing
+    title: Lentes gravitacionais
+    requires: [classic-tests-gr]
+  - id: gravitational-waves
+    title: Ondas gravitacionais
+    requires: [general-relativity, waves]
+- id: cosmology
+  title: Cosmologia
+  concepts:
+  - id: expanding-universe
+    title: Universo em expansão (Hubble-Lemaître)
+    requires: [general-relativity, doppler-effect]
+  - id: big-bang
+    title: Big Bang
+    requires: [expanding-universe]
+  - id: cosmic-microwave-background
+    title: Radiação cósmica de fundo
+    requires: [big-bang, blackbody-radiation]
+  - id: nucleosynthesis
+    title: Nucleossíntese primordial
+    requires: [big-bang, nuclear-fusion]
+  - id: dark-matter
+    title: Matéria escura
+    requires: [newton-gravity, gravitational-lensing]
+  - id: dark-energy
+    title: Energia escura e aceleração
+    requires: [expanding-universe]
+  - id: cosmic-inflation
+    title: Inflação cósmica
+    requires: [cosmic-microwave-background]
+  - id: hubble-tension
+    title: A tensão de Hubble
+    requires: [expanding-universe, cosmic-microwave-background]
+- id: quantum
+  title: Física quântica
+  concepts:
+  - id: crisis-classical-physics
+    title: A crise da física clássica
+    requires: [blackbody-radiation]
+  - id: planck-quantum
+    title: Planck e o quantum de energia
+    requires: [crisis-classical-physics]
+  - id: photoelectric-effect
+    title: Efeito fotoelétrico e o fóton
+    requires: [planck-quantum]
+  - id: atomic-spectra
+    title: Espectros atômicos
+    requires: [spectroscopy]
+  - id: rutherford-atom
+    title: O núcleo atômico de Rutherford
+    requires: [coulomb-law]
+  - id: bohr-atom
+    title: O átomo de Bohr
+    requires: [atomic-spectra, rutherford-atom, planck-quantum, angular-momentum]
+  - id: de-broglie-waves
+    title: Ondas de matéria (de Broglie)
+    requires: [photoelectric-effect, bohr-atom]
+  - id: quantum-double-slit
+    title: A dupla fenda com partículas
+    requires: [de-broglie-waves, double-slit-young]
+  - id: wavefunction
+    title: Função de onda e probabilidade
+    requires: [quantum-double-slit, probability-basics]
+  - id: quantum-basics
+    title: Básico de quântica
+    requires: [reading-equations]
+  - id: schrodinger-equation
+    title: Equação de Schrödinger
+    requires: [wavefunction, differential-equations, complex-numbers]
+  - id: uncertainty-principle
+    title: Princípio da incerteza
+    requires: [wavefunction, fourier-analysis]
+  - id: particle-in-a-box
+    title: Partícula na caixa e quantização
+    requires: [schrodinger-equation]
+  - id: quantum-tunneling
+    title: Tunelamento quântico
+    requires: [schrodinger-equation]
+  - id: quantum-harmonic-oscillator
+    title: Oscilador harmônico quântico
+    requires: [schrodinger-equation, harmonic-oscillator]
+  - id: hydrogen-atom
+    title: Átomo de hidrogênio
+    requires: [schrodinger-equation, bohr-atom]
+  - id: spin
+    title: Spin
+    requires: [hydrogen-atom, angular-momentum]
+  - id: stern-gerlach
+    title: Experimento de Stern-Gerlach
+    requires: [spin]
+  - id: pauli-exclusion
+    title: Princípio de exclusão e a tabela periódica
+    requires: [spin, hydrogen-atom]
+  - id: quantum-measurement
+    title: Medição e colapso
+    requires: [quantum-basics, wavefunction]
+  - id: operators-observables
+    title: Operadores e observáveis
+    requires: [linear-algebra, schrodinger-equation]
+  - id: entanglement
+    title: Emaranhamento
+    requires: [entropy, quantum-basics]
+  - id: bell-inequalities
+    title: Desigualdades de Bell
+    requires: [entanglement, statistics-and-noise]
+  - id: decoherence
+    title: Decoerência
+    requires: [quantum-measurement, entanglement]
+  - id: quantum-interpretations
+    title: Interpretações da mecânica quântica
+    requires: [quantum-measurement, bell-inequalities]
+  - id: quantum-computing
+    title: Computação quântica
+    requires: [entanglement, operators-observables]
+- id: condensed-matter
+  title: Matéria condensada
+  concepts:
+  - id: crystals
+    title: Sólidos e cristais
+    requires: [pauli-exclusion]
+  - id: band-theory
+    title: Bandas de energia
+    requires: [crystals, particle-in-a-box]
+  - id: semiconductors
+    title: Semicondutores e o transistor
+    requires: [band-theory, current-and-resistance]
+  - id: superconductivity
+    title: Supercondutividade
+    requires: [band-theory, magnetism]
+  - id: lasers
+    title: Lasers
+    requires: [atomic-spectra, statistical-ensembles]
+  - id: bose-einstein-condensate
+    title: Condensado de Bose-Einstein
+    requires: [statistical-ensembles, spin]
+- id: nuclear-particles
+  title: Núcleos e partículas
+  concepts:
+  - id: atomic-nucleus
+    title: Prótons, nêutrons e o núcleo
+    requires: [rutherford-atom]
+  - id: radioactivity
+    title: Radioatividade e meia-vida
+    requires: [atomic-nucleus, exponentials-and-logarithms]
+  - id: binding-energy
+    title: Energia de ligação nuclear
+    requires: [atomic-nucleus, energy-and-mass]
+  - id: nuclear-fission
+    title: Fissão nuclear
+    requires: [binding-energy]
+  - id: nuclear-fusion
+    title: Fusão nuclear
+    requires: [binding-energy, quantum-tunneling]
+  - id: antimatter
+    title: Antimatéria
+    requires: [relativistic-momentum, spin]
+  - id: particle-zoo
+    title: O zoológico de partículas
+    requires: [atomic-nucleus, relativistic-momentum]
+  - id: quarks
+    title: Quarks
+    requires: [particle-zoo]
+  - id: fundamental-forces
+    title: As quatro forças fundamentais
+    requires: [quarks, maxwell-equations, newton-gravity]
+  - id: quantum-field-theory-intro
+    title: Introdução à teoria quântica de campos
+    requires: [antimatter, quantum-harmonic-oscillator, relativistic-momentum]
+  - id: qed
+    title: Eletrodinâmica quântica e diagramas de Feynman
+    requires: [quantum-field-theory-intro]
+  - id: weak-interaction
+    title: Interação fraca
+    requires: [radioactivity, quantum-field-theory-intro]
+  - id: strong-interaction
+    title: Interação forte e cromodinâmica quântica
+    requires: [quarks, quantum-field-theory-intro]
+  - id: neutrinos
+    title: Neutrinos
+    requires: [weak-interaction]
+  - id: standard-model
+    title: Modelo padrão
+    requires: [qed, weak-interaction, strong-interaction, noether-theorem]
+  - id: higgs-boson
+    title: Bóson de Higgs
+    requires: [standard-model]
+  - id: beyond-standard-model
+    title: Além do modelo padrão
+    requires: [standard-model, dark-matter]
+- id: astrophysics
+  title: Astrofísica
+  concepts:
+  - id: stellar-flux
+    title: Brilho, fluxo e luminosidade
+    requires: [temperature-and-radiation]
+  - id: stellar-spectra
+    title: Espectros estelares e classificação
+    requires: [stellar-flux, atomic-spectra]
+  - id: hr-diagram
+    title: Diagrama de Hertzsprung-Russell
+    requires: [stellar-spectra]
+  - id: stellar-fusion
+    title: Como as estrelas brilham
+    requires: [nuclear-fusion, hr-diagram]
+  - id: stellar-evolution
+    title: Vida e morte das estrelas
+    requires: [stellar-fusion]
+  - id: white-dwarfs
+    title: Anãs brancas e o limite de Chandrasekhar
+    requires: [stellar-evolution, pauli-exclusion]
+  - id: neutron-stars
+    title: Estrelas de nêutrons e pulsares
+    requires: [white-dwarfs]
+  - id: supernovae
+    title: Supernovas
+    requires: [stellar-evolution]
+  - id: black-hole-observations
+    title: Observando buracos negros (EHT e LIGO)
+    requires: [schwarzschild-black-hole, gravitational-waves]
+  - id: galaxies
+    title: Galáxias e a Via Láctea
+    requires: [stellar-evolution, dark-matter]
+  - id: light-curves
+    title: Curvas de luz
+    requires: [stellar-flux]
+  - id: what-is-an-exoplanet
+    title: O que é um exoplaneta
+    requires: [kepler-laws]
+  - id: transit-method
+    title: Método de trânsito
+    requires: [light-curves, kepler-laws]
+  - id: radial-velocity
+    title: Velocidade radial
+    requires: [doppler-effect, kepler-laws]
+  - id: transit-detection
+    title: Detectando trânsitos
+    requires: [transit-method]
+  - id: kepler-and-tess
+    title: Kepler e TESS
+    requires: [transit-method]
+  - id: false-positives
+    title: Falsos positivos e validação
+    requires: [transit-detection, radial-velocity]
+  - id: habitable-zone
+    title: Zona habitável e atmosferas
+    requires: [stellar-flux, transit-method]
+- id: frontiers
+  title: 'Fronteiras: gravidade e informação'
+  concepts:
+  - id: black-hole-thermodynamics
+    title: Termodinâmica de buracos negros
+    requires: [schwarzschild-black-hole, entropy, entanglement]
+  - id: information-paradox
+    title: Paradoxo da informação
+    requires: [black-hole-thermodynamics]
+  - id: page-curve
+    title: Curva de Page
+    requires: [information-paradox]
+  - id: holography
+    title: Holografia e Ryu-Takayanagi
+    requires: [general-relativity, entropy]
+  - id: islands
+    title: Ilhas
+    requires: [page-curve, holography]
+  - id: replica-wormholes
+    title: Replica wormholes
+    requires: [islands]
+  - id: quantum-gravity-problem
+    title: O problema da gravidade quântica
+    requires: [general-relativity, quantum-field-theory-intro]
+  - id: string-theory-intro
+    title: Teoria de cordas (introdução)
+    requires: [quantum-gravity-problem]
+  - id: loop-quantum-gravity-intro
+    title: Gravidade quântica em loop (introdução)
+    requires: [quantum-gravity-problem]

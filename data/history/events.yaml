@@ -1,0 +1,294 @@
+- id: eratosthenes-earth-size
+  title: Eratóstenes mede o tamanho da Terra
+  era: antiquity
+  concepts: [measurement-and-uncertainty]
+  date: null
+  wikidata: null
+  status: planned
+- id: de-revolutionibus
+  title: Copérnico publica o modelo heliocêntrico
+  era: scientific-revolution
+  concepts: [kepler-laws]
+  date: null
+  wikidata: null
+  status: planned
+- id: astronomia-nova
+  title: Kepler publica as duas primeiras leis
+  era: scientific-revolution
+  concepts: [kepler-laws]
+  date: null
+  wikidata: null
+  status: planned
+- id: galileo-telescope
+  title: Galileu aponta o telescópio para o céu
+  era: scientific-revolution
+  concepts: [optical-instruments]
+  date: null
+  wikidata: null
+  status: planned
+- id: principia
+  title: Newton publica os Principia
+  era: classical-mechanics-era
+  concepts: [newton-gravity, force-and-motion]
+  date: null
+  wikidata: null
+  status: planned
+- id: cavendish-experiment
+  title: Cavendish pesa a Terra (mede G)
+  era: classical-mechanics-era
+  concepts: [newton-gravity]
+  date: null
+  wikidata: null
+  status: planned
+- id: young-double-slit
+  title: Young mostra a interferência da luz
+  era: nineteenth-century
+  concepts: [double-slit-young]
+  date: null
+  wikidata: null
+  status: planned
+- id: orsted-compass
+  title: Ørsted vê a corrente desviar uma bússola
+  era: nineteenth-century
+  concepts: [ampere-law]
+  date: null
+  wikidata: null
+  status: planned
+- id: faraday-induction
+  title: Faraday descobre a indução
+  era: nineteenth-century
+  concepts: [electromagnetic-induction]
+  date: null
+  wikidata: null
+  status: planned
+- id: carnot-reflections
+  title: Carnot publica as Reflexões sobre a potência motriz do fogo
+  era: nineteenth-century
+  concepts: [heat-engines]
+  date: null
+  wikidata: null
+  status: planned
+- id: joule-equivalent
+  title: Joule mede o equivalente mecânico do calor
+  era: nineteenth-century
+  concepts: [first-law-thermodynamics]
+  date: null
+  wikidata: null
+  status: planned
+- id: neptune-discovery
+  title: Netuno é encontrado a partir de cálculos
+  era: nineteenth-century
+  concepts: [newton-gravity]
+  date: null
+  wikidata: null
+  status: planned
+- id: maxwell-dynamical-theory
+  title: Maxwell unifica eletricidade, magnetismo e luz
+  era: nineteenth-century
+  concepts: [maxwell-equations]
+  date: null
+  wikidata: null
+  status: planned
+- id: michelson-morley-experiment
+  title: Michelson e Morley não encontram o éter
+  era: nineteenth-century
+  concepts: [aether-and-michelson-morley]
+  date: null
+  wikidata: null
+  status: planned
+- id: hertz-radio-waves
+  title: Hertz produz ondas de rádio
+  era: nineteenth-century
+  concepts: [electromagnetic-waves]
+  date: null
+  wikidata: null
+  status: planned
+- id: x-rays
+  title: Röntgen descobre os raios X
+  era: nineteenth-century
+  concepts: [electromagnetic-spectrum]
+  date: null
+  wikidata: null
+  status: planned
+- id: radioactivity-discovery
+  title: Becquerel e os Curie descobrem a radioatividade
+  era: nineteenth-century
+  concepts: [radioactivity]
+  date: null
+  wikidata: null
+  status: planned
+- id: electron-discovery
+  title: Thomson identifica o elétron
+  era: nineteenth-century
+  concepts: [electric-charge]
+  date: null
+  wikidata: null
+  status: planned
+- id: planck-quantum-1900
+  title: Planck introduz o quantum
+  era: modern-revolution
+  concepts: [planck-quantum]
+  date: null
+  wikidata: null
+  status: planned
+- id: annus-mirabilis
+  title: O ano milagroso de Einstein
+  era: modern-revolution
+  concepts: [special-relativity, photoelectric-effect, energy-and-mass]
+  date: null
+  wikidata: null
+  status: planned
+- id: gold-foil
+  title: O experimento da folha de ouro
+  era: modern-revolution
+  concepts: [rutherford-atom]
+  date: null
+  wikidata: null
+  status: planned
+- id: bohr-model-publication
+  title: Bohr propõe o modelo atômico
+  era: modern-revolution
+  concepts: [bohr-atom]
+  date: null
+  wikidata: null
+  status: planned
+- id: general-relativity-publication
+  title: Einstein publica a relatividade geral
+  era: modern-revolution
+  concepts: [general-relativity]
+  date: null
+  wikidata: null
+  status: planned
+- id: sobral-eclipse
+  title: O eclipse de Sobral confirma a curvatura da luz
+  era: modern-revolution
+  concepts: [classic-tests-gr]
+  date: null
+  wikidata: null
+  status: planned
+- id: stern-gerlach-experiment
+  title: Stern e Gerlach separam átomos pelo spin
+  era: modern-revolution
+  concepts: [stern-gerlach]
+  date: null
+  wikidata: null
+  status: planned
+- id: quantum-mechanics-1925
+  title: Heisenberg e Schrödinger criam a mecânica quântica
+  era: modern-revolution
+  concepts: [schrodinger-equation]
+  date: null
+  wikidata: null
+  status: planned
+- id: expansion-discovery
+  title: 'Lemaître e Hubble: o universo se expande'
+  era: modern-revolution
+  concepts: [expanding-universe]
+  date: null
+  wikidata: null
+  status: planned
+- id: neutron-discovery
+  title: Chadwick descobre o nêutron
+  era: nuclear-age
+  concepts: [atomic-nucleus]
+  date: null
+  wikidata: null
+  status: planned
+- id: fission-discovery
+  title: 'Meitner, Hahn e Strassmann: a fissão'
+  era: nuclear-age
+  concepts: [nuclear-fission]
+  date: null
+  wikidata: null
+  status: planned
+- id: pion-discovery
+  title: Lattes e a descoberta do méson pi
+  era: nuclear-age
+  concepts: [particle-zoo]
+  date: null
+  wikidata: null
+  status: planned
+- id: transistor
+  title: A invenção do transistor
+  era: nuclear-age
+  concepts: [semiconductors]
+  date: null
+  wikidata: null
+  status: planned
+- id: parity-violation
+  title: Wu mostra que a interação fraca viola a paridade
+  era: nuclear-age
+  concepts: [weak-interaction]
+  date: null
+  wikidata: null
+  status: planned
+- id: cmb-discovery
+  title: Descoberta da radiação cósmica de fundo
+  era: nuclear-age
+  concepts: [cosmic-microwave-background]
+  date: null
+  wikidata: null
+  status: planned
+- id: pulsar-discovery
+  title: Bell Burnell descobre os pulsares
+  era: nuclear-age
+  concepts: [neutron-stars]
+  date: null
+  wikidata: null
+  status: planned
+- id: hawking-radiation-1974
+  title: 'Hawking: buracos negros irradiam'
+  era: standard-model-era
+  concepts: [black-hole-thermodynamics]
+  date: null
+  wikidata: null
+  status: planned
+- id: bell-test-aspect
+  title: Testes de Bell com fótons
+  era: standard-model-era
+  concepts: [bell-inequalities]
+  date: null
+  wikidata: null
+  status: planned
+- id: 51-peg-b
+  title: Primeiro exoplaneta em estrela do tipo solar
+  era: standard-model-era
+  concepts: [what-is-an-exoplanet]
+  date: null
+  wikidata: null
+  status: planned
+- id: accelerating-universe
+  title: O universo está acelerando
+  era: standard-model-era
+  concepts: [dark-energy]
+  date: null
+  wikidata: null
+  status: planned
+- id: higgs-discovery
+  title: O bóson de Higgs é observado no LHC
+  era: contemporary
+  concepts: [higgs-boson]
+  date: null
+  wikidata: null
+  status: planned
+- id: gw150914
+  title: Primeira detecção de ondas gravitacionais
+  era: contemporary
+  concepts: [gravitational-waves]
+  date: null
+  wikidata: null
+  status: planned
+- id: eht-m87
+  title: Primeira imagem de um buraco negro
+  era: contemporary
+  concepts: [black-hole-observations]
+  date: null
+  wikidata: null
+  status: planned
+- id: replica-wormholes-paper
+  title: Replica wormholes e a curva de Page
+  era: contemporary
+  concepts: [replica-wormholes]
+  date: null
+  wikidata: null
+  status: planned

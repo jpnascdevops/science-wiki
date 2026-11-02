@@ -1,0 +1,490 @@
+- id: aristotle
+  name: Aristóteles
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: archimedes
+  name: Arquimedes
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: eratosthenes
+  name: Eratóstenes
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: ptolemy
+  name: Ptolomeu
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: ibn-al-haytham
+  name: Ibn al-Haytham
+  era: medieval
+  wikidata: null
+  status: planned
+- id: jean-buridan
+  name: Jean Buridan
+  era: medieval
+  wikidata: null
+  status: planned
+- id: nicolaus-copernicus
+  name: Nicolau Copérnico
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: tycho-brahe
+  name: Tycho Brahe
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: johannes-kepler
+  name: Johannes Kepler
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: galileo-galilei
+  name: Galileu Galilei
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: christiaan-huygens
+  name: Christiaan Huygens
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: robert-hooke
+  name: Robert Hooke
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: isaac-newton
+  name: Isaac Newton
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: leonhard-euler
+  name: Leonhard Euler
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: joseph-louis-lagrange
+  name: Joseph-Louis Lagrange
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: pierre-simon-laplace
+  name: Pierre-Simon Laplace
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: john-michell
+  name: John Michell
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: henry-cavendish
+  name: Henry Cavendish
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: thomas-young
+  name: Thomas Young
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: sadi-carnot
+  name: Sadi Carnot
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: hans-christian-orsted
+  name: Hans Christian Ørsted
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: andre-marie-ampere
+  name: André-Marie Ampère
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: michael-faraday
+  name: Michael Faraday
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: james-prescott-joule
+  name: James Prescott Joule
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: rudolf-clausius
+  name: Rudolf Clausius
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: william-thomson-kelvin
+  name: William Thomson (Kelvin)
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: william-rowan-hamilton
+  name: William Rowan Hamilton
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: christian-doppler
+  name: Christian Doppler
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: james-clerk-maxwell
+  name: James Clerk Maxwell
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: ludwig-boltzmann
+  name: Ludwig Boltzmann
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: heinrich-hertz
+  name: Heinrich Hertz
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: albert-michelson
+  name: Albert Michelson
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: urbain-le-verrier
+  name: Urbain Le Verrier
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: hendrik-lorentz
+  name: Hendrik Lorentz
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: henri-poincare
+  name: Henri Poincaré
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: max-planck
+  name: Max Planck
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: marie-curie
+  name: Marie Curie
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: albert-einstein
+  name: Albert Einstein
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: emmy-noether
+  name: Emmy Noether
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: ernest-rutherford
+  name: Ernest Rutherford
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: karl-schwarzschild
+  name: Karl Schwarzschild
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: niels-bohr
+  name: Niels Bohr
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: louis-de-broglie
+  name: Louis de Broglie
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: werner-heisenberg
+  name: Werner Heisenberg
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: erwin-schrodinger
+  name: Erwin Schrödinger
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: wolfgang-pauli
+  name: Wolfgang Pauli
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: paul-dirac
+  name: Paul Dirac
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: georges-lemaitre
+  name: Georges Lemaître
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: edwin-hubble
+  name: Edwin Hubble
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: subrahmanyan-chandrasekhar
+  name: Subrahmanyan Chandrasekhar
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: lise-meitner
+  name: Lise Meitner
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: enrico-fermi
+  name: Enrico Fermi
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: cesar-lattes
+  name: César Lattes
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: richard-feynman
+  name: Richard Feynman
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: chien-shiung-wu
+  name: Chien-Shiung Wu
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: murray-gell-mann
+  name: Murray Gell-Mann
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: peter-higgs
+  name: Peter Higgs
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: john-bell
+  name: John Bell
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: jocelyn-bell-burnell
+  name: Jocelyn Bell Burnell
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: vera-rubin
+  name: Vera Rubin
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: stephen-hawking
+  name: Stephen Hawking
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: jacob-bekenstein
+  name: Jacob Bekenstein
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: roger-penrose
+  name: Roger Penrose
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: kip-thorne
+  name: Kip Thorne
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: don-page
+  name: Don Page
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: juan-maldacena
+  name: Juan Maldacena
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: michel-mayor
+  name: Michel Mayor
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: didier-queloz
+  name: Didier Queloz
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: boris-podolsky
+  name: "Boris Podolsky"
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: nathan-rosen
+  name: "Nathan Rosen"
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: claude-shannon
+  name: "Claude Shannon"
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: arthur-eddington
+  name: "Arthur Eddington"
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: gerard-t-hooft
+  name: "Gerard 't Hooft"
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: leonard-susskind
+  name: Leonard Susskind
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: shinsei-ryu
+  name: Shinsei Ryu
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: tadashi-takayanagi
+  name: Tadashi Takayanagi
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: john-preskill
+  name: John Preskill
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: geoff-penington
+  name: Geoff Penington
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: ahmed-almheiri
+  name: Ahmed Almheiri
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: netta-engelhardt
+  name: Netta Engelhardt
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: donald-marolf
+  name: Donald Marolf
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: henry-maxfield
+  name: Henry Maxfield
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: johann-galle
+  name: "Johann Galle"
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: thomas-hartman
+  name: Thomas Hartman
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: edgar-shaghoulian
+  name: Edgar Shaghoulian
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: amirhossein-tajdini
+  name: Amirhossein Tajdini
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: stephen-shenker
+  name: Stephen Shenker
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: douglas-stanford
+  name: Douglas Stanford
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: zhenbin-yang
+  name: Zhenbin Yang
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: robert-oppenheimer
+  name: "Robert Oppenheimer"
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: hartland-snyder
+  name: "Hartland Snyder"
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: geza-kovacs
+  name: "Géza Kovács"
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: shay-zucker
+  name: Shay Zucker
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: tsevi-mazeh
+  name: Tsevi Mazeh
+  era: contemporary
+  wikidata: null
+  status: planned
+- id: david-charbonneau
+  name: David Charbonneau
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: gregory-henry
+  name: Gregory Henry
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: aleksander-wolszczan
+  name: "Aleksander Wolszczan"
+  era: standard-model-era
+  wikidata: null
+  status: planned
+- id: dale-frail
+  name: Dale Frail
+  era: standard-model-era
+  wikidata: null
+  status: planned

@@ -1,8 +1,56 @@
-- id: information-paradox
-  title: O paradoxo da informação
-  summary: Do básico de física até o paper dos replica wormholes (2019).
-  targets: [replica-wormholes]
+- id: math-toolkit
+  title: Ferramentas matemáticas
+  summary: O mínimo de matemática para ler física sem travar.
+  targets: [fourier-analysis, linear-algebra, series-and-approximations, statistics-and-noise, dimensional-analysis]
+- id: zero-to-newton
+  title: Do zero a Newton
+  summary: 'Movimento, força, energia e órbitas: a base de tudo.'
+  targets: [energy-conservation, kepler-laws, angular-momentum, collisions, fluid-flow]
+- id: advanced-mechanics
+  title: Mecânica avançada
+  summary: 'Ação, simetrias e caos: a linguagem da física moderna.'
+  targets: [noether-theorem, hamiltonian-mechanics, chaos]
+- id: heat-to-entropy
+  title: Do calor à entropia
+  summary: Máquinas a vapor, átomos em movimento e a seta do tempo.
+  targets: [arrow-of-time, information-entropy, phase-transitions, third-law-thermodynamics]
+- id: light-to-maxwell
+  title: Da luz a Maxwell
+  summary: Ondas, óptica e a descoberta de que a luz é eletromagnetismo.
+  targets: [polarization, optical-instruments, radiation-from-charges, circuits, standing-waves, sound]
+- id: relativity
+  title: Relatividade
+  summary: Do éter ao espaço-tempo curvo e às ondas gravitacionais.
+  targets: [gravitational-waves, gravitational-lensing, gravitational-time-dilation-gps, relativistic-momentum]
+- id: atom-to-quantum
+  title: Do átomo à mecânica quântica
+  summary: A crise de 1900 e a física que surgiu dela.
+  targets: [quantum-interpretations, quantum-computing, pauli-exclusion, uncertainty-principle, quantum-tunneling, stern-gerlach, decoherence]
+- id: condensed-matter
+  title: Matéria condensada
+  summary: Por que metais conduzem, chips funcionam e lasers existem.
+  targets: [semiconductors, superconductivity, lasers, bose-einstein-condensate]
+- id: nucleus-to-standard-model
+  title: Do núcleo ao modelo padrão
+  summary: Radioatividade, partículas e as forças fundamentais.
+  targets: [higgs-boson, beyond-standard-model, neutrinos, nuclear-fission, fundamental-forces]
+- id: stars-and-black-holes
+  title: Estrelas e buracos negros
+  summary: Como as estrelas vivem, morrem e o que sobra delas.
+  targets: [black-hole-observations, neutron-stars, supernovae, galaxies]
+- id: cosmology
+  title: Cosmologia
+  summary: Do Big Bang ao universo acelerado.
+  targets: [hubble-tension, cosmic-inflation, dark-energy, nucleosynthesis]
 - id: exoplanets
   title: Exoplanetas e o método de trânsito
   summary: Da luz de uma estrela até a atmosfera de outro mundo.
   targets: [false-positives, habitable-zone, kepler-and-tess, what-is-an-exoplanet]
+- id: information-paradox
+  title: O paradoxo da informação
+  summary: Do básico de física até o paper dos replica wormholes (2019).
+  targets: [replica-wormholes]
+- id: quantum-gravity
+  title: Gravidade quântica
+  summary: Onde a física atual para e as apostas para continuar.
+  targets: [string-theory-intro, loop-quantum-gravity-intro, holography]

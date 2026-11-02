@@ -1,0 +1,35 @@
+- id: geocentrism
+  title: Geocentrismo
+  era: antiquity
+  superseded_by: kepler-laws
+  status: planned
+- id: impetus-theory
+  title: Teoria do ímpeto
+  era: medieval
+  superseded_by: inertia
+  status: planned
+- id: caloric-theory
+  title: Teoria do calórico
+  era: classical-mechanics-era
+  superseded_by: first-law-thermodynamics
+  status: planned
+- id: luminiferous-aether
+  title: Éter luminífero
+  era: nineteenth-century
+  superseded_by: special-relativity
+  status: planned
+- id: plum-pudding-model
+  title: Modelo do pudim de passas
+  era: nineteenth-century
+  superseded_by: rutherford-atom
+  status: planned
+- id: absolute-time
+  title: Tempo absoluto de Newton
+  era: classical-mechanics-era
+  superseded_by: relativity-of-simultaneity
+  status: planned
+- id: steady-state-universe
+  title: Universo estacionário
+  era: nuclear-age
+  superseded_by: cosmic-microwave-background
+  status: planned
