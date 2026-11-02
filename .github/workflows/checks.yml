@@ -1,0 +1,34 @@
+name: Fact checking
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Validate schema, tags and roadmap
+        run: python scripts/validate.py
+      - name: Recompute numeric claims
+        run: python scripts/check_numbers.py
+      - name: Check arXiv references
+        run: python scripts/check_arxiv.py
+      - name: Check resource links
+        run: python scripts/check_links.py
+        continue-on-error: true
+      - name: Fact-check report
+        run: python scripts/report.py | tee report.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fact-check-report
+          path: report.md

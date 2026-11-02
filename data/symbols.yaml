@@ -1,0 +1,60 @@
+"\\alpha": alfa
+"\\beta": beta
+"\\gamma": gama
+"\\Delta": delta (variação)
+"\\varepsilon": épsilon
+"\\kappa": capa
+"\\Lambda": lambda
+"\\lambda": lambda
+"\\mu": mi
+"\\nu": ni
+"\\pi": pi
+"\\rho": rô
+"\\sigma": sigma
+"\\Sigma": sigma
+"\\tau": tau
+"\\phi": fi
+"\\varphi": fi
+"\\Phi": fi
+"\\chi": qui
+"\\psi": psi
+"\\Psi": psi
+"\\omega": ômega
+"\\Omega": ômega
+"\\hbar": agá cortado (h barra)
+"\\ell_P": ele P (comprimento de Planck)
+"\\sqrt": raiz quadrada de
+"\\frac": sobre (fração)
+"\\propto": é proporcional a
+"\\approx": é aproximadamente
+"\\simeq": é aproximadamente
+"\\sim": é da ordem de
+"\\lesssim": é menor ou da ordem de
+"\\Rightarrow": logo
+"\\to": vai para / tende a
+"\\infty": infinito
+"\\int": integral
+"\\sum": soma
+"\\prod": produto
+"\\otimes": produto tensorial (tensor)
+"\\cup": união
+"\\varnothing": conjunto vazio
+"\\partial": borda de / derivada parcial
+"\\dagger": adaga
+"\\langle": valor médio (abre) / bra
+"\\rangle": ket (fecha)
+"\\ln": logaritmo natural
+"\\log": logaritmo
+"\\min": mínimo
+"\\max": máximo
+"\\lim": limite
+"\\operatorname{Tr}": traço
+"\\operatorname{ext}": extremo (extremizar)
+"\\operatorname{Area}": área
+"\\mathcal{D}": soma sobre todas as configurações de
+"\\hat": chapéu (vetor unitário)
+"\\vec": vetor
+"^2": ao quadrado
+"^3": ao cubo
+"^4": à quarta
+"_{\\mu\\nu}": índices mi ni

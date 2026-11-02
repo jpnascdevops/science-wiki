@@ -1,0 +1,6 @@
+site/quartz/
+site/public/
+site/content/
+__pycache__/
+*.pyc
+.venv/

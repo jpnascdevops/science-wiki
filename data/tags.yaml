@@ -1,0 +1,26 @@
+areas:
+  - math/notation
+  - physics/classical-mechanics
+  - physics/special-relativity
+  - physics/general-relativity
+  - physics/thermodynamics
+  - physics/quantum-mechanics
+  - physics/quantum-information
+  - physics/quantum-gravity
+
+topics:
+  - foundations
+  - gravity
+  - motion
+  - energy
+  - light
+  - spacetime
+  - black-holes
+  - entropy
+  - information
+  - entanglement
+  - holography
+  - hawking-radiation
+  - information-paradox
+
+arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, physics.hist-ph]

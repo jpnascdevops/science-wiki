@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Concept",
+  "type": "object",
+  "required": ["id", "title", "levels", "prerequisites", "tags", "equations", "claims", "resources", "review"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string" },
+    "levels": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["zero", "intermediate", "technical"] }
+    },
+    "prerequisites": { "type": "array", "items": { "type": "string" } },
+    "leads_to": { "type": "array", "items": { "type": "string" } },
+    "tags": {
+      "type": "object",
+      "required": ["area", "topics"],
+      "additionalProperties": false,
+      "properties": {
+        "area": { "type": "string" },
+        "topics": { "type": "array", "minItems": 1, "maxItems": 5, "items": { "type": "string" } },
+        "era": { "type": "string" },
+        "people": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" } },
+        "arxiv_category": { "type": "string" },
+        "wikidata": { "type": ["string", "null"], "pattern": "^Q[0-9]+$" }
+      }
+    },
+    "equations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tex", "spoken"],
+        "additionalProperties": false,
+        "properties": {
+          "tex": { "type": "string" },
+          "spoken": { "type": "string" },
+          "label": { "type": "string" }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "type", "check", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "text": { "type": "string" },
+          "type": { "enum": ["number", "date", "attribution", "definition", "conceptual", "reference"] },
+          "check": { "enum": ["compute", "source", "arxiv", "verifier", "human"] },
+          "status": { "enum": ["pending", "verified", "disputed", "wrong"] },
+          "sources": { "type": "array", "items": { "type": "string" } },
+          "formula": { "type": "string" },
+          "expected": { "type": "number" },
+          "unit": { "type": "string" },
+          "tolerance": { "type": "number" },
+          "arxiv": { "type": "string" },
+          "expected_title": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "title", "level", "lang"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["watch", "read", "study"] },
+          "title": { "type": "string" },
+          "url": { "type": ["string", "null"] },
+          "level": { "enum": ["zero", "intermediate", "technical"] },
+          "lang": { "enum": ["pt", "en", "es"] },
+          "checked_at": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["draft", "auto_checked", "human_reviewed"] },
+        "checked_at": { "type": ["string", "null"] },
+        "reviewer": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
