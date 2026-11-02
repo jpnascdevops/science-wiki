@@ -1,0 +1,8 @@
+- id: information-paradox
+  title: O paradoxo da informação
+  summary: Do básico de física até o paper dos replica wormholes (2019).
+  targets: [replica-wormholes]
+- id: exoplanets
+  title: Exoplanetas e o método de trânsito
+  summary: Da luz de uma estrela até a atmosfera de outro mundo.
+  targets: [false-positives, habitable-zone, kepler-and-tess, what-is-an-exoplanet]

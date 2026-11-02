@@ -22,6 +22,7 @@ SYMBOL_DISPLAY = {
     "\\partial": "\\partial I",
     "\\lim": "\\lim_{n\\to 1}",
 }
+REVIEW_LABEL = {"draft": "rascunho", "auto_checked": "checado", "human_reviewed": "revisado"}
 REVIEW_PT = {
     "draft": ("warning", "Rascunho: ainda não revisado por uma pessoa."),
     "auto_checked": ("info", "Checado automaticamente; falta revisão humana."),
@@ -123,22 +124,42 @@ def render_concept(concepts, cid, symbols):
     return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + body
 
 
+def ancestors(concepts, targets):
+    seen = set()
+    stack = list(targets)
+    while stack:
+        cid = stack.pop()
+        if cid in seen:
+            continue
+        seen.add(cid)
+        stack.extend(concepts[cid].meta.get("prerequisites", []))
+    return seen
+
+
+def render_trail(concepts, trail, order, d):
+    ids = ancestors(concepts, trail["targets"])
+    trail_order = [cid for cid in order if cid in ids]
+    lines = [f"## {trail['title']}", "", trail["summary"], "", "```mermaid", "graph TD"]
+    for cid in trail_order:
+        lines.append(f'  {cid.replace("-", "_")}["{concepts[cid].meta["title"]}"]')
+    for cid in trail_order:
+        for p in concepts[cid].meta.get("prerequisites", []):
+            if p in ids:
+                lines.append(f"  {p.replace('-', '_')} --> {cid.replace('-', '_')}")
+    lines += ["```", "", "| # | Conceito | Etapa | Depende de | Status |", "| --- | --- | --- | --- | --- |"]
+    for i, cid in enumerate(trail_order, 1):
+        m = concepts[cid].meta
+        pres = ", ".join(link(concepts, p) for p in m.get("prerequisites", [])) or "nada"
+        lines.append(f"| {i} | {link(concepts, cid)} | {d[cid]} | {pres} | {REVIEW_LABEL[m['review']['status']]} |")
+    return "\n".join(lines) + "\n"
+
+
 def render_roadmap(concepts):
     order = topo_order(concepts)
     d = depth(concepts)
-    lines = ["---", "title: Roadmap", "---", "", "Trilha completa, na ordem em que cada conceito depende só dos anteriores.", ""]
-    lines += ["```mermaid", "graph TD"]
-    for cid in order:
-        lines.append(f'  {cid.replace("-", "_")}["{concepts[cid].meta["title"]}"]')
-    for cid in order:
-        for p in concepts[cid].meta.get("prerequisites", []):
-            lines.append(f"  {p.replace('-', '_')} --> {cid.replace('-', '_')}")
-    lines += ["```", "", "| # | Conceito | Etapa | Depende de | Status |", "| --- | --- | --- | --- | --- |"]
-    for i, cid in enumerate(order, 1):
-        m = concepts[cid].meta
-        pres = ", ".join(link(concepts, p) for p in m.get("prerequisites", [])) or "nada"
-        lines.append(f"| {i} | {link(concepts, cid)} | {d[cid]} | {pres} | {m['review']['status']} |")
-    return "\n".join(lines) + "\n"
+    trails = load_yaml("trails.yaml")
+    head = ["---", "title: Roadmap", "---", "", "Cada trilha lista os conceitos na ordem em que um depende só dos anteriores. Conceitos de base aparecem nas duas.", ""]
+    return "\n".join(head) + "\n".join(render_trail(concepts, t, order, d) for t in trails)
 
 
 def render_index(concepts):
@@ -148,7 +169,7 @@ def render_index(concepts):
         "---", "title: Wiki de Conceitos", "---", "",
         "Conceitos de física explicados do zero ao técnico, cada um com equações, pronúncia, exemplos calculados, materiais e checagem das afirmações.",
         "",
-        "- [[roadmap|Roadmap]]: a trilha completa, do básico até replica wormholes.",
+        "- [[roadmap|Roadmap]]: duas trilhas, o paradoxo da informação (até replica wormholes) e exoplanetas (até atmosferas de outros mundos).",
         "- Navegue pelas tags: área, tópico, nível, pessoa e época.",
         "",
         f"Afirmações verificadas: {ok} de {total}.",
