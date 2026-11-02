@@ -29,7 +29,7 @@
 - id: principia
   title: Newton publica os Principia
   era: classical-mechanics-era
-  concepts: [newton-gravity, force-and-motion]
+  concepts: [newton-gravity, force-and-motion, inertia, action-reaction]
   date: null
   wikidata: null
   status: planned
@@ -289,6 +289,90 @@
   title: Replica wormholes e a curva de Page
   era: contemporary
   concepts: [replica-wormholes]
+  date: null
+  wikidata: null
+  status: planned
+- id: la-geometrie
+  title: Descartes publica A Geometria e as coordenadas
+  era: scientific-revolution
+  concepts: [functions-and-graphs]
+  date: null
+  wikidata: null
+  status: planned
+- id: leibniz-nova-methodus
+  title: Leibniz publica o cálculo diferencial
+  era: scientific-revolution
+  concepts: [rates-of-change, area-under-curve]
+  date: null
+  wikidata: null
+  status: planned
+- id: two-new-sciences
+  title: Galileu publica as Duas Novas Ciências
+  era: scientific-revolution
+  concepts: [kinematics-1d, free-fall, projectile-motion]
+  date: null
+  wikidata: null
+  status: planned
+- id: torricelli-barometer
+  title: Torricelli constrói o barômetro de mercúrio
+  era: scientific-revolution
+  concepts: [pressure-and-buoyancy]
+  date: null
+  wikidata: null
+  status: planned
+- id: puy-de-dome
+  title: A pressão do ar cai no alto do Puy de Dôme
+  era: scientific-revolution
+  concepts: [pressure-and-buoyancy]
+  date: null
+  wikidata: null
+  status: planned
+- id: royal-society-collisions
+  title: Wallis, Wren e Huygens apresentam as regras das colisões
+  era: scientific-revolution
+  concepts: [momentum, collisions]
+  date: null
+  wikidata: null
+  status: planned
+- id: hydrodynamica
+  title: Daniel Bernoulli publica a Hydrodynamica
+  era: classical-mechanics-era
+  concepts: [fluid-flow]
+  date: null
+  wikidata: null
+  status: planned
+- id: metre-definition
+  title: O metro é definido a partir do meridiano
+  era: classical-mechanics-era
+  concepts: [units-and-si]
+  date: null
+  wikidata: null
+  status: planned
+- id: helmholtz-conservation
+  title: Helmholtz publica Sobre a conservação da força
+  era: nineteenth-century
+  concepts: [energy-conservation]
+  date: null
+  wikidata: null
+  status: planned
+- id: si-established
+  title: Nasce o Sistema Internacional de Unidades
+  era: nuclear-age
+  concepts: [units-and-si]
+  date: null
+  wikidata: null
+  status: planned
+- id: apollo-15-hammer-feather
+  title: Martelo e pena caem juntos na Lua
+  era: standard-model-era
+  concepts: [free-fall]
+  date: null
+  wikidata: null
+  status: planned
+- id: si-2019-redefinition
+  title: O SI passa a ser definido por constantes
+  era: contemporary
+  concepts: [units-and-si]
   date: null
   wikidata: null
   status: planned

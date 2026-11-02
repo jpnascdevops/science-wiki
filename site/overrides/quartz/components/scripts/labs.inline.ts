@@ -346,6 +346,69 @@ function transit(box: HTMLElement) {
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(animate)
 }
 
+function projectile(box: HTMLElement) {
+  const W = 520
+  const H = 230
+  const X0 = 30
+  const Y0 = 200
+  const plot = svg("svg", { viewBox: `0 0 ${W} ${H}`, class: "lab-plot", role: "img", "aria-label": "Trajetória de um projétil" })
+  const ground = svg("line", { x1: X0, x2: W - 10, y1: Y0, y2: Y0, class: "grid" })
+  const ghost = svg("polyline", { class: "curve bh" })
+  const path = svg("polyline", { class: "curve page" })
+  const ball = svg("circle", { r: 5, class: "planet" })
+  const tick = svg("text", { x: W - 10, y: Y0 + 18, class: "tick", "text-anchor": "end" })
+  plot.append(ground, ghost, path, ball, tick)
+  box.appendChild(plot)
+  const sv = slider(box, "Velocidade de lançamento", 5, 40, 20)
+  const sa = slider(box, "Ângulo", 5, 85, 45)
+  const sg = slider(box, "Lugar", 0, 2, 0)
+  const places: [string, number][] = [["Terra", 9.80665], ["Lua", 1.62], ["Marte", 3.71]]
+  const [rR, rH, rT] = readouts(box, ["Alcance", "Altura máxima", "Tempo de voo"])
+  const msg = note(box)
+  const points = (v: number, deg: number, g: number, scale: number) => {
+    const th = (deg * Math.PI) / 180
+    const T = (2 * v * Math.sin(th)) / g
+    const pts: string[] = []
+    for (let i = 0; i <= 80; i++) {
+      const t = (T * i) / 80
+      const x = v * Math.cos(th) * t
+      const y = v * Math.sin(th) * t - (g * t * t) / 2
+      pts.push(`${(X0 + x * scale).toFixed(1)},${(Y0 - y * scale).toFixed(1)}`)
+    }
+    return pts
+  }
+  const render = () => {
+    const v = Number(sv.input.value)
+    const deg = Number(sa.input.value)
+    const [place, g] = places[Number(sg.input.value)]
+    const th = (deg * Math.PI) / 180
+    const R = (v * v * Math.sin(2 * th)) / g
+    const Hm = (v * Math.sin(th)) ** 2 / (2 * g)
+    const T = (2 * v * Math.sin(th)) / g
+    const maxR = (v * v) / g
+    const scale = Math.min((W - X0 - 20) / maxR, (Y0 - 20) / ((v * v) / (2 * g)))
+    sv.out.textContent = `${v} m/s`
+    sa.out.textContent = `${deg}°`
+    sg.out.textContent = place
+    rR.textContent = `${fmt(R, 1)} m`
+    rH.textContent = `${fmt(Hm, 1)} m`
+    rT.textContent = `${fmt(T, 2)} s`
+    tick.textContent = `escala: ${fmt(maxR, 0)} m no alcance máximo`
+    ghost.setAttribute("points", points(v, 90 - deg, g, scale).join(" "))
+    const pts = points(v, deg, g, scale)
+    path.setAttribute("points", pts.join(" "))
+    const [bx, by] = pts[pts.length - 1].split(",")
+    ball.setAttribute("cx", bx)
+    ball.setAttribute("cy", by)
+    msg.textContent =
+      deg === 45
+        ? "45°: o maior alcance possível em terreno plano e sem ar."
+        : `A linha tracejada é o lançamento a ${90 - deg}°: cai no mesmo ponto, mas ${deg < 45 ? "sobe mais e demora mais" : "vai mais baixo e chega antes"}.`
+  }
+  for (const s of [sv, sa, sg]) s.input.addEventListener("input", render)
+  render()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -353,6 +416,7 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "entangled-pair": ["Laboratório: medindo um par emaranhado", entangledPair],
   "page-curve": ["Laboratório: a curva de Page", pageCurve],
   transit: ["Laboratório: um planeta passando na frente da estrela", transit],
+  projectile: ["Laboratório: lançando um projétil", projectile],
 }
 
 function mountLabs() {

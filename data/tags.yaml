@@ -1,5 +1,7 @@
 areas:
   - math/notation
+  - math/calculus
+  - math/geometry
   - physics/classical-mechanics
   - physics/special-relativity
   - physics/general-relativity
@@ -35,5 +37,10 @@ topics:
   - space-missions
   - habitability
   - signal-processing
+  - calculus
+  - measurement
+  - rotation
+  - fluids
+  - conservation-laws
 
 arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, astro-ph.EP, astro-ph.SR, astro-ph.IM, physics.hist-ph]

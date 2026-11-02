@@ -58,3 +58,13 @@
 "^3": ao cubo
 "^4": à quarta
 "_{\\mu\\nu}": índices mi ni
+"\\theta": teta
+"\\sin": seno
+"\\cos": cosseno
+"\\tan": tangente
+"\\cdot": vezes (ponto)
+"\\times": vezes (ou produto vetorial)
+"\\sqrt[3]": raiz cúbica de
+"\\mathrm{d}": d (variação infinitesimal)
+"\\geq": é maior ou igual a
+"\\neq": é diferente de

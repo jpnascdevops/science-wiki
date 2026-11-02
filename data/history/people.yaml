@@ -488,3 +488,93 @@
   era: standard-model-era
   wikidata: null
   status: planned
+- id: rene-descartes
+  name: René Descartes
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: pierre-de-fermat
+  name: Pierre de Fermat
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: gottfried-leibniz
+  name: Gottfried Wilhelm Leibniz
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: hipparchus
+  name: Hiparco
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: josiah-willard-gibbs
+  name: Josiah Willard Gibbs
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: oliver-heaviside
+  name: Oliver Heaviside
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: nicole-oresme
+  name: Nicole Oresme
+  era: medieval
+  wikidata: null
+  status: planned
+- id: blaise-pascal
+  name: Blaise Pascal
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: evangelista-torricelli
+  name: Evangelista Torricelli
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: john-wallis
+  name: John Wallis
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: christopher-wren
+  name: Christopher Wren
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: daniel-bernoulli
+  name: Daniel Bernoulli
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: emilie-du-chatelet
+  name: Émilie du Châtelet
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: gaspard-gustave-coriolis
+  name: Gaspard-Gustave Coriolis
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: william-rankine
+  name: William Rankine
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: julius-robert-mayer
+  name: Julius Robert Mayer
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: hermann-von-helmholtz
+  name: Hermann von Helmholtz
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: david-scott
+  name: David Scott
+  era: standard-model-era
+  wikidata: null
+  status: planned

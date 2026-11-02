@@ -18,6 +18,16 @@ R_JUPITER = 7.1492e7
 M_JUPITER = 1.89813e27
 DAY = 86400.0
 JUPITER_PERIOD_YEARS = 11.862
+G0 = 9.80665
+M_MOON = 7.342e22
+R_MOON = 1.7374e6
+MOON_ORBIT_RADIUS = 3.844e8
+MOON_SIDEREAL_DAYS = 27.321661
+EARTH_ECCENTRICITY = 0.0167
+RHO_WATER = 1000.0
+RHO_ICE = 917.0
+RHO_SEAWATER = 1025.0
+ATM = 101325.0
 
 
 def escape_velocity(m, r):
@@ -69,6 +79,27 @@ def equilibrium_temperature(tstar, rstar, a, albedo):
     return tstar * math.sqrt(rstar / (2 * a)) * (1 - albedo) ** 0.25
 
 
+def numeric_derivative(f, x, h=1e-5):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+
+def trapezoid(f, a, b, n=10000):
+    step = (b - a) / n
+    return step * (sum(f(a + i * step) for i in range(1, n)) + (f(a) + f(b)) / 2)
+
+
+def projectile_range(v, angle_deg, g=G0):
+    return v**2 * math.sin(2 * math.radians(angle_deg)) / g
+
+
+def kinetic_energy(m, v):
+    return m * v**2 / 2
+
+
+def fall_speed(h, g=G0):
+    return math.sqrt(2 * g * h)
+
+
 FORMULAS = {
     "escape_velocity_earth_km_s": lambda: escape_velocity(M_EARTH, R_EARTH) / 1e3,
     "escape_velocity_sun_km_s": lambda: escape_velocity(M_SUN, R_SUN) / 1e3,
@@ -97,4 +128,46 @@ FORMULAS = {
     "earth_equilibrium_temperature_k": lambda: equilibrium_temperature(T_SUN, R_SUN, AU, 0.3),
     "snr_example_84ppm": lambda: 84 / 300 * math.sqrt(1000),
     "pair_amplitude_probability": lambda: (1 / math.sqrt(2)) ** 2,
+    "position_linear_3s": lambda: 10 + 20 * 3,
+    "kmh_72_to_m_s": lambda: 72 / 3.6,
+    "sunlight_travel_minutes": lambda: AU / C / 60,
+    "derivative_free_fall_2s": lambda: numeric_derivative(lambda t: G0 * t**2 / 2, 2),
+    "ramp_rise_30deg_10m": lambda: 10 * math.sin(math.radians(30)),
+    "area_under_v_2s": lambda: trapezoid(lambda t: G0 * t, 0, 2),
+    "vector_3_4_magnitude": lambda: math.hypot(3, 4),
+    "vector_3_4_angle_deg": lambda: math.degrees(math.atan2(4, 3)),
+    "accel_0_100_kmh_10s": lambda: (100 / 3.6) / 10,
+    "distance_0_100_kmh_10s": lambda: (100 / 3.6) / 10 * 10**2 / 2,
+    "free_fall_speed_2s": lambda: G0 * 2,
+    "free_fall_distance_2s": lambda: G0 * 2**2 / 2,
+    "moon_surface_gravity": lambda: G * M_MOON / R_MOON**2,
+    "projectile_range_20ms_45deg": lambda: projectile_range(20, 45),
+    "projectile_range_20ms_30deg": lambda: projectile_range(20, 30),
+    "projectile_max_height_20ms_45deg": lambda: (20 * math.sin(math.radians(45))) ** 2 / (2 * G0),
+    "skater_accel_60kg": lambda: 120 / 60,
+    "skater_accel_40kg": lambda: 120 / 40,
+    "earth_accel_from_60kg_person": lambda: 60 * G0 / M_EARTH,
+    "moon_centripetal_accel": lambda: 4 * math.pi**2 * MOON_ORBIT_RADIUS / (MOON_SIDEREAL_DAYS * DAY) ** 2,
+    "g_over_3600": lambda: G0 / 3600,
+    "curve_accel_20ms_50m": lambda: 20**2 / 50,
+    "water_pressure_10m_kpa": lambda: RHO_WATER * G0 * 10 / 1e3,
+    "water_10m_in_atm": lambda: RHO_WATER * G0 * 10 / ATM,
+    "ice_submerged_fraction_seawater": lambda: RHO_ICE / RHO_SEAWATER,
+    "torque_30kg_2m": lambda: 30 * G0 * 2,
+    "torque_40kg_1_5m": lambda: 40 * G0 * 1.5,
+    "ke_car_20ms_kj": lambda: kinetic_energy(1000, 20) / 1e3,
+    "ke_car_40ms_kj": lambda: kinetic_energy(1000, 40) / 1e3,
+    "momentum_car_20ms": lambda: 1000 * 20,
+    "impulse_force_0_1s": lambda: 0.4 * 10 / 0.1,
+    "impulse_force_0_01s": lambda: 0.4 * 10 / 0.01,
+    "skater_spin_rev_s": lambda: 1 * 3,
+    "earth_perihelion_aphelion_speed_ratio": lambda: (1 + EARTH_ECCENTRICITY) / (1 - EARTH_ECCENTRICITY),
+    "pe_60kg_3m": lambda: 60 * G0 * 3,
+    "drop_20m_speed": lambda: fall_speed(20),
+    "pendulum_0_5m_speed": lambda: fall_speed(0.5),
+    "inelastic_final_speed": lambda: 1000 * 20 / (1000 + 1000),
+    "inelastic_ke_fraction_lost": lambda: 1 - kinetic_energy(2000, 10) / kinetic_energy(1000, 20),
+    "hose_speed_quarter_area": lambda: 2 * 4,
+    "torricelli_5m": lambda: fall_speed(5),
+    "bernoulli_dp_kpa": lambda: RHO_WATER * (8**2 - 2**2) / 2 / 1e3,
 }
