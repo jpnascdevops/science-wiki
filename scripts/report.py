@@ -1,7 +1,7 @@
 import sys
 from collections import Counter
 
-from wiki import load_all, topo_order
+from wiki import load_all
 
 
 def main() -> int:
@@ -10,8 +10,7 @@ def main() -> int:
     by_type = Counter()
     review = Counter()
     pending = []
-    for cid in topo_order(concepts):
-        c = concepts[cid]
+    for cid, c in concepts.items():
         review[c.meta["review"]["status"]] += 1
         for claim in c.meta.get("claims", []):
             by_status[claim["status"]] += 1

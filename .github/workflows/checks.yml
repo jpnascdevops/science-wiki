@@ -28,7 +28,11 @@ jobs:
         continue-on-error: true
       - name: Fact-check report
         run: python scripts/report.py | tee report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Coverage
+        run: python scripts/coverage.py | tee coverage.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: fact-check-report
-          path: report.md
+          path: |
+            report.md
+            coverage.md

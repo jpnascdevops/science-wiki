@@ -2,13 +2,16 @@
 id: holography
 title: Holografia e Ryu-Takayanagi
 summary: A informação de uma região com gravidade pode estar escrita na sua borda; emaranhamento vira área.
+recap:
+  - "A informação de uma região com gravidade pode estar escrita na sua borda."
+  - "Maldacena (1997) deu um exemplo concreto: AdS/CFT."
+  - "Ryu-Takayanagi (2006): emaranhamento é medido por uma área."
 levels: [intermediate, technical]
-prerequisites: [general-relativity, entropy]
-leads_to: [islands]
+consensus: broad
 tags:
   area: physics/quantum-gravity
   topics: [holography, entanglement, entropy]
-  era: "1997"
+  era: standard-model-era
   people: [gerard-t-hooft, leonard-susskind, juan-maldacena, shinsei-ryu, tadashi-takayanagi]
   arxiv_category: hep-th
 equations:

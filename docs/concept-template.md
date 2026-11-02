@@ -1,15 +1,19 @@
 ---
 id: concept-id
-title: Título
+title: Título igual ao de data/map.yaml
 summary: Uma frase.
+recap:
+  - "Primeira ideia para quem só quer recapitular."
+  - "Segunda ideia."
+  - "Terceira ideia."
 levels: [zero]
-prerequisites: []
-leads_to: []
+consensus: established
 tags:
   area: physics/classical-mechanics
   topics: [foundations]
-  era: ""
+  era: classical-mechanics-era
   people: []
+  events: []
 equations:
   - tex: E = m c^2
     spoken: "E é igual a m c ao quadrado"

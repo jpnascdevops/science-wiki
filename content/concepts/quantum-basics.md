@@ -2,13 +2,16 @@
 id: quantum-basics
 title: Básico de quântica
 summary: Estados quânticos podem ser superposições; medir dá resultados com probabilidades.
+recap:
+  - "Um estado quântico pode ser uma superposição de resultados."
+  - "Medir dá um resultado, com probabilidade igual ao quadrado da amplitude."
+  - "A evolução de um sistema isolado é unitária: reversível, preserva informação."
 levels: [zero]
-prerequisites: [reading-equations]
-leads_to: [entanglement]
+consensus: established
 tags:
   area: physics/quantum-mechanics
   topics: [foundations]
-  era: "1925"
+  era: modern-revolution
   people: [erwin-schrodinger, werner-heisenberg, paul-dirac]
   arxiv_category: quant-ph
 equations:

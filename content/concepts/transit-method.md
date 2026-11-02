@@ -2,13 +2,16 @@
 id: transit-method
 title: Método de trânsito
 summary: Quando o planeta passa na frente da estrela, o brilho cai; a profundidade dá o tamanho do planeta.
+recap:
+  - "Planeta passando na frente da estrela apaga uma fração (Rp/R*)² da luz."
+  - "Júpiter num Sol: cerca de 1%; Terra num Sol: cerca de 84 ppm."
+  - "O trânsito dá o raio do planeta, não a massa."
 levels: [zero, technical]
-prerequisites: [light-curves, kepler-laws]
-leads_to: [transit-detection, kepler-and-tess, habitable-zone]
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [transits, exoplanets, light-curves]
-  era: "1999"
+  era: standard-model-era
   people: [david-charbonneau, gregory-henry]
   arxiv_category: astro-ph.EP
 equations:

@@ -2,13 +2,16 @@
 id: energy-and-mass
 title: Energia e E = mc²
 summary: Massa é uma forma de energia; perder energia é perder massa.
+recap:
+  - "Massa é energia concentrada: E = m c²."
+  - "Perder energia é perder massa, quase sempre num valor minúsculo."
+  - "É por isso que um buraco negro que irradia encolhe."
 levels: [zero]
-prerequisites: [force-and-motion]
-leads_to: [escape-velocity, temperature-and-radiation]
+consensus: established
 tags:
   area: physics/special-relativity
   topics: [energy]
-  era: "1905"
+  era: modern-revolution
   people: [albert-einstein]
 equations:
   - tex: E = m\,c^2

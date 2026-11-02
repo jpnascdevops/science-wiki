@@ -2,13 +2,16 @@
 id: general-relativity
 title: Relatividade geral
 summary: Gravidade não é força; é a curvatura do espaço-tempo causada por massa e energia.
+recap:
+  - "Gravidade é curvatura do espaço-tempo causada por massa e energia."
+  - "Explica Mercúrio e previu a deflexão da luz, confirmada em Sobral em 1919."
+  - "Newton é o limite de campo fraco e baixas velocidades."
 levels: [zero, technical]
-prerequisites: [newton-gravity, special-relativity]
-leads_to: [schwarzschild-black-hole, holography]
+consensus: established
 tags:
   area: physics/general-relativity
   topics: [gravity, spacetime]
-  era: "1915"
+  era: modern-revolution
   people: [albert-einstein, arthur-eddington, georges-lemaitre]
   arxiv_category: gr-qc
 equations:

@@ -2,9 +2,12 @@
 id: temperature-and-radiation
 title: Temperatura e radiação
 summary: Tudo que tem temperatura brilha; quanto mais quente, mais energia por partícula de luz.
+recap:
+  - "Tudo que tem temperatura emite luz."
+  - "A potência irradiada cresce com T à quarta (Stefan-Boltzmann)."
+  - "Mais quente significa mais energia por fóton."
 levels: [zero]
-prerequisites: [energy-and-mass]
-leads_to: [entropy, stellar-flux]
+consensus: established
 tags:
   area: physics/thermodynamics
   topics: [energy, light]

@@ -2,13 +2,16 @@
 id: replica-wormholes
 title: Replica wormholes
 summary: Somando todas as geometrias com réplicas, aparece uma conectada em forma de buraco de minhoca que reproduz as ilhas e a curva de Page.
+recap:
+  - "Calculam a entropia com cópias do sistema, somando todas as geometrias."
+  - "Uma geometria conectada, em forma de buraco de minhoca, domina depois do tempo de Page."
+  - "Hawking não errou a conta: faltava uma geometria."
 levels: [zero, technical]
-prerequisites: [islands]
-leads_to: []
+consensus: broad
 tags:
   area: physics/quantum-gravity
   topics: [information-paradox, black-holes, hawking-radiation]
-  era: "2019"
+  era: contemporary
   people: [ahmed-almheiri, thomas-hartman, juan-maldacena, edgar-shaghoulian, amirhossein-tajdini, geoff-penington, stephen-shenker, douglas-stanford, zhenbin-yang]
   arxiv_category: hep-th
 equations:

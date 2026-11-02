@@ -2,13 +2,16 @@
 id: page-curve
 title: Curva de Page
 summary: Se a informação sobrevive, a entropia da radiação sobe e depois desce até zero.
+recap:
+  - "Se a informação sobrevive, a entropia da radiação sobe e depois desce até zero."
+  - "A virada é no tempo de Page, perto da metade da vida do buraco negro."
+  - "A conta de Hawking só subia."
 levels: [zero, technical]
-prerequisites: [information-paradox]
-leads_to: [islands]
+consensus: established
 tags:
   area: physics/quantum-gravity
   topics: [information-paradox, entanglement, entropy]
-  era: "1993"
+  era: standard-model-era
   people: [don-page]
   arxiv_category: hep-th
 equations:

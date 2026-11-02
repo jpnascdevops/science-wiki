@@ -103,7 +103,7 @@ function setupTrailTable(table: Element) {
   const info = rows.map((tr) => {
     const cells = tr.querySelectorAll("td")
     const id = idFromLink(cells[1]?.querySelector("a"))
-    const pres = [...(cells[3]?.querySelectorAll("a") ?? [])].map((a) => idFromLink(a))
+    const pres = [...(cells[3]?.querySelectorAll("a") ?? [])].map((a) => idFromLink(a)).filter((x) => x)
     return { tr, id, pres }
   })
   let next: string | null = null
@@ -124,7 +124,7 @@ function setupTrailTable(table: Element) {
   const pct = total ? Math.round((count / total) * 100) : 0
   const nextRow = info.find((r) => r.id === next)
   const nextLink = nextRow?.tr.querySelectorAll("td")[1]?.querySelector("a")
-  box.innerHTML = `<div class="rp-head"><b>${count} de ${total} conceitos estudados</b><span>${pct}%</span></div><div class="rp-bar"><i style="width:${pct}%"></i></div>`
+  box.innerHTML = `<div class="rp-head"><b>${count} de ${total} conceitos disponíveis estudados</b><span>${pct}%</span></div><div class="rp-bar"><i style="width:${pct}%"></i></div>`
   const p = document.createElement("p")
   if (nextLink) {
     p.append("Próximo recomendado: ")

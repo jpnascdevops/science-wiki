@@ -2,9 +2,12 @@
 id: reading-equations
 title: Como ler uma equação
 summary: Uma equação é uma frase. Este conceito ensina a gramática dela.
+recap:
+  - "O sinal de igual é o verbo; letras são grandezas que se medem."
+  - "Potências de 10 escrevem números enormes ou minúsculos: 3 × 10^8 = 300.000.000."
+  - "Os dois lados de uma equação precisam ter a mesma unidade."
 levels: [zero]
-prerequisites: []
-leads_to: [force-and-motion, quantum-basics]
+consensus: established
 tags:
   area: math/notation
   topics: [foundations]

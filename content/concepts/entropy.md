@@ -2,13 +2,16 @@
 id: entropy
 title: Entropia
 summary: Entropia é contar jeitos; é também a informação que falta para saber o estado exato.
+recap:
+  - "Entropia conta quantos arranjos internos são compatíveis com o que se vê: S = k ln W."
+  - "Também mede quanta informação falta para saber o estado exato."
+  - "Num sistema isolado, ela não diminui."
 levels: [zero, technical]
-prerequisites: [temperature-and-radiation]
-leads_to: [entanglement, black-hole-thermodynamics, holography]
+consensus: established
 tags:
   area: physics/thermodynamics
   topics: [entropy, information]
-  era: "1877"
+  era: nineteenth-century
   people: [ludwig-boltzmann, claude-shannon]
 equations:
   - tex: S = k_B \ln W

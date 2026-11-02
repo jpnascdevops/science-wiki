@@ -2,13 +2,16 @@
 id: newton-gravity
 title: Gravidade de Newton
 summary: Toda massa atrai toda massa, com força que cai com o quadrado da distância.
+recap:
+  - "Toda massa atrai toda massa: F = G M m / r²."
+  - "Dobrar a distância divide a força por quatro."
+  - "Previu Netuno, mas não explicou a precessão de Mercúrio; isso coube à relatividade geral."
 levels: [zero, technical]
-prerequisites: [force-and-motion]
-leads_to: [escape-velocity, general-relativity, kepler-laws]
+consensus: established
 tags:
   area: physics/classical-mechanics
   topics: [gravity]
-  era: "1687"
+  era: classical-mechanics-era
   people: [isaac-newton, urbain-le-verrier, johann-galle]
   arxiv_category: physics.hist-ph
 equations:

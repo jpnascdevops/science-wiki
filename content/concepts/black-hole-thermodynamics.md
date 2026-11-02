@@ -2,13 +2,16 @@
 id: black-hole-thermodynamics
 title: Termodinâmica de buracos negros
 summary: Buracos negros têm entropia proporcional à área, temperatura, e evaporam emitindo radiação Hawking.
+recap:
+  - "Buracos negros têm entropia proporcional à área do horizonte: S = A/4 (em unidades de Planck)."
+  - "Têm temperatura e emitem radiação Hawking, por isso evaporam."
+  - "Quanto menores, mais quentes."
 levels: [zero, technical]
-prerequisites: [schwarzschild-black-hole, entropy, entanglement]
-leads_to: [information-paradox]
+consensus: established
 tags:
   area: physics/quantum-gravity
   topics: [black-holes, entropy, hawking-radiation]
-  era: "1974"
+  era: standard-model-era
   people: [jacob-bekenstein, stephen-hawking]
   arxiv_category: gr-qc
 equations:

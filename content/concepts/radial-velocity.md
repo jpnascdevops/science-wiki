@@ -2,13 +2,16 @@
 id: radial-velocity
 title: Velocidade radial
 summary: O planeta faz a estrela balançar; o Doppler desse balanço dá a massa mínima do planeta.
+recap:
+  - "O planeta faz a estrela balançar em volta do centro de massa."
+  - "Júpiter move o Sol a 12,5 m/s; a Terra, a 9 cm/s."
+  - "Mede a massa mínima; com trânsito, a massa real."
 levels: [zero, technical]
-prerequisites: [doppler-effect, kepler-laws]
-leads_to: [false-positives]
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [exoplanets, spectroscopy, orbits]
-  era: "1995"
+  era: standard-model-era
   people: [michel-mayor, didier-queloz]
   arxiv_category: astro-ph.EP
 equations:

@@ -2,13 +2,16 @@
 id: kepler-laws
 title: Leis de Kepler
 summary: Órbitas são elipses, varrem áreas iguais em tempos iguais, e o período se liga ao tamanho da órbita.
+recap:
+  - "Órbitas são elipses, com a estrela num dos focos."
+  - "O planeta varre áreas iguais em tempos iguais."
+  - "P² ∝ a³: com o período, sai a distância do planeta."
 levels: [zero, technical]
-prerequisites: [newton-gravity]
-leads_to: [what-is-an-exoplanet, transit-method, radial-velocity]
+consensus: established
 tags:
   area: physics/classical-mechanics
   topics: [orbits, gravity]
-  era: "1609"
+  era: scientific-revolution
   people: [johannes-kepler, isaac-newton]
 equations:
   - tex: P^2 = \frac{4\pi^2}{G M}\,a^3

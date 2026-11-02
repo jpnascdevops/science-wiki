@@ -2,13 +2,16 @@
 id: kepler-and-tess
 title: Kepler e TESS
 summary: Dois telescópios espaciais feitos para achar trânsitos; o Kepler olhou fundo num pedaço do céu, o TESS varre o céu todo.
+recap:
+  - "Telescópios espaciais para medir brilho de muitas estrelas sem parar."
+  - "Kepler (2009 a 2018): um campo fixo, por anos."
+  - "TESS (desde 2018): o céu em setores de cerca de 27 dias."
 levels: [zero]
-prerequisites: [transit-method]
-leads_to: []
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [space-missions, transits]
-  era: "2009"
+  era: contemporary
   arxiv_category: astro-ph.EP
 equations: []
 claims:

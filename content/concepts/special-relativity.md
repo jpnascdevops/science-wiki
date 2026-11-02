@@ -2,13 +2,16 @@
 id: special-relativity
 title: Relatividade restrita
 summary: A velocidade da luz é a mesma para todos; tempo e espaço se ajustam a isso.
+recap:
+  - "A velocidade da luz é a mesma para todos os observadores."
+  - "Relógios em movimento andam mais devagar, pelo fator γ."
+  - "O desvio em relação a Newton cresce aos poucos; não há um limite fixo."
 levels: [zero, technical]
-prerequisites: [force-and-motion]
-leads_to: [general-relativity, doppler-effect]
+consensus: established
 tags:
   area: physics/special-relativity
   topics: [light, spacetime]
-  era: "1905"
+  era: modern-revolution
   people: [albert-einstein]
 equations:
   - tex: \gamma = \frac{1}{\sqrt{1 - v^2/c^2}}

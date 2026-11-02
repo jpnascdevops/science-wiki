@@ -2,13 +2,16 @@
 id: schwarzschild-black-hole
 title: Buraco negro de Schwarzschild
 summary: A primeira solução exata das equações de Einstein já contém um horizonte de onde nada escapa.
+recap:
+  - "Primeira solução exata de Einstein (1916): tem um horizonte de onde nada escapa."
+  - "r_s = 2GM/c²: cerca de 3 km para o Sol e 9 mm para a Terra."
+  - "De fora, um buraco negro é só massa, carga e rotação."
 levels: [zero, technical]
-prerequisites: [escape-velocity, general-relativity]
-leads_to: [black-hole-thermodynamics]
+consensus: established
 tags:
   area: physics/general-relativity
   topics: [black-holes, spacetime]
-  era: "1916"
+  era: modern-revolution
   people: [karl-schwarzschild, albert-einstein, robert-oppenheimer, hartland-snyder]
   arxiv_category: gr-qc
 equations:

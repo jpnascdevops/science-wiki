@@ -56,31 +56,64 @@ def load_yaml(name: str):
     return yaml.load((DATA_DIR / name).read_text(encoding="utf-8"), Loader=WikiLoader)
 
 
-def topo_order(concepts: dict[str, Concept]) -> list[str]:
-    indegree = {cid: 0 for cid in concepts}
-    children = {cid: [] for cid in concepts}
-    for cid, c in concepts.items():
-        for pre in c.meta.get("prerequisites", []):
-            indegree[cid] += 1
-            children[pre].append(cid)
+@dataclass
+class Node:
+    id: str
+    title: str
+    module: str
+    requires: list[str]
+
+
+def load_map() -> dict[str, Node]:
+    nodes = {}
+    for module in load_yaml("map.yaml")["modules"]:
+        for c in module["concepts"]:
+            if c["id"] in nodes:
+                raise ValueError(f"duplicate id in map: {c['id']}")
+            nodes[c["id"]] = Node(c["id"], c["title"], module["id"], list(c.get("requires", [])))
+    return nodes
+
+
+def children(nodes: dict[str, Node]) -> dict[str, list[str]]:
+    out = {cid: [] for cid in nodes}
+    for cid, n in nodes.items():
+        for pre in n.requires:
+            if pre in out:
+                out[pre].append(cid)
+    return out
+
+
+def topo_order(nodes: dict[str, Node]) -> list[str]:
+    indegree = {cid: len(n.requires) for cid, n in nodes.items()}
+    kids = children(nodes)
     ready = sorted(cid for cid, d in indegree.items() if d == 0)
     order = []
     while ready:
         cid = ready.pop(0)
         order.append(cid)
-        for child in sorted(children[cid]):
+        for child in sorted(kids[cid]):
             indegree[child] -= 1
             if indegree[child] == 0:
                 ready.append(child)
-    if len(order) != len(concepts):
-        cyclic = sorted(set(concepts) - set(order))
-        raise ValueError(f"cycle in prerequisites: {cyclic}")
+    if len(order) != len(nodes):
+        raise ValueError(f"cycle in map: {sorted(set(nodes) - set(order))}")
     return order
 
 
-def depth(concepts: dict[str, Concept]) -> dict[str, int]:
+def depth(nodes: dict[str, Node]) -> dict[str, int]:
     result = {}
-    for cid in topo_order(concepts):
-        pres = concepts[cid].meta.get("prerequisites", [])
-        result[cid] = 1 + max((result[p] for p in pres), default=-1)
+    for cid in topo_order(nodes):
+        result[cid] = 1 + max((result[p] for p in nodes[cid].requires), default=-1)
     return result
+
+
+def ancestors(nodes: dict[str, Node], targets: list[str]) -> set[str]:
+    seen = set()
+    stack = list(targets)
+    while stack:
+        cid = stack.pop()
+        if cid in seen:
+            continue
+        seen.add(cid)
+        stack.extend(nodes[cid].requires)
+    return seen

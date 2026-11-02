@@ -2,13 +2,16 @@
 id: information-paradox
 title: Paradoxo da informação
 summary: A evaporação térmica de buracos negros parece destruir informação, o que a mecânica quântica proíbe.
+recap:
+  - "Pela conta de Hawking, a radiação é térmica e apagaria a informação do que caiu."
+  - "A mecânica quântica proíbe apagar informação."
+  - "Hawking apostou que ela se perdia e admitiu a derrota em 2004."
 levels: [zero, technical]
-prerequisites: [black-hole-thermodynamics]
-leads_to: [page-curve]
+consensus: established
 tags:
   area: physics/quantum-gravity
   topics: [information-paradox, black-holes, information]
-  era: "1976"
+  era: standard-model-era
   people: [stephen-hawking, kip-thorne, john-preskill]
   arxiv_category: hep-th
 equations:

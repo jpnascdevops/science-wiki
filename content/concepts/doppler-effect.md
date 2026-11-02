@@ -2,13 +2,16 @@
 id: doppler-effect
 title: Efeito Doppler
 summary: Uma fonte que se aproxima tem a onda comprimida; se afastando, esticada. Na luz, isso desloca as linhas do espectro.
+recap:
+  - "Fonte se aproximando: onda comprimida; se afastando: esticada."
+  - "Na luz: Δλ/λ ≈ v/c."
+  - "Mede só a velocidade na nossa direção."
 levels: [zero, technical]
-prerequisites: [special-relativity]
-leads_to: [radial-velocity]
+consensus: established
 tags:
   area: physics/waves
   topics: [light, spectroscopy]
-  era: "1842"
+  era: nineteenth-century
   people: [christian-doppler]
 equations:
   - tex: \frac{\Delta\lambda}{\lambda} \approx \frac{v_r}{c}

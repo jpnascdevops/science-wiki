@@ -2,13 +2,16 @@
 id: transit-detection
 title: Detectando trânsitos
 summary: Algoritmos como o BLS dobram a curva de luz em muitos períodos e procuram uma queda em forma de caixa.
+recap:
+  - "Empilhar a curva de luz em vários períodos faz a queda aparecer acima do ruído."
+  - "O BLS testa períodos e procura uma queda em forma de caixa."
+  - "Um pico no periodograma é candidato, não planeta."
 levels: [zero, technical]
-prerequisites: [transit-method]
-leads_to: [false-positives]
+consensus: established
 tags:
   area: astronomy/data-analysis
   topics: [transits, signal-processing, light-curves]
-  era: "2002"
+  era: contemporary
   people: [geza-kovacs, shay-zucker, tsevi-mazeh]
   arxiv_category: astro-ph.IM
 equations:

@@ -2,9 +2,12 @@
 id: false-positives
 title: Falsos positivos e validação
 summary: Binárias eclipsantes, estrelas de fundo e ruído imitam trânsitos; confirmar um planeta exige descartar cada uma.
+recap:
+  - "Binárias eclipsantes, estrelas de fundo e ruído imitam trânsitos."
+  - "Pistas: eclipse secundário, formato em V, centroide que se mexe."
+  - "Candidato só vira planeta depois de descartar as alternativas."
 levels: [zero, technical]
-prerequisites: [transit-detection, radial-velocity]
-leads_to: []
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [transits, signal-processing]

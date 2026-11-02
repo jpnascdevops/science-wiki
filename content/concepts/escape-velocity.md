@@ -2,13 +2,16 @@
 id: escape-velocity
 title: Velocidade de escape
 summary: A velocidade mínima para nunca mais voltar; quando ela chega à da luz, nasce a ideia de buraco negro.
+recap:
+  - "Velocidade mínima para nunca mais voltar: v = raiz de 2GM/r."
+  - "Terra: 11,2 km/s. Espremer a mesma massa aumenta essa velocidade."
+  - "Quando ela chega à velocidade da luz, o raio é r_s = 2GM/c²."
 levels: [zero, technical]
-prerequisites: [newton-gravity, energy-and-mass]
-leads_to: [schwarzschild-black-hole]
+consensus: established
 tags:
   area: physics/classical-mechanics
   topics: [gravity, black-holes]
-  era: "1783"
+  era: classical-mechanics-era
   people: [john-michell, pierre-simon-laplace]
 equations:
   - tex: v_{esc} = \sqrt{\frac{2\,G\,M}{r}}

@@ -2,13 +2,16 @@
 id: entanglement
 title: Emaranhamento
 summary: Duas partículas num estado só; cada uma sozinha parece aleatória, juntas não têm incerteza.
+recap:
+  - "Duas partículas emaranhadas formam um único estado."
+  - "Cada uma sozinha parece aleatória; juntas, os resultados combinam."
+  - "Não serve para mandar mensagens mais rápido que a luz."
 levels: [zero, technical]
-prerequisites: [entropy, quantum-basics]
-leads_to: [black-hole-thermodynamics]
+consensus: established
 tags:
   area: physics/quantum-information
   topics: [entanglement, information]
-  era: "1935"
+  era: nuclear-age
   people: [albert-einstein, boris-podolsky, nathan-rosen, erwin-schrodinger]
   arxiv_category: quant-ph
 equations:

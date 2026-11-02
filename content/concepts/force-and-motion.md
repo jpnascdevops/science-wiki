@@ -2,13 +2,16 @@
 id: force-and-motion
 title: Força e movimento
 summary: Força causa aceleração; quanto mais massa, mais força para acelerar o mesmo tanto.
+recap:
+  - "Força causa aceleração: F = m a."
+  - "Mais massa exige mais força para a mesma aceleração."
+  - "Velocidade é quanto se anda por tempo; aceleração é quanto a velocidade muda por tempo."
 levels: [zero]
-prerequisites: [reading-equations]
-leads_to: [newton-gravity, energy-and-mass, special-relativity]
+consensus: established
 tags:
   area: physics/classical-mechanics
   topics: [motion, foundations]
-  era: "1687"
+  era: classical-mechanics-era
   people: [isaac-newton]
 equations:
   - tex: v = \frac{\Delta x}{\Delta t}

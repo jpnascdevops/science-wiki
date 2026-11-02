@@ -2,13 +2,16 @@
 id: what-is-an-exoplanet
 title: O que é um exoplaneta
 summary: Um planeta em volta de outra estrela. Os primeiros foram achados nos anos 90; hoje são milhares.
+recap:
+  - "Exoplaneta é um planeta em volta de outra estrela."
+  - "Primeiros confirmados em 1992 (pulsar); primeiro numa estrela como o Sol em 1995."
+  - "Quase todos foram detectados de forma indireta."
 levels: [zero]
-prerequisites: [kepler-laws]
-leads_to: []
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [exoplanets]
-  era: "1995"
+  era: standard-model-era
   people: [aleksander-wolszczan, dale-frail, michel-mayor, didier-queloz]
   arxiv_category: astro-ph.EP
 equations: []

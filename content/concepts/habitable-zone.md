@@ -2,13 +2,16 @@
 id: habitable-zone
 title: Zona habitável e atmosferas
 summary: A faixa de distâncias em que um planeta poderia ter água líquida; atmosferas são estudadas pela luz que as atravessa no trânsito.
+recap:
+  - "Zona habitável é onde a água líquida seria possível na superfície."
+  - "Temperatura de equilíbrio da Terra: cerca de 255 K; o efeito estufa leva a 288 K."
+  - "Atmosferas são estudadas pela luz que as atravessa no trânsito."
 levels: [zero, technical]
-prerequisites: [stellar-flux, transit-method]
-leads_to: []
+consensus: established
 tags:
   area: astronomy/exoplanets
   topics: [habitability, spectroscopy, exoplanets]
-  era: "2022"
+  era: contemporary
   arxiv_category: astro-ph.EP
 equations:
   - tex: T_{\text{eq}} = T_\star \sqrt{\frac{R_\star}{2a}}\,(1 - A)^{1/4}

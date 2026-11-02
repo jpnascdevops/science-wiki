@@ -2,9 +2,12 @@
 id: stellar-flux
 title: Brilho, fluxo e luminosidade
 summary: Uma estrela emite uma potência fixa; o brilho que chega aqui cai com o quadrado da distância.
+recap:
+  - "Luminosidade é a potência total da estrela; fluxo é o que chega por metro quadrado."
+  - "O fluxo cai com o quadrado da distância: F = L / 4πd²."
+  - "Na Terra, o Sol entrega cerca de 1.361 W/m²."
 levels: [zero, technical]
-prerequisites: [temperature-and-radiation]
-leads_to: [light-curves, habitable-zone]
+consensus: established
 tags:
   area: astronomy/stellar
   topics: [stars, light]

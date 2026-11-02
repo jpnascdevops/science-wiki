@@ -2,9 +2,12 @@
 id: light-curves
 title: Curvas de luz
 summary: O brilho de uma estrela medido ao longo do tempo; é o dado bruto de onde saem os trânsitos.
+recap:
+  - "Curva de luz é o brilho de uma estrela ao longo do tempo."
+  - "Normalizada, 1 é o brilho normal; 0,99 é um apagão de 1%."
+  - "Juntar N medidas reduz o ruído aleatório por raiz de N."
 levels: [zero, technical]
-prerequisites: [stellar-flux]
-leads_to: [transit-method]
+consensus: established
 tags:
   area: astronomy/data-analysis
   topics: [light-curves, stars]

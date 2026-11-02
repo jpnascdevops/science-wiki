@@ -2,13 +2,16 @@
 id: islands
 title: Ilhas
 summary: Depois do tempo de Page, uma região dentro do buraco negro passa a contar como parte da radiação; com ela, a curva vira.
+recap:
+  - "Depois do tempo de Page, uma região dentro do buraco negro passa a contar como radiação."
+  - "Com essa ilha, a entropia da radiação desce: aparece a curva de Page."
+  - "O interior fica codificado do lado de fora."
 levels: [intermediate, technical]
-prerequisites: [page-curve, holography]
-leads_to: [replica-wormholes]
+consensus: broad
 tags:
   area: physics/quantum-gravity
   topics: [information-paradox, holography, black-holes]
-  era: "2019"
+  era: contemporary
   people: [geoff-penington, ahmed-almheiri, netta-engelhardt, donald-marolf, henry-maxfield, juan-maldacena]
   arxiv_category: hep-th
 equations:
