@@ -4,7 +4,7 @@ title: Relatividade restrita
 summary: A velocidade da luz é a mesma para todos; tempo e espaço se ajustam a isso.
 levels: [zero, technical]
 prerequisites: [force-and-motion]
-leads_to: [general-relativity]
+leads_to: [general-relativity, doppler-effect]
 tags:
   area: physics/special-relativity
   topics: [light, spacetime]
@@ -76,6 +76,10 @@ $$
 | 0,9 | 2,29 |
 
 Não existe uma velocidade em que Newton "para de funcionar": o desvio cresce continuamente.
+
+```lab
+lorentz
+```
 
 ## Onde isso volta
 

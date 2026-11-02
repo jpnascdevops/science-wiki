@@ -4,7 +4,7 @@ title: Temperatura e radiação
 summary: Tudo que tem temperatura brilha; quanto mais quente, mais energia por partícula de luz.
 levels: [zero]
 prerequisites: [energy-and-mass]
-leads_to: [entropy]
+leads_to: [entropy, stellar-flux]
 tags:
   area: physics/thermodynamics
   topics: [energy, light]

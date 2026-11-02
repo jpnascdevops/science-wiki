@@ -7,6 +7,10 @@ areas:
   - physics/quantum-mechanics
   - physics/quantum-information
   - physics/quantum-gravity
+  - physics/waves
+  - astronomy/stellar
+  - astronomy/exoplanets
+  - astronomy/data-analysis
 
 topics:
   - foundations
@@ -22,5 +26,14 @@ topics:
   - holography
   - hawking-radiation
   - information-paradox
+  - orbits
+  - stars
+  - exoplanets
+  - transits
+  - light-curves
+  - spectroscopy
+  - space-missions
+  - habitability
+  - signal-processing
 
-arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, physics.hist-ph]
+arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, astro-ph.EP, astro-ph.SR, astro-ph.IM, physics.hist-ph]

@@ -4,7 +4,7 @@ title: Gravidade de Newton
 summary: Toda massa atrai toda massa, com força que cai com o quadrado da distância.
 levels: [zero, technical]
 prerequisites: [force-and-motion]
-leads_to: [escape-velocity, general-relativity]
+leads_to: [escape-velocity, general-relativity, kepler-laws]
 tags:
   area: physics/classical-mechanics
   topics: [gravity]
