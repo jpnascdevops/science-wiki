@@ -67,6 +67,10 @@ $$
 
 Neste par, A sozinha tem 50% de chance para cada resultado: 1 bit de entropia. O par inteiro está num estado puro: entropia zero. A entropia de uma parte mede o quanto ela está emaranhada com o resto.
 
+```lab
+entangled-pair
+```
+
 ## Onde isso volta
 
 É exatamente a estrutura da radiação Hawking: cada partícula que escapa (A) está emaranhada com uma parceira que ficou dentro do buraco negro (B). A curva de Page é a entropia de A, somada sobre toda a radiação.

@@ -82,6 +82,10 @@ $$
 
 Cada moeda a mais dobra os arranjos, mas soma só um bit. Por isso a entropia usa logaritmo.
 
+```lab
+coins
+```
+
 ## Onde isso volta
 
 Bekenstein mostrou que um buraco negro tem entropia proporcional à área do horizonte. Na física quântica, a versão de von Neumann, $S(\rho)$, mede o emaranhamento, e é ela que a curva de Page acompanha.

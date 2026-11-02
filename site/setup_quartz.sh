@@ -11,6 +11,10 @@ if [ ! -d "$QUARTZ_DIR" ]; then
 fi
 
 cp "$SITE_DIR/quartz.config.ts" "$QUARTZ_DIR/quartz.config.ts"
+cp -r "$SITE_DIR/overrides/." "$QUARTZ_DIR/"
+for name in Labs StudyTools; do
+  grep -q "as $name " "$QUARTZ_DIR/quartz/components/index.ts" || echo "export { default as $name } from \"./$name\"" >> "$QUARTZ_DIR/quartz/components/index.ts"
+done
 if [ -n "${SITE_BASE_URL:-}" ]; then
   sed -i "s|baseUrl: \"localhost\"|baseUrl: \"$SITE_BASE_URL\"|" "$QUARTZ_DIR/quartz.config.ts"
 fi

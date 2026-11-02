@@ -83,6 +83,10 @@ $$
 
 Com $S_{BH}\propto(1-\tau)^{2/3}$ e a radiação carregando cerca de 1,48 vez a entropia que o buraco negro perde, as duas curvas se cruzam em $\tau\approx0{,}54$: o tempo de Page.
 
+```lab
+page-curve
+```
+
 ## Onde isso volta
 
 A conta de Hawking dá só o ramo que sobe. Por quase 30 anos, ninguém conseguiu, com gravidade, fazer a curva virar. As ilhas e os replica wormholes fazem exatamente isso.

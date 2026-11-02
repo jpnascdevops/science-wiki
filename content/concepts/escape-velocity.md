@@ -97,6 +97,10 @@ $$
 
 Terra: 11,2 km/s. Sol: 618 km/s. Espremendo a Terra sem mudar sua massa, $v_{esc}$ sobe; ela chega à velocidade da luz quando o raio é cerca de 9 mm.
 
+```lab
+escape-velocity
+```
+
 ## Onde isso volta
 
 Igualando $v_{esc} = c$, sai $r_s = 2GM/c^2$. John Michell pensou nisso em 1783 usando Newton: "estrelas escuras". A relatividade geral, que é a teoria correta, dá exatamente a mesma fórmula para o raio do horizonte de um buraco negro.
