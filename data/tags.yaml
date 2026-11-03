@@ -1,7 +1,10 @@
 areas:
   - math/notation
+  - physics/method
   - math/calculus
   - math/geometry
+  - math/probability
+  - math/linear-algebra
   - physics/classical-mechanics
   - physics/special-relativity
   - physics/general-relativity
@@ -42,5 +45,8 @@ topics:
   - rotation
   - fluids
   - conservation-laws
+  - scientific-method
+  - statistics
+  - waves
 
 arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, astro-ph.EP, astro-ph.SR, astro-ph.IM, physics.hist-ph]

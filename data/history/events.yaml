@@ -376,3 +376,66 @@
   date: null
   wikidata: null
   status: planned
+- id: novum-organum
+  title: Bacon publica o Novum Organum
+  era: scientific-revolution
+  concepts: [what-is-physics]
+  date: null
+  wikidata: null
+  status: planned
+- id: napier-logarithms
+  title: Napier publica as tábuas de logaritmos
+  era: scientific-revolution
+  concepts: [exponentials-and-logarithms]
+  date: null
+  wikidata: null
+  status: planned
+- id: pascal-fermat-letters
+  title: Cartas de Pascal e Fermat sobre jogos de azar
+  era: scientific-revolution
+  concepts: [probability-basics]
+  date: null
+  wikidata: null
+  status: planned
+- id: ars-magna
+  title: Cardano esbarra em raízes de números negativos
+  era: scientific-revolution
+  concepts: [complex-numbers]
+  date: null
+  wikidata: null
+  status: planned
+- id: taylor-methodus
+  title: Taylor publica a série que leva seu nome
+  era: classical-mechanics-era
+  concepts: [series-and-approximations]
+  date: null
+  wikidata: null
+  status: planned
+- id: euler-introductio
+  title: Euler publica a fórmula que liga exponencial e trigonometria
+  era: classical-mechanics-era
+  concepts: [complex-numbers]
+  date: null
+  wikidata: null
+  status: planned
+- id: least-squares
+  title: Legendre e Gauss publicam o método dos mínimos quadrados
+  era: nineteenth-century
+  concepts: [measurement-and-uncertainty, statistics-and-noise]
+  date: null
+  wikidata: null
+  status: planned
+- id: fourier-heat
+  title: Fourier publica a teoria analítica do calor
+  era: nineteenth-century
+  concepts: [fourier-analysis, dimensional-analysis]
+  date: null
+  wikidata: null
+  status: planned
+- id: matrix-mechanics
+  title: Heisenberg, Born e Jordan escrevem a quântica com matrizes
+  era: modern-revolution
+  concepts: [linear-algebra]
+  date: null
+  wikidata: null
+  status: planned

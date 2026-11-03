@@ -94,6 +94,18 @@ Labs.css = `
 .lab-plot .dot { fill: var(--tertiary); }
 .lab-plot .star { fill: var(--tertiary); opacity: 0.85; }
 .lab-plot .planet { fill: var(--dark); }
+.lab-plot .curve.alt { stroke: var(--secondary); stroke-width: 2; opacity: 0.8; }
+.lab-plot .axis { stroke: var(--gray); stroke-width: 1; }
+.lab-plot .pt { fill: var(--secondary); }
+.lab-plot .pt.faint { opacity: 0.45; }
+.lab-plot .bar { fill: var(--secondary); opacity: 0.55; }
+.lab-plot .band { fill: var(--tertiary); opacity: 0.14; }
+.lab-plot .vec { stroke-width: 3; stroke-linecap: round; }
+.lab-plot .vec.a { stroke: var(--tertiary); }
+.lab-plot .vec.b { stroke: var(--secondary); }
+.lab-plot .shape { fill: var(--tertiary); fill-opacity: 0.16; stroke: var(--tertiary); stroke-width: 1.5; }
+.lab-plot .eig { stroke: var(--darkgray); stroke-width: 1.2; stroke-dasharray: 6 5; }
+.lab-btn[aria-pressed="true"] { background: var(--tertiary); border-color: var(--tertiary); color: var(--light); }
 .lab-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.8rem; color: var(--darkgray); }
 .lab-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
 .lab-legend .sw { width: 18px; height: 0; border-top: 2.5px solid; display: inline-block; }

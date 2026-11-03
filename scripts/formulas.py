@@ -100,6 +100,25 @@ def fall_speed(h, g=G0):
     return math.sqrt(2 * g * h)
 
 
+def fall_time(h, g=G0):
+    return math.sqrt(2 * h / g)
+
+
+def gibbs_peak(n=400, steps=3000):
+    best = 0.0
+    for i in range(1, steps):
+        x = math.pi * i / steps / 20
+        v = sum(4 / math.pi * math.sin((2 * k - 1) * x) / (2 * k - 1) for k in range(1, n + 1))
+        best = max(best, v)
+    return best
+
+
+def eigenvalues_2x2(a, b, c, d):
+    tr, det = a + d, a * d - b * c
+    root = math.sqrt(tr * tr - 4 * det)
+    return (tr + root) / 2, (tr - root) / 2
+
+
 FORMULAS = {
     "escape_velocity_earth_km_s": lambda: escape_velocity(M_EARTH, R_EARTH) / 1e3,
     "escape_velocity_sun_km_s": lambda: escape_velocity(M_SUN, R_SUN) / 1e3,
@@ -170,4 +189,25 @@ FORMULAS = {
     "hose_speed_quarter_area": lambda: 2 * 4,
     "torricelli_5m": lambda: fall_speed(5),
     "bernoulli_dp_kpa": lambda: RHO_WATER * (8**2 - 2**2) / 2 / 1e3,
+    "fall_time_5m": lambda: fall_time(5),
+    "c14_fraction_two_half_lives_percent": lambda: 0.5**2 * 100,
+    "doubling_30_times": lambda: 2**30,
+    "doubling_time_7_percent_years": lambda: math.log(2) / math.log(1.07),
+    "two_dice_seven_percent": lambda: 6 / 36 * 100,
+    "at_least_one_six_in_four_percent": lambda: (1 - (5 / 6) ** 4) * 100,
+    "pendulum_period_1m": lambda: 2 * math.pi * math.sqrt(1 / G0),
+    "pendulum_dimensional_1m": lambda: math.sqrt(1 / G0),
+    "heartbeats_80_years": lambda: 70 * 60 * 24 * 365 * 80,
+    "mean_uncertainty_100": lambda: 0.08 / math.sqrt(100),
+    "eratosthenes_stadia": lambda: 360 / 7.2 * 5000,
+    "small_angle_error_10deg_percent": lambda: (math.radians(10) - math.sin(math.radians(10))) / math.sin(math.radians(10)) * 100,
+    "e_series_10_terms": lambda: sum(1 / math.factorial(k) for k in range(11)),
+    "euler_identity_real": lambda: math.cos(math.pi),
+    "one_plus_i_squared_imag": lambda: ((1 + 1j) ** 2).imag,
+    "within_one_sigma_percent": lambda: math.erf(1 / math.sqrt(2)) * 100,
+    "within_two_sigma_percent": lambda: math.erf(2 / math.sqrt(2)) * 100,
+    "transit_snr_30_points": lambda: 0.004 / (0.006 / math.sqrt(30)),
+    "gibbs_overshoot_percent": lambda: (gibbs_peak() - 1) / 2 * 100,
+    "eigen_2112_largest": lambda: eigenvalues_2x2(2, 1, 1, 2)[0],
+    "eigen_2112_smallest": lambda: eigenvalues_2x2(2, 1, 1, 2)[1],
 }

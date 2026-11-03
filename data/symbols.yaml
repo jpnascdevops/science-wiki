@@ -68,3 +68,10 @@
 "\\mathrm{d}": d (variação infinitesimal)
 "\\geq": é maior ou igual a
 "\\neq": é diferente de
+"\\log_2": logaritmo na base 2
+"\\exp": exponencial de
+"\\pm": mais ou menos
+"\\bar": barra (média)
+"\\det": determinante de
+"\\binom": combinações de
+"!": fatorial

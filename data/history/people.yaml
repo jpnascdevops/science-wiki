@@ -578,3 +578,103 @@
   era: standard-model-era
   wikidata: null
   status: planned
+- id: francis-bacon
+  name: Francis Bacon
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: karl-popper
+  name: Karl Popper
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: john-napier
+  name: John Napier
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: andrey-kolmogorov
+  name: Andrei Kolmogorov
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: joseph-fourier
+  name: Joseph Fourier
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: edgar-buckingham
+  name: Edgar Buckingham
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: carl-friedrich-gauss
+  name: Carl Friedrich Gauss
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: adrien-marie-legendre
+  name: Adrien-Marie Legendre
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: brook-taylor
+  name: Brook Taylor
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: colin-maclaurin
+  name: Colin Maclaurin
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: madhava
+  name: Madhava de Sangamagrama
+  era: medieval
+  wikidata: null
+  status: planned
+- id: gerolamo-cardano
+  name: Gerolamo Cardano
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: rafael-bombelli
+  name: Rafael Bombelli
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: caspar-wessel
+  name: Caspar Wessel
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: abraham-de-moivre
+  name: Abraham de Moivre
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: william-gosset
+  name: William Sealy Gosset
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: arthur-cayley
+  name: Arthur Cayley
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: james-sylvester
+  name: James Joseph Sylvester
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: max-born
+  name: Max Born
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: pascual-jordan
+  name: Pascual Jordan
+  era: modern-revolution
+  wikidata: null
+  status: planned
