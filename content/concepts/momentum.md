@@ -100,6 +100,10 @@ $$
 \vec{F}\,\Delta t = \Delta\vec{p}
 $$
 
+```lab
+impulse
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

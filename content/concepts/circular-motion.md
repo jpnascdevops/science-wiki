@@ -106,6 +106,10 @@ $$
 a_c = \frac{v^2}{r}
 $$
 
+```lab
+cannon
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

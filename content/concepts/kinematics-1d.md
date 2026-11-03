@@ -87,6 +87,10 @@ $$
 x = x_0 + v_0\,t + \frac{1}{2}\,a\,t^2
 $$
 
+```lab
+motion-graphs
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

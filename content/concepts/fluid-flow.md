@@ -107,6 +107,10 @@ $$
 p + \frac{1}{2}\,\rho\,v^2 + \rho\,g\,h = \text{constante}
 $$
 
+```lab
+venturi
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

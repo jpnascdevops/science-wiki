@@ -1576,6 +1576,679 @@ function ising(box: HTMLElement) {
   draw()
 }
 
+const G_EARTH = 9.81
+const nz = (v: number) => (Math.abs(v) < 0.005 ? 0 : v)
+
+
+function playBtn(box: HTMLElement, l: { running: boolean }, row?: HTMLElement) {
+  const b = button(row ?? (box.appendChild(el("div", "lab-btns")) as HTMLElement), l.running ? "Pausar" : "Rodar", true)
+  b.addEventListener("click", () => {
+    l.running = !l.running
+    b.textContent = l.running ? "Pausar" : "Rodar"
+  })
+  return () => (b.textContent = l.running ? "Pausar" : "Rodar")
+}
+
+function drop(box: HTMLElement) {
+  const W = 520, H = 260, H0 = 1.6
+  const ctx = canvas(box, W, H, "Martelo e pena caindo")
+  const modes: [string, number, boolean][] = [["Terra, com ar", G_EARTH, true], ["Terra, sem ar", G_EARTH, false], ["Lua", 1.62, false]]
+  const bs = btnRow(box, modes.map((m) => m[0]))
+  const [bGo] = btnRow(box, ["Soltar de novo"])
+  const [rH, rF] = readouts(box, ["Martelo chega em", "Pena chega em"])
+  const msg = note(box)
+  let mode = 0
+  let t = 0
+  let obj = [{ y: 0, v: 0, done: 0 }, { y: 0, v: 0, done: 0 }]
+  const vt = [40, 0.6]
+  const reset = () => {
+    t = 0
+    obj = [{ y: 0, v: 0, done: 0 }, { y: 0, v: 0, done: 0 }]
+    rH.textContent = "…"
+    rF.textContent = "…"
+  }
+  const Y = (y: number) => 30 + (y / H0) * (H - 60)
+  const draw = () => {
+    const c1 = cssVar("--tertiary"), c2 = cssVar("--secondary"), ground = cssVar("--gray"), text = cssVar("--darkgray")
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = ground
+    ctx.fillRect(0, H - 28, W, 2)
+    ctx.fillStyle = c1
+    ctx.fillRect(170, Y(obj[0].y) - 22, 24, 24)
+    ctx.fillStyle = c2
+    ctx.beginPath()
+    ctx.ellipse(340, Y(obj[1].y), 22, 7, 0.3, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.fillStyle = text
+    ctx.font = "12px monospace"
+    ctx.fillText("martelo", 160, H - 8)
+    ctx.fillText("pena", 326, H - 8)
+    ctx.fillText(`${fmt(t, 2)} s`, 12, 20)
+  }
+  const step = () => {
+    const [, g, air] = modes[mode]
+    const dt = 1 / 60
+    if (obj.every((o) => o.done)) return draw()
+    t += dt
+    obj.forEach((o, i) => {
+      if (o.done) return
+      const drag = air ? (g / vt[i] ** 2) * o.v * o.v : 0
+      o.v += (g - drag) * dt
+      o.y += o.v * dt
+      if (o.y >= H0) {
+        o.y = H0
+        o.done = t
+        ;(i ? rF : rH).textContent = `${fmt(t, 2)} s`
+      }
+    })
+    if (obj.every((o) => o.done)) {
+      msg.textContent = air
+        ? "No ar, a pena demora muito mais: a resistência do ar quase não freia o martelo, mas segura a pena."
+        : mode === 2
+          ? "Na Lua não há ar: martelo e pena chegam juntos, só que mais devagar, porque a gravidade é umas seis vezes menor. Foi o que David Scott mostrou em 1971."
+          : "Sem ar, os dois chegam juntos: a gravidade acelera tudo igual, qualquer que seja a massa."
+    }
+    draw()
+  }
+  bs.forEach((b, i) =>
+    b.addEventListener("click", () => {
+      mode = i
+      bs.forEach((x, j) => x.setAttribute("aria-pressed", String(j === i)))
+      reset()
+      msg.textContent = "Caindo de 1,6 m..."
+      l.running = true
+      sync()
+    }),
+  )
+  bs[0].setAttribute("aria-pressed", "true")
+  bGo.addEventListener("click", () => ((msg.textContent = "Caindo de 1,6 m..."), reset(), (l.running = true), sync()))
+  reset()
+  msg.textContent = "Escolha onde soltar. Os dois começam juntos, de 1,6 m de altura."
+  const l = loop(box, step)
+  const sync = playBtn(box, l, bGo.parentElement as HTMLElement)
+  draw()
+}
+
+function motionGraphs(box: HTMLElement) {
+  const W = 520
+  const lane = chart(box, W, 50, "Carro andando numa pista")
+  const car = svg("rect", { y: 18, width: 24, height: 14, rx: 3, class: "dot" })
+  lane.append(svg("line", { x1: 10, x2: W - 10, y1: 34, y2: 34, class: "axis" }), car)
+  const px = chart(box, W, 150, "Posição pelo tempo")
+  const pv2 = chart(box, W, 150, "Velocidade pelo tempo")
+  const P = 36
+  axes(px, W, 150, P, "tempo (s)", "posição (m)")
+  axes(pv2, W, 150, P, "tempo (s)", "velocidade (m/s)")
+  const cx = svg("polyline", { class: "curve page" }), cv = svg("polyline", { class: "curve alt" })
+  const area = svg("polygon", { class: "band" })
+  const kx = svg("line", { class: "cursor" }), kv = svg("line", { class: "cursor" })
+  const zv = svg("line", { x1: P, x2: W - 10, class: "grid" }), zx = svg("line", { x1: P, x2: W - 10, class: "grid" })
+  px.append(zx, cx, kx)
+  pv2.append(zv, area, cv, kv)
+  const s0 = slider(box, "Velocidade inicial", -10, 10, 0)
+  const sa = slider(box, "Aceleração", -30, 30, 15)
+  const [rX, rV] = readouts(box, ["Posição agora", "Velocidade agora"])
+  const msg = note(box)
+  let t = 0
+  const T = 10
+  const X = (tt: number) => P + (tt / T) * (W - P - 20)
+  const state = () => ({ v0: Number(s0.input.value), a: Number(sa.input.value) / 10 })
+  const render = () => {
+    const { v0, a } = state()
+    s0.out.textContent = `${v0} m/s`
+    sa.out.textContent = `${fmt(a, 1)} m/s²`
+    const xs: number[] = [], vs: number[] = []
+    for (let i = 0; i <= 100; i++) {
+      const tt = (T * i) / 100
+      xs.push(v0 * tt + (a * tt * tt) / 2)
+      vs.push(v0 + a * tt)
+    }
+    const xmax = Math.max(10, ...xs.map(Math.abs)), vmax = Math.max(5, ...vs.map(Math.abs))
+    const YX = (x: number) => 60 - (x / xmax) * 45
+    const YV = (v: number) => 60 - (v / vmax) * 45
+    zx.setAttribute("y1", "60"); zx.setAttribute("y2", "60")
+    zv.setAttribute("y1", "60"); zv.setAttribute("y2", "60")
+    cx.setAttribute("points", pts(xs.map((x, i) => [X((T * i) / 100), YX(x)])))
+    cv.setAttribute("points", pts(vs.map((v, i) => [X((T * i) / 100), YV(v)])))
+    const k = Math.round((t / T) * 100)
+    area.setAttribute("points", pts([[X(0), YV(0)], ...vs.slice(0, k + 1).map((v, i) => [X((T * i) / 100), YV(v)] as [number, number]), [X(t), YV(0)]]))
+    for (const [line, y1, y2] of [[kx, 10, 114], [kv, 10, 114]] as const) {
+      line.setAttribute("x1", String(X(t))); line.setAttribute("x2", String(X(t)))
+      line.setAttribute("y1", String(y1)); line.setAttribute("y2", String(y2))
+    }
+    const x = v0 * t + (a * t * t) / 2, v = v0 + a * t
+    car.setAttribute("x", String(W / 2 - 12 + (x / xmax) * (W / 2 - 30)))
+    rX.textContent = `${fmt(x, 1)} m`
+    rV.textContent = `${fmt(v, 1)} m/s`
+    msg.textContent =
+      a === 0 && v0 === 0
+        ? "Parado: posição constante e velocidade zero, duas retas horizontais."
+        : a === 0
+          ? "Sem aceleração, a velocidade é uma reta horizontal e a posição, uma reta inclinada."
+        : "A inclinação do gráfico de posição é a velocidade; a do gráfico de velocidade é a aceleração. A área sombreada sob a velocidade é o deslocamento até agora."
+  }
+  s0.input.addEventListener("input", () => ((t = 0), render()))
+  sa.input.addEventListener("input", () => ((t = 0), render()))
+  const l = loop(box, () => {
+    t += 1 / 60
+    if (t > T) t = 0
+    render()
+  })
+  playBtn(box, l)
+  render()
+}
+
+function skaters(box: HTMLElement) {
+  const W = 520, H = 120
+  const ctx = canvas(box, W, H, "Dois patinadores se empurrando")
+  const s1 = slider(box, "Massa do patinador laranja", 30, 100, 60)
+  const s2 = slider(box, "Massa do patinador azul", 30, 100, 40)
+  const [bPush] = btnRow(box, ["Empurrar (120 N por 0,5 s)"])
+  const [rA, rV, rP] = readouts(box, ["Acelerações", "Velocidades depois", "Momento total"])
+  const msg = note(box)
+  let t = -1, x1 = W / 2 - 20, x2 = W / 2 + 20
+  const F = 120, dt = 0.5
+  const draw = () => {
+    const m1 = Number(s1.input.value), m2 = Number(s2.input.value)
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--gray")
+    ctx.fillRect(0, H - 20, W, 2)
+    ctx.fillStyle = cssVar("--tertiary")
+    ctx.beginPath(); ctx.arc(x1, H - 40, 6 + m1 / 8, 0, 2 * Math.PI); ctx.fill()
+    ctx.fillStyle = cssVar("--secondary")
+    ctx.beginPath(); ctx.arc(x2, H - 40, 6 + m2 / 8, 0, 2 * Math.PI); ctx.fill()
+  }
+  const render = () => {
+    const m1 = Number(s1.input.value), m2 = Number(s2.input.value)
+    s1.out.textContent = `${m1} kg`
+    s2.out.textContent = `${m2} kg`
+    const v1 = (F * dt) / m1, v2 = (F * dt) / m2
+    rA.textContent = `${fmt(F / m1, 2)} e ${fmt(F / m2, 2)} m/s²`
+    rV.textContent = `${fmt(v1, 2)} e ${fmt(v2, 2)} m/s`
+    rP.textContent = `${fmt(nz(m1 * -v1 + m2 * v2), 1)} kg·m/s`
+    msg.textContent = m1 === m2
+      ? "Massas iguais: os dois sentem 120 N, aceleram igual e saem com a mesma velocidade, em sentidos opostos. O momento total continua zero."
+      : "Os dois sentem a mesma força de 120 N, em sentidos opostos. O mais leve acelera mais. O momento total continua zero: o que um ganha para a esquerda, o outro ganha para a direita."
+    draw()
+  }
+  const l = loop(box, () => {
+    if (t < 0) return draw()
+    const m1 = Number(s1.input.value), m2 = Number(s2.input.value)
+    t += 1 / 60
+    const tt = Math.min(t, dt)
+    const s = (m: number) => (F / m) * (tt * tt / 2 + (t > dt ? dt * (t - dt) : 0))
+    x1 = W / 2 - 20 - s(m1) * 40
+    x2 = W / 2 + 20 + s(m2) * 40
+    if (x1 < 20 || x2 > W - 20) t = -1
+    draw()
+  })
+  bPush.addEventListener("click", () => {
+    x1 = W / 2 - 20; x2 = W / 2 + 20; t = 0
+    if (!l.running) l.running = true
+  })
+  s1.input.addEventListener("input", render)
+  s2.input.addEventListener("input", render)
+  render()
+}
+
+function cannon(box: HTMLElement) {
+  const W = 360, H = 360, C = 180, RE = 6.371e6, GM = 3.986e14, SC = 42 / RE
+  const ctx = canvas(box, W, H, "Canhão de Newton disparando do alto de uma montanha")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "380px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const r0 = RE * 1.05
+  const vc = Math.sqrt(GM / r0), ve = Math.sqrt((2 * GM) / r0)
+  const sv = slider(box, "Velocidade do disparo", 0, 120, 77)
+  const [bFire] = btnRow(box, ["Disparar"])
+  const [rV, rC, rE] = readouts(box, ["Disparo", "Para órbita circular", "Para escapar"])
+  const msg = note(box)
+  let path: [number, number][] = []
+  let st = { x: 0, y: r0, vx: 0, vy: 0, on: false, t: 0 }
+  const fire = () => {
+    const v = (Number(sv.input.value) / 10) * 1000
+    st = { x: 0, y: r0, vx: v, vy: 0, on: true, t: 0 }
+    path = [[0, r0]]
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--lightgray")
+    ctx.beginPath(); ctx.arc(C, C, RE * SC, 0, 2 * Math.PI); ctx.fill()
+    ctx.fillStyle = cssVar("--gray")
+    ctx.beginPath(); ctx.moveTo(C - 8, C - RE * SC + 1); ctx.lineTo(C, C - r0 * SC); ctx.lineTo(C + 8, C - RE * SC + 1); ctx.fill()
+    ctx.strokeStyle = cssVar("--tertiary")
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    path.forEach(([x, y], i) => (i ? ctx.lineTo(C + x * SC, C - y * SC) : ctx.moveTo(C + x * SC, C - y * SC)))
+    ctx.stroke()
+    ctx.fillStyle = cssVar("--tertiary")
+    ctx.beginPath(); ctx.arc(C + st.x * SC, C - st.y * SC, 4, 0, 2 * Math.PI); ctx.fill()
+  }
+  const step = () => {
+    if (!st.on) return draw()
+    const h = 20
+    for (let k = 0; k < 5; k++) {
+      const r = Math.hypot(st.x, st.y)
+      const a = -GM / r ** 3
+      st.vx += a * st.x * h; st.vy += a * st.y * h
+      st.x += st.vx * h; st.y += st.vy * h
+      st.t += h
+      const rr = Math.hypot(st.x, st.y)
+      if (rr <= RE) { st.on = false; break }
+      if (rr > RE * 4.2 || st.t > 6e4) { st.on = false; break }
+    }
+    path.push([st.x, st.y])
+    draw()
+  }
+  const render = () => {
+    const v = Number(sv.input.value) / 10
+    sv.out.textContent = `${fmt(v, 1)} km/s`
+    rV.textContent = `${fmt(v, 1)} km/s`
+    rC.textContent = `${fmt(vc / 1000, 1)} km/s`
+    rE.textContent = `${fmt(ve / 1000, 1)} km/s`
+    msg.textContent =
+      v * 1000 < 0.97 * vc
+        ? "Devagar demais: a bala cai no chão. Quanto mais rápido o disparo, mais longe ela cai, porque o chão curvo vai \"fugindo\" dela."
+        : v * 1000 < 1.03 * vc
+          ? "Na velocidade certa, a bala cai o tempo todo, mas o chão se curva na mesma medida: é uma órbita, como a da Lua."
+          : v * 1000 < ve
+            ? "Mais rápido que o circular: a órbita vira uma elipse que se afasta e volta."
+            : "Acima da velocidade de escape: a bala vai embora e não volta."
+  }
+  sv.input.addEventListener("input", render)
+  bFire.addEventListener("click", () => (fire(), (l.running = true)))
+  const l = loop(box, step)
+  render()
+  fire()
+  draw()
+}
+
+function seesaw(box: HTMLElement) {
+  const W = 520, H = 200
+  const s = chart(box, W, H, "Gangorra")
+  const g = svg("g", {})
+  const plank = svg("rect", { x: 60, y: 126, width: 400, height: 8, rx: 3, class: "shape" })
+  const b1 = svg("circle", { r: 14, class: "dot" })
+  const b2 = svg("circle", { r: 14, class: "pt" })
+  g.append(plank, b1, b2)
+  s.append(svg("polygon", { points: "245,180 275,180 260,134", class: "axis", fill: "none" }), g)
+  const sm1 = slider(box, "Massa laranja", 10, 80, 30)
+  const sd1 = slider(box, "Distância laranja ao eixo", 2, 20, 20)
+  const sm2 = slider(box, "Massa azul", 10, 80, 40)
+  const sd2 = slider(box, "Distância azul ao eixo", 2, 20, 15)
+  const [r1, r2] = readouts(box, ["Torque laranja", "Torque azul"])
+  const msg = note(box)
+  const render = () => {
+    const m1 = Number(sm1.input.value), d1 = Number(sd1.input.value) / 10, m2 = Number(sm2.input.value), d2 = Number(sd2.input.value) / 10
+    sm1.out.textContent = `${m1} kg`; sd1.out.textContent = `${fmt(d1, 1)} m`
+    sm2.out.textContent = `${m2} kg`; sd2.out.textContent = `${fmt(d2, 1)} m`
+    const t1 = m1 * G_EARTH * d1, t2 = m2 * G_EARTH * d2
+    const ang = Math.max(-14, Math.min(14, (t1 - t2) / 25))
+    g.setAttribute("transform", `rotate(${-ang} 260 130)`)
+    b1.setAttribute("cx", String(260 - d1 * 95)); b1.setAttribute("cy", "112")
+    b2.setAttribute("cx", String(260 + d2 * 95)); b2.setAttribute("cy", "112")
+    r1.textContent = `${fmt(t1, 0)} N·m`
+    r2.textContent = `${fmt(t2, 0)} N·m`
+    msg.textContent =
+      m1 * Number(sd1.input.value) === m2 * Number(sd2.input.value)
+        ? "Equilíbrio: peso vezes distância é igual dos dois lados. É a lei da alavanca de Arquimedes."
+        : `O lado ${t1 > t2 ? "laranja" : "azul"} desce: tem mais torque. Afaste do eixo quem está do lado que subiu (${t1 > t2 ? "azul" : "laranja"}) ou aproxime quem desceu.`
+  }
+  ;[sm1, sd1, sm2, sd2].forEach((x) => x.input.addEventListener("input", render))
+  render()
+}
+
+function skate(box: HTMLElement) {
+  const W = 520, H = 220
+  const ctx = canvas(box, W, H, "Skatista numa rampa em U")
+  const bars = chart(box, 520, 70, "Energias")
+  const bk = svg("rect", { y: 8, height: 14, class: "pt" })
+  const bp = svg("rect", { y: 28, height: 14, class: "dot" })
+  const bh = svg("rect", { y: 48, height: 14, class: "bar" })
+  const lab = (y: number, t: string) => { const e = svg("text", { x: 4, y, class: "tick" }); e.textContent = t; return e }
+  bars.append(bk, bp, bh, lab(19, "cinética"), lab(39, "potencial"), lab(59, "calor"))
+  const sh = slider(box, "Altura de onde solta", 10, 40, 30)
+  const [bFric, bGo] = btnRow(box, ["Atrito: desligado", "Soltar"])
+  const [rV] = readouts(box, ["Velocidade agora"])
+  const msg = note(box)
+  const m = 50, A = 4
+  const y = (x: number) => A * x * x
+  let fric = false
+  const NS = 4000
+  const XS: number[] = [], SS: number[] = []
+  for (let i = 0; i <= NS; i++) {
+    const xx = -1.3 + (2.6 * i) / NS
+    XS.push(xx)
+    SS.push(i ? SS[i - 1] + Math.hypot(XS[i] - XS[i - 1], y(XS[i]) - y(XS[i - 1])) : 0)
+  }
+  const xOf = (sv: number) => {
+    let lo = 0, hi = NS
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; SS[mid] < sv ? (lo = mid) : (hi = mid) }
+    const f2 = (sv - SS[lo]) / (SS[hi] - SS[lo] || 1)
+    return XS[lo] + f2 * (XS[hi] - XS[lo])
+  }
+  const sOf = (xx: number) => SS[Math.round(((xx + 1.3) / 2.6) * NS)]
+  let x = -1, sPos = 0, v = 0, E0 = 0
+  const reset = () => {
+    const h = Number(sh.input.value) / 10
+    x = -Math.sqrt(h / A); sPos = sOf(x); v = 0
+    E0 = m * G_EARTH * y(x)
+  }
+  const PX = (xx: number) => W / 2 + xx * 180
+  const PY = (yy: number) => H - 20 - yy * 45
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--gray")
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    for (let i = 0; i <= 100; i++) { const xx = -1.3 + (2.6 * i) / 100; i ? ctx.lineTo(PX(xx), PY(y(xx))) : ctx.moveTo(PX(xx), PY(y(xx))) }
+    ctx.stroke()
+    ctx.fillStyle = cssVar("--tertiary")
+    ctx.beginPath(); ctx.arc(PX(x), PY(y(x)) - 9, 9, 0, 2 * Math.PI); ctx.fill()
+    const ke = 0.5 * m * v * v
+    const pe = m * G_EARTH * y(x)
+    const heat = Math.max(0, E0 - ke - pe)
+    const Wd = (e: number) => String(Math.max(0, (e / Math.max(E0, 1)) * 420))
+    bk.setAttribute("x", "80"); bk.setAttribute("width", Wd(ke))
+    bp.setAttribute("x", "80"); bp.setAttribute("width", Wd(pe))
+    bh.setAttribute("x", "80"); bh.setAttribute("width", Wd(heat))
+    rV.textContent = `${fmt(Math.abs(v), 1)} m/s`
+  }
+  const step = () => {
+    const dt = 1 / 240
+    for (let k = 0; k < 4; k++) {
+      const slope = 2 * A * x
+      const at = (-G_EARTH * slope) / Math.sqrt(1 + slope * slope) - (fric ? 0.6 * v : 0)
+      v += at * dt
+      sPos += v * dt
+      x = xOf(sPos)
+    }
+    draw()
+  }
+  const render = () => {
+    sh.out.textContent = `${fmt(Number(sh.input.value) / 10, 1)} m`
+    bFric.textContent = fric ? "Atrito: ligado" : "Atrito: desligado"
+    msg.textContent = fric
+      ? "Com atrito, parte da energia vira calor a cada passada, e o skatista sobe cada vez menos até parar no fundo."
+      : "Sem atrito, a energia só troca de forma: embaixo é toda cinética, em cima toda potencial. Ele volta sempre à mesma altura."
+  }
+  sh.input.addEventListener("input", () => (reset(), render(), draw()))
+  bFric.addEventListener("click", () => ((fric = !fric), reset(), render(), draw()))
+  bGo.addEventListener("click", () => (reset(), (l.running = true)))
+  const l = loop(box, step)
+  reset(); render(); draw()
+}
+
+function collide(box: HTMLElement) {
+  const W = 520, H = 110
+  const ctx = canvas(box, W, H, "Dois blocos colidindo")
+  const s1 = slider(box, "Massa do bloco laranja", 1, 10, 2)
+  const s2 = slider(box, "Massa do bloco azul", 1, 10, 2)
+  const se = slider(box, "Elasticidade (0 = grudam, 1 = elástica)", 0, 10, 10)
+  const [bGo] = btnRow(box, ["Colidir"])
+  const [rP, rK, rV] = readouts(box, ["Momento antes → depois", "Energia cinética antes → depois", "Velocidades depois"])
+  const msg = note(box)
+  const v0 = 4
+  let x1 = 60, x2 = 300, u1 = v0, u2 = 0, hit = false
+  const size = (m: number) => 18 + m * 3
+  const finals = () => {
+    const m1 = Number(s1.input.value), m2 = Number(s2.input.value), e = Number(se.input.value) / 10
+    const p = m1 * v0
+    return { m1, m2, e, w1: (p - m2 * e * v0) / (m1 + m2), w2: (p + m1 * e * v0) / (m1 + m2) }
+  }
+  const draw = () => {
+    const { m1, m2 } = finals()
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--gray"); ctx.fillRect(0, H - 18, W, 2)
+    ctx.fillStyle = cssVar("--tertiary"); ctx.fillRect(x1 - size(m1), H - 18 - size(m1), size(m1), size(m1))
+    ctx.fillStyle = cssVar("--secondary"); ctx.fillRect(x2, H - 18 - size(m2), size(m2), size(m2))
+  }
+  const render = () => {
+    const { m1, m2, e, w1, w2 } = finals()
+    s1.out.textContent = `${m1} kg`; s2.out.textContent = `${m2} kg`; se.out.textContent = fmt(e, 1)
+    const k0 = 0.5 * m1 * v0 * v0, k1 = 0.5 * m1 * w1 * w1 + 0.5 * m2 * w2 * w2
+    rP.textContent = `${fmt(m1 * v0, 1)} → ${fmt(m1 * w1 + m2 * w2, 1)} kg·m/s`
+    rK.textContent = `${fmt(k0, 1)} → ${fmt(k1, 1)} J`
+    rV.textContent = `${fmt(w1, 2)} e ${fmt(w2, 2)} m/s`
+    msg.textContent =
+      e === 1
+        ? m1 === m2
+          ? "Elástica com massas iguais: o laranja para e o azul sai com a velocidade dele, como no pêndulo de Newton."
+          : "Elástica: o momento e a energia cinética se conservam."
+        : e === 0
+          ? "Perfeitamente inelástica: os blocos grudam. O momento se conserva, mas parte da energia cinética vira deformação e calor."
+          : "O momento total sempre se conserva. A energia cinética diminui tanto mais quanto menos elástica for a batida."
+  }
+  const reset = () => { x1 = 60; x2 = 300; u1 = v0; u2 = 0; hit = false }
+  const l = loop(box, () => {
+    const { m1, w1, w2 } = finals()
+    const s = 40 / 60
+    x1 += u1 * s; x2 += u2 * s
+    if (!hit && x1 >= x2) { hit = true; u1 = w1; u2 = w2; x1 = x2 }
+    if (x1 - size(m1) > W || x2 > W + 40 || x1 < -40) reset()
+    draw()
+  })
+  ;[s1, s2, se].forEach((x) => x.input.addEventListener("input", () => (reset(), render(), draw())))
+  bGo.addEventListener("click", () => (reset(), (l.running = true), sync()))
+  const sync = playBtn(box, l, bGo.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function spinner(box: HTMLElement) {
+  const W = 300, H = 300, C = 150
+  const ctx = canvas(box, W, H, "Patinadora girando vista de cima")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "320px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const sr = slider(box, "Distância dos braços ao eixo", 20, 90, 90)
+  const [rI, rW, rK] = readouts(box, ["Momento de inércia", "Rotação", "Energia de rotação"])
+  const msg = note(box)
+  const Ib = 1, ma = 3
+  const I = (r: number) => Ib + 2 * ma * r * r
+  const L = I(0.9) * 2 * Math.PI
+  let ang = 0
+  const render = () => {
+    const r = Number(sr.input.value) / 100
+    sr.out.textContent = `${fmt(r, 2)} m`
+    const w = L / I(r)
+    rI.textContent = `${fmt(I(r), 2)} kg·m²`
+    rW.textContent = `${fmt(w / (2 * Math.PI), 2)} ${Math.abs(w / (2 * Math.PI) - 1) < 0.005 ? "volta" : "voltas"}/s`
+    rK.textContent = `${fmt((L * w) / 2, 0)} J`
+    msg.textContent = "O momento angular (inércia vezes rotação) fica constante. Puxando os braços, a inércia cai e a rotação sobe. A energia de rotação aumenta: vem do trabalho dos músculos ao puxar os braços."
+  }
+  const draw = () => {
+    const r = Number(sr.input.value) / 100
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 4
+    const ex = Math.cos(ang) * r * 140, ey = Math.sin(ang) * r * 140
+    ctx.beginPath(); ctx.moveTo(C - ex, C - ey); ctx.lineTo(C + ex, C + ey); ctx.stroke()
+    ctx.fillStyle = cssVar("--secondary"); ctx.beginPath(); ctx.arc(C, C, 22, 0, 2 * Math.PI); ctx.fill()
+    ctx.fillStyle = cssVar("--tertiary")
+    for (const sgn of [1, -1]) { ctx.beginPath(); ctx.arc(C + sgn * ex, C + sgn * ey, 10, 0, 2 * Math.PI); ctx.fill() }
+  }
+  const l = loop(box, () => {
+    ang += L / I(Number(sr.input.value) / 100) / 60
+    draw()
+  })
+  sr.input.addEventListener("input", () => (render(), draw()))
+  playBtn(box, l)
+  render()
+  draw()
+}
+
+function buoyancy(box: HTMLElement) {
+  const W = 520, H = 220
+  const s = chart(box, W, H, "Objeto num líquido")
+  const fluid = svg("rect", { x: 20, y: 90, width: W - 40, height: H - 100, class: "band" })
+  const surf = svg("line", { x1: 20, x2: W - 20, y1: 90, y2: 90, class: "curve alt" })
+  const cube = svg("rect", { x: W / 2 - 40, width: 80, height: 80, class: "shape" })
+  s.append(fluid, surf, cube)
+  const sd = slider(box, "Densidade do objeto", 100, 3000, 917, 1)
+  const fluids: [string, number][] = [["Água doce", 1000], ["Água do mar", 1025], ["Óleo de cozinha", 920], ["Mercúrio", 13534]]
+  const bs = btnRow(box, fluids.map((f) => f[0]))
+  const [rF, rE, rP] = readouts(box, ["Parte submersa", "Empuxo máximo (1 L)", "Peso (1 L)"])
+  const msg = note(box)
+  let fi = 0
+  const render = () => {
+    const rho = Number(sd.input.value), rf = fluids[fi][1]
+    sd.out.textContent = `${rho} kg/m³`
+    const frac = Math.min(1, rho / rf)
+    const sinks = rho > rf
+    cube.setAttribute("y", String(sinks ? H - 10 - 80 : 90 - 80 * (1 - frac)))
+    rF.textContent = sinks ? "afunda" : `${fmt(frac * 100, 1)}%`
+    rE.textContent = `${fmt(rf * 0.001 * G_EARTH, 2)} N`
+    rP.textContent = `${fmt(rho * 0.001 * G_EARTH, 2)} N`
+    bs.forEach((b, i) => b.setAttribute("aria-pressed", String(i === fi)))
+    msg.textContent = sinks
+      ? "Mais denso que o líquido: mesmo todo submerso, o empuxo não chega ao peso, e o objeto afunda."
+      : rho === rf
+        ? "Mesma densidade do líquido: fica parado em qualquer profundidade, totalmente submerso."
+        : `Flutua com ${fmt(frac * 100, 1)}% submerso: afunda até deslocar líquido com o mesmo peso que ele. ${rho === 917 ? "Com 917 kg/m³, é gelo." : ""}`
+  }
+  sd.input.addEventListener("input", render)
+  bs.forEach((b, i) => b.addEventListener("click", () => ((fi = i), render())))
+  render()
+}
+
+function venturi(box: HTMLElement) {
+  const W = 520, H = 220
+  const ctx = canvas(box, W, H, "Água num cano que afina")
+  const sr = slider(box, "Quanto o cano afina (área larga / estreita)", 10, 40, 20)
+  const [rV1, rV2, rDP] = readouts(box, ["Velocidade no largo", "Velocidade no estreito", "Queda de pressão"])
+  const msg = note(box)
+  const v1 = 2
+  const r = rng(4)
+  const parts = Array.from({ length: 70 }, () => ({ x: r() * W, f: r() * 2 - 1 }))
+  const halfW = (x: number, k: number) => {
+    const wide = 40, narrow = 40 / Math.sqrt(k)
+    const t = Math.min(1, Math.max(0, (Math.abs(x - W / 2) - 60) / 60))
+    return narrow + (wide - narrow) * t
+  }
+  const render = () => {
+    const k = Number(sr.input.value) / 10
+    sr.out.textContent = `${fmt(k, 1)}×`
+    const v2 = v1 * k
+    const dp = 0.5 * 1000 * (v2 * v2 - v1 * v1)
+    rV1.textContent = `${fmt(v1, 1)} m/s`
+    rV2.textContent = `${fmt(v2, 1)} m/s`
+    rDP.textContent = `${fmt(dp / 1000, 1)} kPa`
+    msg.textContent = k === 1
+      ? "Sem estreitamento: mesma velocidade e mesma pressão em todo o cano."
+      : "A mesma quantidade de água passa por segundo em todo trecho: no estreito, ela corre mais. Ali a pressão cai (os tubinhos mostram), como Bernoulli previu, num escoamento ideal."
+  }
+  const draw = (move: boolean) => {
+    const k = Number(sr.input.value) / 10
+    const cy = 150
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 2
+    for (const sgn of [1, -1]) {
+      ctx.beginPath()
+      for (let x = 0; x <= W; x += 4) { const y = cy + sgn * halfW(x, k); x ? ctx.lineTo(x, y) : ctx.moveTo(x, y) }
+      ctx.stroke()
+    }
+    ctx.fillStyle = cssVar("--secondary")
+    for (const p of parts) {
+      const hw = halfW(p.x, k)
+      if (move) p.x += v1 * (40 / hw) ** 2 * 1.2
+      if (p.x > W) p.x -= W
+      ctx.beginPath(); ctx.arc(p.x, cy + p.f * (hw - 4), 2.5, 0, 2 * Math.PI); ctx.fill()
+    }
+    const dpScale = (v: number) => 0.5 * (v * v)
+    const base = 95
+    for (const [x, v] of [[90, v1], [W / 2, v1 * k], [W - 90, v1]] as [number, number][]) {
+      const hgt = base - (dpScale(v) - dpScale(v1)) * 2.5
+      const top = cy - halfW(x, k)
+      ctx.strokeStyle = cssVar("--darkgray"); ctx.lineWidth = 1
+      ctx.strokeRect(x - 5, top - 95, 10, 95)
+      ctx.fillStyle = cssVar("--tertiary")
+      const hh = Math.max(4, hgt)
+      ctx.fillRect(x - 4, top - hh, 8, hh)
+    }
+  }
+  const l = loop(box, () => draw(true))
+  sr.input.addEventListener("input", () => (render(), draw(false)))
+  playBtn(box, l)
+  render()
+  draw(false)
+}
+
+function impulse(box: HTMLElement) {
+  const W = 520, H = 200, P = 40
+  const s = chart(box, W, H, "Força ao parar uma bola, pelo tempo")
+  axes(s, W, H, P, "tempo (s)", "força (N)")
+  const shape = svg("polygon", { class: "shape" })
+  s.appendChild(shape)
+  const st = slider(box, "Tempo para parar", 5, 300, 100)
+  const [rT, rF, rI] = readouts(box, ["Tempo de parada", "Força média", "Impulso (área)"])
+  const msg = note(box)
+  const p = 0.4 * 10
+  const render = () => {
+    const dt = Number(st.input.value) / 1000
+    st.out.textContent = `${fmt(dt * 1000, 0)} ms`
+    const F = p / dt
+    const X = (t: number) => P + (t / 0.32) * (W - P - 20)
+    const Y = (f: number) => H - P - (Math.min(f, 250) / 250) * (H - P - 20)
+    const line: [number, number][] = []
+    for (let i = 0; i <= 40; i++) {
+      const t = (dt * i) / 40
+      line.push([X(t), Y((Math.PI / 2) * F * Math.sin((Math.PI * i) / 40))])
+    }
+    shape.setAttribute("points", pts([[X(0), Y(0)], ...line, [X(dt), Y(0)]]))
+    rT.textContent = `${fmt(dt * 1000, 0)} ms`
+    rF.textContent = `${fmt(F, 0)} N`
+    rI.textContent = `${fmt(p, 1)} N·s`
+    msg.textContent =
+      (Math.PI / 2) * F > 250
+        ? "Parada brusca: a mesma variação de momento em pouquíssimo tempo exige uma força enorme (o pico sai do gráfico)."
+        : "Uma bola de 0,4 kg a 10 m/s. A área sob a curva (o impulso) é sempre a mesma; esticar o tempo achata a força. É o que fazem o airbag e o joelho dobrado."
+  }
+  st.input.addEventListener("input", render)
+  render()
+}
+
+function vectorAdd(box: HTMLElement) {
+  const W = 320, H = 320, C = 160, U = 14
+  const s = chart(box, W, H, "Soma de dois vetores")
+  s.style.maxWidth = "360px"
+  s.style.margin = "0 auto"
+  for (let k = -10; k <= 10; k++) s.append(svg("line", { x1: C + k * U, x2: C + k * U, y1: 10, y2: H - 10, class: k ? "grid" : "axis" }), svg("line", { y1: C + k * U, y2: C + k * U, x1: 10, x2: W - 10, class: k ? "grid" : "axis" }))
+  const va = svg("line", { class: "vec a" }), vb = svg("line", { class: "vec b" }), vr = svg("line", { class: "curve page" })
+  vr.setAttribute("stroke-dasharray", "6 4")
+  const tip = svg("circle", { r: 5, class: "dot" })
+  s.append(va, vb, vr, tip)
+  const sa = slider(box, "Tamanho do vetor laranja", 0, 5, 3)
+  const ta = slider(box, "Ângulo do laranja", 0, 360, 0, 5)
+  const sb = slider(box, "Tamanho do vetor azul", 0, 5, 4)
+  const tb = slider(box, "Ângulo do azul", 0, 360, 90, 5)
+  const [rR, rA, rC] = readouts(box, ["Resultante", "Ângulo", "Componentes (x, y)"])
+  const msg = note(box)
+  const render = () => {
+    const a = Number(sa.input.value), b = Number(sb.input.value)
+    const aa = (Number(ta.input.value) * Math.PI) / 180, ab = (Number(tb.input.value) * Math.PI) / 180
+    sa.out.textContent = String(a); sb.out.textContent = String(b)
+    ta.out.textContent = `${ta.input.value}°`; tb.out.textContent = `${tb.input.value}°`
+    const ax = a * Math.cos(aa), ay = a * Math.sin(aa), bx = b * Math.cos(ab), by = b * Math.sin(ab)
+    const set = (l: SVGElement, x1: number, y1: number, x2: number, y2: number) => {
+      l.setAttribute("x1", String(C + x1 * U)); l.setAttribute("y1", String(C - y1 * U))
+      l.setAttribute("x2", String(C + x2 * U)); l.setAttribute("y2", String(C - y2 * U))
+    }
+    set(va, 0, 0, ax, ay)
+    set(vb, ax, ay, ax + bx, ay + by)
+    set(vr, 0, 0, ax + bx, ay + by)
+    tip.setAttribute("cx", String(C + (ax + bx) * U)); tip.setAttribute("cy", String(C - (ay + by) * U))
+    const R = Math.hypot(ax + bx, ay + by)
+    rR.textContent = fmt(nz(R), 2)
+    rA.textContent = R < 1e-9 ? "—" : `${fmt(((Math.atan2(ay + by, ax + bx) * 180) / Math.PI + 360) % 360, 0)}°`
+    rC.textContent = `(${fmt(nz(ax + bx), 2)}; ${fmt(nz(ay + by), 2)})`
+    msg.textContent =
+      a === 0 && b === 0
+        ? "Os dois vetores são nulos: a soma é zero."
+        : R < 1e-9
+          ? "Mesmo tamanho e sentidos opostos: a soma é zero."
+        : "Ponha o azul na ponta do laranja: a resultante (tracejada) vai do começo de um ao fim do outro. Some x com x e y com y."
+  }
+  ;[sa, ta, sb, tb].forEach((x) => x.input.addEventListener("input", render))
+  render()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -1603,6 +2276,18 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   shannon: ["Laboratório: quanta informação tem uma moeda", shannon],
   cooling: ["Laboratório: perseguindo o zero absoluto", cooling],
   ising: ["Laboratório: um ímã esquentando", ising],
+  drop: ["Laboratório: martelo e pena", drop],
+  "motion-graphs": ["Laboratório: os gráficos do movimento", motionGraphs],
+  skaters: ["Laboratório: dois patinadores se empurrando", skaters],
+  cannon: ["Laboratório: o canhão de Newton", cannon],
+  seesaw: ["Laboratório: a gangorra", seesaw],
+  skate: ["Laboratório: skate na rampa", skate],
+  collide: ["Laboratório: batida de blocos", collide],
+  spinner: ["Laboratório: a patinadora girando", spinner],
+  buoyancy: ["Laboratório: afunda ou flutua?", buoyancy],
+  venturi: ["Laboratório: água num cano que afina", venturi],
+  impulse: ["Laboratório: parando uma bola", impulse],
+  "vector-add": ["Laboratório: somando vetores", vectorAdd],
 }
 
 function mountLabs() {

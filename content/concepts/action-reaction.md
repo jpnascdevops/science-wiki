@@ -92,6 +92,10 @@ $$
 \vec{F}_{A\to B} = -\vec{F}_{B\to A}
 $$
 
+```lab
+skaters
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

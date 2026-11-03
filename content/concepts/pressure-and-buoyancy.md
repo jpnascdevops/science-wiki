@@ -124,6 +124,10 @@ $$
 p = p_0 + \rho\,g\,h
 $$
 
+```lab
+buoyancy
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

@@ -99,6 +99,10 @@ $$
 I_1\,\omega_1 = I_2\,\omega_2
 $$
 
+```lab
+spinner
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

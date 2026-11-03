@@ -97,6 +97,10 @@ $$
 \tau = r\,F\,\sin\theta
 $$
 
+```lab
+seesaw
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

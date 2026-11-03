@@ -114,6 +114,10 @@ $$
 d = \frac{1}{2}\,g\,t^2
 $$
 
+```lab
+drop
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

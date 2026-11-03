@@ -85,6 +85,10 @@ $$
 |\vec{v}| = \sqrt{v_x^2 + v_y^2}
 $$
 
+```lab
+vector-add
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

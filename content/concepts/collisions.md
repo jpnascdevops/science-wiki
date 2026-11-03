@@ -86,6 +86,10 @@ $$
 m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'
 $$
 
+```lab
+collide
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |

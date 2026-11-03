@@ -103,6 +103,10 @@ $$
 \frac{1}{2}\,m\,v^2 = m\,g\,h \;\Rightarrow\; v = \sqrt{2\,g\,h}
 $$
 
+```lab
+skate
+```
+
 ## Variáveis
 
 | Símbolo | Significado | Unidade |
