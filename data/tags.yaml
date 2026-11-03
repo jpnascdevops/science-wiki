@@ -13,6 +13,7 @@ areas:
   - physics/quantum-information
   - physics/quantum-gravity
   - physics/waves
+  - physics/electromagnetism
   - astronomy/stellar
   - astronomy/exoplanets
   - astronomy/data-analysis
@@ -53,5 +54,8 @@ topics:
   - chaos
   - symmetry
   - phase-transitions
+  - electricity
+  - magnetism
+  - circuits
 
 arxiv_categories: [gr-qc, hep-th, quant-ph, astro-ph, astro-ph.EP, astro-ph.SR, astro-ph.IM, physics.hist-ph]

@@ -551,3 +551,73 @@
   date: null
   wikidata: null
   status: planned
+- id: gilbert-de-magnete
+  title: Gilbert publica De Magnete
+  era: scientific-revolution
+  concepts: [magnetism, electric-charge]
+  date: null
+  wikidata: null
+  status: planned
+- id: leyden-jar
+  title: Kleist e Musschenbroek criam a garrafa de Leyden
+  era: classical-mechanics-era
+  concepts: [capacitors]
+  date: null
+  wikidata: null
+  status: planned
+- id: franklin-charge-signs
+  title: Franklin batiza as cargas de positiva e negativa
+  era: classical-mechanics-era
+  concepts: [electric-charge]
+  date: null
+  wikidata: null
+  status: planned
+- id: coulomb-torsion-balance
+  title: Coulomb mede a força elétrica com a balança de torção
+  era: classical-mechanics-era
+  concepts: [coulomb-law]
+  date: null
+  wikidata: null
+  status: planned
+- id: volta-pile
+  title: Volta constrói a pilha
+  era: nineteenth-century
+  concepts: [electric-potential, current-and-resistance]
+  date: null
+  wikidata: null
+  status: planned
+- id: orsted-ampere-1820
+  title: Ørsted vê a corrente desviar a bússola; Ampère mede forças entre correntes
+  era: nineteenth-century
+  concepts: [ampere-law, magnetism]
+  date: null
+  wikidata: null
+  status: planned
+- id: ohm-law-1827
+  title: Ohm publica a lei de Ohm
+  era: nineteenth-century
+  concepts: [current-and-resistance]
+  date: null
+  wikidata: null
+  status: planned
+- id: kirchhoff-laws
+  title: Kirchhoff enuncia as leis dos circuitos
+  era: nineteenth-century
+  concepts: [circuits]
+  date: null
+  wikidata: null
+  status: planned
+- id: lorentz-force-1895
+  title: Lorentz escreve a força sobre uma carga em movimento
+  era: nineteenth-century
+  concepts: [magnetic-field-lorentz-force]
+  date: null
+  wikidata: null
+  status: planned
+- id: millikan-oil-drop
+  title: Millikan mede a carga do elétron com gotas de óleo
+  era: modern-revolution
+  concepts: [electric-charge]
+  date: null
+  wikidata: null
+  status: planned

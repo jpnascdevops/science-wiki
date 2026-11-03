@@ -728,3 +728,53 @@
   era: nineteenth-century
   wikidata: null
   status: planned
+- id: thales-of-miletus
+  name: Tales de Mileto
+  era: antiquity
+  wikidata: null
+  status: planned
+- id: william-gilbert
+  name: William Gilbert
+  era: scientific-revolution
+  wikidata: null
+  status: planned
+- id: benjamin-franklin
+  name: Benjamin Franklin
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: charles-coulomb
+  name: Charles-Augustin de Coulomb
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: pieter-van-musschenbroek
+  name: Pieter van Musschenbroek
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: ewald-von-kleist
+  name: Ewald Georg von Kleist
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: alessandro-volta
+  name: Alessandro Volta
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: georg-ohm
+  name: Georg Simon Ohm
+  era: nineteenth-century
+  wikidata: null
+  status: planned
+- id: robert-millikan
+  name: Robert Millikan
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: gustav-kirchhoff
+  name: Gustav Kirchhoff
+  era: nineteenth-century
+  wikidata: null
+  status: planned

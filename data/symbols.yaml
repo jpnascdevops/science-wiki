@@ -80,3 +80,8 @@
 "\\mathcal{L}": L cursivo (lagrangiana)
 "\\mathcal{H}": H cursivo (hamiltoniana)
 "\\delta": delta (variação pequena)
+"\\varepsilon_0": épsilon zero (permissividade do vácuo)
+"\\mu_0": mi zero (permeabilidade do vácuo)
+"\\oint": integral fechada (em volta de uma curva)
+"\\Phi_B": fi B (fluxo magnético)
+"\\mathcal{E}": E cursivo (força eletromotriz)

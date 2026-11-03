@@ -2716,6 +2716,921 @@ function noetherLab(box: HTMLElement) {
   reset(); render(); draw()
 }
 
+const K_E = 8.9875517923e9
+const E_CHARGE = 1.602176634e-19
+const M_E = 9.1093837e-31
+const MU0 = 1.25663706212e-6
+
+function pointer(ctx: CanvasRenderingContext2D, W: number, H: number, down: (x: number, y: number) => boolean, move: (x: number, y: number, dragging: boolean) => void, up?: () => void) {
+  const c = ctx.canvas as HTMLCanvasElement
+  c.style.touchAction = "none"
+  let dragging = false
+  const pos = (e: PointerEvent): [number, number] => {
+    const r = c.getBoundingClientRect()
+    return [((e.clientX - r.left) / r.width) * W, ((e.clientY - r.top) / r.height) * H]
+  }
+  c.addEventListener("pointerdown", (e) => {
+    const [x, y] = pos(e)
+    if (down(x, y)) {
+      dragging = true
+      c.setPointerCapture(e.pointerId)
+      e.preventDefault()
+    }
+  })
+  c.addEventListener("pointermove", (e) => {
+    const [x, y] = pos(e)
+    move(x, y, dragging)
+  })
+  const stop = () => {
+    if (dragging && up) up()
+    dragging = false
+  }
+  c.addEventListener("pointerup", stop)
+  c.addEventListener("pointercancel", stop)
+}
+
+function arrow(ctx: CanvasRenderingContext2D, x1: number, y1: number, x2: number, y2: number, color: string, w = 2, head = 7) {
+  const a = Math.atan2(y2 - y1, x2 - x1)
+  ctx.strokeStyle = color
+  ctx.fillStyle = color
+  ctx.lineWidth = w
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - Math.cos(a) * head * 0.6, y2 - Math.sin(a) * head * 0.6); ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(x2, y2)
+  ctx.lineTo(x2 - head * Math.cos(a - 0.45), y2 - head * Math.sin(a - 0.45))
+  ctx.lineTo(x2 - head * Math.cos(a + 0.45), y2 - head * Math.sin(a + 0.45))
+  ctx.closePath(); ctx.fill()
+}
+
+function sign(ctx: CanvasRenderingContext2D, x: number, y: number, positive: boolean, size = 5) {
+  ctx.lineWidth = 2
+  ctx.strokeStyle = cssVar(positive ? "--tertiary" : "--secondary")
+  ctx.beginPath(); ctx.moveTo(x - size, y); ctx.lineTo(x + size, y)
+  if (positive) { ctx.moveTo(x, y - size); ctx.lineTo(x, y + size) }
+  ctx.stroke()
+}
+
+function ball(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, q: number) {
+  ctx.fillStyle = cssVar(q > 0 ? "--tertiary" : q < 0 ? "--secondary" : "--gray")
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fill()
+  if (q === 0) return
+  ctx.strokeStyle = cssVar("--light"); ctx.lineWidth = 2.5
+  const s = r * 0.5
+  ctx.beginPath(); ctx.moveTo(x - s, y); ctx.lineTo(x + s, y)
+  if (q > 0) { ctx.moveTo(x, y - s); ctx.lineTo(x, y + s) }
+  ctx.stroke()
+}
+
+const fmtSigned = (v: number, d = 1) => {
+  const r = Math.round(v * 10 ** d) / 10 ** d
+  return (r > 0 ? "+" : r < 0 ? "−" : "") + fmt(Math.abs(r), d)
+}
+const supNum = (v: number) => {
+  const e = Math.floor(Math.log10(Math.abs(v)))
+  const sup = String(e).replace("-", "⁻").replace(/\d/g, (d) => "⁰¹²³⁴⁵⁶⁷⁸⁹"[Number(d)])
+  return `${fmt(v / 10 ** e, 2)} × 10${sup}`
+}
+
+function engNum(v: number, unit: string) {
+  const a = Math.abs(v)
+  if (a === 0) return `0 ${unit}`
+  const pre: [number, string][] = [[1e6, "M"], [1e3, "k"], [1, ""], [1e-3, "m"], [1e-6, "µ"], [1e-9, "n"], [1e-12, "p"]]
+  for (const [f, p] of pre) if (a >= f * 0.9995) return `${fmtSigned(v / f, a / f >= 100 ? 0 : a / f >= 10 ? 1 : 2).replace("+", "")} ${p}${unit}`
+  return `${sci(a)} ${unit}`
+}
+
+function chargesLab(box: HTMLElement) {
+  const W = 520, H = 240, N = 12
+  const ctx = canvas(box, W, H, "Balão e pedaço de lã trocando elétrons")
+  const [bRub, bReset] = btnRow(box, ["Esfregar uma vez", "Recomeçar"])
+  const [rB, rW, rT] = readouts(box, ["Carga do balão", "Carga da lã", "Carga total"])
+  const msg = note(box)
+  const r = rng(7)
+  const spot = (cx: number, cy: number, rx: number, ry: number): [number, number] => {
+    for (;;) {
+      const x = (r() * 2 - 1) * rx, y = (r() * 2 - 1) * ry
+      if ((x * x) / (rx * rx) + (y * y) / (ry * ry) < 0.75) return [cx + x, cy + y]
+    }
+  }
+  const bp = Array.from({ length: N }, () => spot(140, 120, 80, 95))
+  const wp = Array.from({ length: N }, () => spot(390, 120, 85, 70))
+  let bE: [number, number][] = [], wE: [number, number][] = []
+  let moved = 0
+  const place = () => {
+    bE = Array.from({ length: N }, () => spot(140, 120, 80, 95))
+    wE = Array.from({ length: N }, () => spot(390, 120, 85, 70))
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.globalAlpha = 0.14; ctx.fillStyle = cssVar("--tertiary")
+    ctx.beginPath(); ctx.ellipse(140, 120, 80, 95, 0, 0, 2 * Math.PI); ctx.fill()
+    ctx.fillStyle = cssVar("--gray")
+    ctx.beginPath(); ctx.ellipse(390, 120, 85, 70, 0, 0, 2 * Math.PI); ctx.fill()
+    ctx.globalAlpha = 1
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 1.5
+    ctx.beginPath(); ctx.ellipse(140, 120, 80, 95, 0, 0, 2 * Math.PI); ctx.stroke()
+    ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.ellipse(390, 120, 85, 70, 0, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([])
+    ctx.fillStyle = cssVar("--darkgray"); ctx.font = "13px system-ui, sans-serif"; ctx.textAlign = "center"
+    ctx.fillText("balão", 140, 234); ctx.fillText("lã", 390, 210)
+    bp.forEach(([x, y]) => sign(ctx, x - 6, y, true))
+    wp.forEach(([x, y]) => sign(ctx, x - 6, y, true))
+    bE.forEach(([x, y]) => sign(ctx, x + 7, y + 4, false))
+    wE.forEach(([x, y]) => sign(ctx, x + 7, y + 4, false))
+    if (moved > 0) {
+      const L = Math.min(70, 8 + moved * moved * 0.6)
+      arrow(ctx, 228, 120, 228 + L, 120, cssVar("--tertiary"), 3)
+      arrow(ctx, 298, 120, 298 - L, 120, cssVar("--tertiary"), 3)
+    }
+  }
+  const render = () => {
+    const nC = moved * 0.160
+    const word = moved === 1 ? "bilhão" : "bilhões"
+    rB.textContent = moved ? `−${moved} ${word} de e (−${fmt(nC, 2)} nC)` : "0"
+    rW.textContent = moved ? `+${moved} ${word} de e (+${fmt(nC, 2)} nC)` : "0"
+    rT.textContent = "0"
+    bRub.disabled = moved >= N - 2
+    msg.textContent =
+      moved === 0
+        ? "Cada sinal representa 1 bilhão de cargas elementares. O balão e a lã (ou o cabelo) começam neutros: tantos + quanto −. Esfregue para passar elétrons da lã para o balão."
+        : moved >= N - 2
+          ? "Já passou bastante. Repare: o total continua zero. A carga não foi criada, só trocou de lugar, e sempre em pacotes inteiros de e."
+          : "Elétrons (−) passaram para o balão. Ele ficou negativo, a lã positiva, e agora os dois se atraem (setas). Os + não saem do lugar: estão presos nos núcleos."
+  }
+  bRub.addEventListener("click", () => {
+    if (moved < N - 2) {
+      wE.pop()
+      bE.push(spot(140, 120, 80, 95))
+      moved++
+    }
+    render(); draw()
+  })
+  bReset.addEventListener("click", () => { moved = 0; place(); render(); draw() })
+  place(); render(); draw()
+}
+
+function magnetLab(box: HTMLElement) {
+  const W = 520, H = 300, CX = 260, CY = 150
+  const ctx = canvas(box, W, H, "Ímã em barra rodeado de bússolas")
+  const sa = slider(box, "Girar o ímã", 0, 180, 0, 5)
+  const [bCut] = btnRow(box, ["Cortar o ímã ao meio"])
+  const [rP] = readouts(box, ["Polos"])
+  const msg = note(box)
+  let cut = false
+  const poles = (): [number, number, number][] => {
+    const a = (Number(sa.input.value) * Math.PI) / 180, ux = Math.cos(a), uy = Math.sin(a)
+    if (!cut) return [[CX + 60 * ux, CY - 60 * uy, 1], [CX - 60 * ux, CY + 60 * uy, -1]]
+    return [[CX + 75 * ux, CY - 75 * uy, 1], [CX + 15 * ux, CY - 15 * uy, -1], [CX - 15 * ux, CY + 15 * uy, 1], [CX - 75 * ux, CY + 75 * uy, -1]]
+  }
+  const field = (x: number, y: number, P: [number, number, number][]) => {
+    let bx = 0, by = 0
+    for (const [px, py, s] of P) {
+      const dx = x - px, dy = y - py, d = Math.hypot(dx, dy) + 1e-6
+      bx += (s * dx) / d ** 3; by += (s * dy) / d ** 3
+    }
+    return [bx, by]
+  }
+  const inside = (x: number, y: number) => {
+    const a = (Number(sa.input.value) * Math.PI) / 180
+    const dx = x - CX, dy = -(y - CY)
+    const u = dx * Math.cos(a) + dy * Math.sin(a), v = -dx * Math.sin(a) + dy * Math.cos(a)
+    return Math.abs(u) < 92 && Math.abs(v) < 26
+  }
+  const bar = (u0: number, u1: number) => {
+    const a = (Number(sa.input.value) * Math.PI) / 180
+    ctx.save(); ctx.translate(CX, CY); ctx.rotate(-a)
+    const mid = (u0 + u1) / 2
+    ctx.fillStyle = cssVar("--secondary"); ctx.fillRect(u0, -13, mid - u0, 26)
+    ctx.fillStyle = cssVar("--tertiary"); ctx.fillRect(mid, -13, u1 - mid, 26)
+    ctx.fillStyle = cssVar("--light"); ctx.font = "bold 13px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"
+    ctx.save(); ctx.translate(u1 - 10, 0); ctx.rotate(a); ctx.fillText("N", 0, 0); ctx.restore()
+    ctx.save(); ctx.translate(u0 + 10, 0); ctx.rotate(a); ctx.fillText("S", 0, 0); ctx.restore()
+    ctx.restore()
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const P = poles()
+    for (let x = 20; x < W; x += 34)
+      for (let y = 18; y < H; y += 34) {
+        if (inside(x, y)) continue
+        const [bx, by] = field(x, y, P)
+        const m = Math.hypot(bx, by), ux = bx / m, uy = by / m
+        ctx.globalAlpha = Math.min(1, 0.35 + m * 3000)
+        ctx.lineWidth = 3
+        ctx.strokeStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + ux * 11, y + uy * 11); ctx.stroke()
+        ctx.strokeStyle = cssVar("--gray"); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - ux * 11, y - uy * 11); ctx.stroke()
+      }
+    ctx.globalAlpha = 1
+    if (cut) { bar(15, 92); bar(-92, -15) } else bar(-92, 92)
+  }
+  const render = () => {
+    sa.out.textContent = `${sa.input.value}°`
+    bCut.textContent = cut ? "Juntar as metades" : "Cortar o ímã ao meio"
+    rP.textContent = cut ? "4 (dois ímãs, cada um com N e S)" : "2 (N e S)"
+    msg.textContent = cut
+      ? "Cortado ao meio, não sobra um polo norte sozinho: cada pedaço vira um ímã completo, com N e S. Ninguém nunca encontrou um polo isolado."
+      : "Cada agulha (ponta laranja = norte da bússola) aponta ao longo do campo: sai do polo N do ímã e entra no S. Gire o ímã e todas acompanham."
+  }
+  sa.input.addEventListener("input", () => (render(), draw()))
+  bCut.addEventListener("click", () => { cut = !cut; render(); draw() })
+  render(); draw()
+}
+
+function coulombLab(box: HTMLElement) {
+  const W = 520, H = 170, Y = 85
+  const ctx = canvas(box, W, H, "Duas cargas e as forças entre elas")
+  const s1 = slider(box, "Carga da esquerda (µC)", -5, 5, 1)
+  const s2 = slider(box, "Carga da direita (µC)", -5, 5, 1)
+  const sr = slider(box, "Distância (cm)", 2, 50, 10)
+  const [rF, rW, rD] = readouts(box, ["Força em cada uma", "Equivale ao peso de", "Com o dobro da distância"])
+  const msg = note(box)
+  const CXc = W / 2
+  const draw = () => {
+    const q1 = Number(s1.input.value), q2 = Number(s2.input.value), r = Number(sr.input.value)
+    const d = 30 + r * 8.4, x1 = CXc - d / 2, x2 = CXc + d / 2
+    const F = (K_E * Math.abs(q1 * q2) * 1e-12) / (r / 100) ** 2
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--lightgray"); ctx.lineWidth = 1; ctx.setLineDash([4, 4])
+    ctx.beginPath(); ctx.moveTo(x1, Y + 34); ctx.lineTo(x2, Y + 34); ctx.stroke(); ctx.setLineDash([])
+    ctx.fillStyle = cssVar("--gray"); ctx.font = "12px system-ui, sans-serif"; ctx.textAlign = "center"
+    ctx.fillText(`${r} cm`, CXc, Y + 50)
+    if (F > 0) {
+      const L = Math.max(14, Math.min(110, x1 - 24, 20 + 18 * Math.log10(F / 0.001)))
+      const rep = q1 * q2 > 0, c = cssVar("--tertiary")
+      if (rep) { arrow(ctx, x1 - 16, Y, x1 - 16 - L, Y, c, 3); arrow(ctx, x2 + 16, Y, x2 + 16 + L, Y, c, 3) }
+      else if (d / 2 - 18 > 8) { const l = Math.min(L, d / 2 - 18); arrow(ctx, x1 + 16, Y, x1 + 16 + l, Y, c, 3); arrow(ctx, x2 - 16, Y, x2 - 16 - l, Y, c, 3) }
+      else { arrow(ctx, x1 - 16 - L, Y, x1 - 16, Y, c, 3); arrow(ctx, x2 + 16 + L, Y, x2 + 16, Y, c, 3) }
+    }
+    ball(ctx, x1, Y, 13, q1); ball(ctx, x2, Y, 13, q2)
+  }
+  const force = (F: number) => (F >= 1 ? `${fmt(F, F >= 100 ? 0 : F >= 10 ? 1 : 2)} N` : `${fmt(F * 1000, F >= 0.1 ? 0 : F >= 0.01 ? 1 : 2)} mN`)
+  const render = () => {
+    const q1 = Number(s1.input.value), q2 = Number(s2.input.value), r = Number(sr.input.value)
+    s1.out.textContent = `${fmtSigned(q1, 0)} µC`; s2.out.textContent = `${fmtSigned(q2, 0)} µC`; sr.out.textContent = `${r} cm`
+    const F = (K_E * Math.abs(q1 * q2) * 1e-12) / (r / 100) ** 2
+    rF.textContent = F === 0 ? "0" : force(F)
+    const kg = F / 9.81
+    rW.textContent = F === 0 ? "—" : kg >= 1 ? `${fmt(kg, 1)} kg` : `${fmt(kg * 1000, kg >= 0.01 ? 0 : 1)} g`
+    rD.textContent = F === 0 ? "—" : `${force(F / 4)} (um quarto)`
+    msg.textContent =
+      q1 === 0 || q2 === 0
+        ? "Uma das cargas é zero: não há força elétrica."
+        : q1 * q2 > 0
+          ? "Sinais iguais se repelem. Dobre a distância e a força cai para um quarto: é o inverso do quadrado, como na gravidade."
+          : "Sinais opostos se atraem. Note como poucos microcoulombs já dão forças do tamanho do peso de objetos do dia a dia."
+  }
+  ;[s1, s2, sr].forEach((s) => s.input.addEventListener("input", () => (render(), draw())))
+  render(); draw()
+}
+
+function fieldLines(box: HTMLElement) {
+  const W = 520, H = 320
+  const ctx = canvas(box, W, H, "Linhas de campo elétrico de cargas que podem ser arrastadas")
+  const [bDip, bTwo, bOne, bFlip] = btnRow(box, ["+ e −", "+ e +", "Uma carga", "Inverter sinais"])
+  const [rE, rD] = readouts(box, ["Campo no ponteiro", "Direção"])
+  const msg = note(box)
+  let Q: { x: number; y: number; q: number }[] = []
+  let drag = -1
+  let probe: [number, number] | null = null
+  const E = (x: number, y: number) => {
+    let ex = 0, ey = 0
+    for (const c of Q) {
+      const dx = x - c.x, dy = y - c.y, d2 = dx * dx + dy * dy + 1e-9, d = Math.sqrt(d2)
+      ex += (c.q * dx) / (d2 * d); ey += (c.q * dy) / (d2 * d)
+    }
+    return [ex, ey]
+  }
+  const preset = (k: string) => {
+    if (k === "dip") Q = [{ x: 180, y: 160, q: 1 }, { x: 340, y: 160, q: -1 }]
+    if (k === "two") Q = [{ x: 180, y: 160, q: 1 }, { x: 340, y: 160, q: 1 }]
+    if (k === "one") Q = [{ x: 260, y: 160, q: 1 }]
+    ;[bDip, bTwo, bOne].forEach((b, i) => b.setAttribute("aria-pressed", String(["dip", "two", "one"][i] === k)))
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    for (let x = 13; x < W; x += 26)
+      for (let y = 13; y < H; y += 26) {
+        if (Q.some((c) => Math.hypot(x - c.x, y - c.y) < 18)) continue
+        const [ex, ey] = E(x, y), m = Math.hypot(ex, ey)
+        ctx.globalAlpha = Math.min(0.9, 0.18 + m * 4000)
+        arrow(ctx, x - (ex / m) * 6, y - (ey / m) * 6, x + (ex / m) * 6, y + (ey / m) * 6, cssVar("--gray"), 1.3, 5)
+      }
+    ctx.globalAlpha = 0.85
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 1.6
+    const hasPos = Q.some((c) => c.q > 0)
+    for (const s of Q) {
+      const dir = s.q > 0 ? 1 : -1
+      if (dir < 0 && !hasPos) continue
+      for (let k = 0; k < 16; k++) {
+        const a = (2 * Math.PI * (k + 0.5)) / 16
+        let x = s.x + 14 * Math.cos(a), y = s.y + 14 * Math.sin(a)
+        const path: [number, number][] = [[x, y]]
+        let escaped = false
+        for (let i = 0; i < 500; i++) {
+          const [ex, ey] = E(x, y), m = Math.hypot(ex, ey)
+          x += (dir * 3 * ex) / m; y += (dir * 3 * ey) / m
+          path.push([x, y])
+          if (x < -10 || x > W + 10 || y < -10 || y > H + 10) { escaped = true; break }
+          if (Q.some((c) => c !== s && Math.hypot(x - c.x, y - c.y) < 10)) break
+        }
+        if (dir < 0 && !escaped) continue
+        ctx.beginPath(); path.forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py))); ctx.stroke()
+      }
+    }
+    if (!hasPos) {
+      for (const s of Q)
+        for (let k = 0; k < 16; k++) {
+          const a = (2 * Math.PI * (k + 0.5)) / 16
+          let x = s.x + 14 * Math.cos(a), y = s.y + 14 * Math.sin(a)
+          ctx.beginPath(); ctx.moveTo(x, y)
+          for (let i = 0; i < 500; i++) {
+            const [ex, ey] = E(x, y), m = Math.hypot(ex, ey)
+            x -= (3 * ex) / m; y -= (3 * ey) / m
+            ctx.lineTo(x, y)
+            if (x < -10 || x > W + 10 || y < -10 || y > H + 10) break
+            if (Q.some((c) => c !== s && Math.hypot(x - c.x, y - c.y) < 10)) break
+          }
+          ctx.stroke()
+        }
+    }
+    ctx.globalAlpha = 1
+    Q.forEach((c) => ball(ctx, c.x, c.y, 12, c.q))
+  }
+  const render = () => {
+    if (!probe) { rE.textContent = "—"; rD.textContent = "passe o ponteiro" }
+    else {
+      const [ex, ey] = E(probe[0], probe[1])
+      const m = Math.hypot(ex, ey) * K_E * 1e-9 * 1e6
+      rE.textContent = `${m >= 1000 ? fmt(m / 1000, 1) + " mil" : fmt(m, 0)} N/C`
+      const ang = (Math.atan2(-ey, ex) * 180) / Math.PI
+      rD.textContent = `${fmt((ang + 360) % 360, 0)}° (0° = direita)`
+    }
+    const n = Q.length, same = Q.every((c) => c.q === Q[0].q)
+    msg.textContent =
+      n === 1
+        ? Q[0].q > 0 ? "Uma carga positiva: o campo aponta para fora em todas as direções e enfraquece com o quadrado da distância." : "Uma carga negativa: o campo aponta para dentro, para a carga."
+        : same
+          ? "Duas cargas iguais: as linhas se repelem e, entre elas, existe um ponto onde o campo é zero. Arraste as cargas."
+          : "Dipolo: as linhas saem da positiva e terminam na negativa. As setas cinza mostram para onde uma carga positiva de teste seria empurrada. Cada carga vale 1 nC e 1 pixel vale 1 mm. Arraste as cargas."
+  }
+  pointer(ctx, W, H, (x, y) => {
+    drag = Q.findIndex((c) => Math.hypot(x - c.x, y - c.y) < 20)
+    return drag >= 0
+  }, (x, y, dragging) => {
+    probe = [x, y]
+    if (dragging && drag >= 0) { Q[drag].x = Math.max(14, Math.min(W - 14, x)); Q[drag].y = Math.max(14, Math.min(H - 14, y)); draw() }
+    render()
+  }, () => (drag = -1))
+  ;(ctx.canvas as HTMLCanvasElement).addEventListener("pointerleave", () => { probe = null; render() })
+  bDip.addEventListener("click", () => (preset("dip"), render(), draw()))
+  bTwo.addEventListener("click", () => (preset("two"), render(), draw()))
+  bOne.addEventListener("click", () => (preset("one"), render(), draw()))
+  bFlip.addEventListener("click", () => { Q.forEach((c) => (c.q = -c.q)); render(); draw() })
+  preset("dip"); render(); draw()
+}
+
+function potentialLab(box: HTMLElement) {
+  const W = 520, H = 300
+  const ctx = canvas(box, W, H, "Mapa de potencial elétrico com uma partícula que pode ser solta")
+  const [bGo, bKind, bReset] = btnRow(box, ["Soltar", "Trocar por elétron", "Recomeçar"])
+  const [rV, rU, rK] = readouts(box, ["Potencial onde ela está", "Energia potencial", "Energia de movimento ganha"])
+  const msg = note(box)
+  const Q = [{ x: 170, y: 150, q: 1 }, { x: 350, y: 150, q: -1 }]
+  const V = (x: number, y: number) => Q.reduce((s, c) => s + (K_E * c.q * 1e-9) / (Math.max(4, Math.hypot(x - c.x, y - c.y)) / 1000), 0)
+  const Ef = (x: number, y: number) => {
+    let ex = 0, ey = 0
+    for (const c of Q) {
+      const dx = x - c.x, dy = y - c.y, d = Math.max(4, Math.hypot(dx, dy))
+      ex += (c.q * dx) / d ** 3; ey += (c.q * dy) / d ** 3
+    }
+    return [ex * K_E * 1e-9 * 1e6 / 1000, ey * K_E * 1e-9 * 1e6 / 1000]
+  }
+  let map: HTMLCanvasElement | null = null, mapTheme = ""
+  const build = () => {
+    const m = document.createElement("canvas"); m.width = W; m.height = H
+    const c = m.getContext("2d")!
+    const pos = cssVar("--tertiary"), neg = cssVar("--secondary"), line = cssVar("--darkgray")
+    const S = 2, lv = (v: number) => Math.floor(v / 40)
+    for (let x = 0; x < W; x += S)
+      for (let y = 0; y < H; y += S) {
+        const v = V(x + S / 2, y + S / 2)
+        c.globalAlpha = Math.min(0.55, Math.abs(v) / 500)
+        c.fillStyle = v > 0 ? pos : neg
+        c.fillRect(x, y, S, S)
+        const l = lv(v)
+        if (Math.abs(v) < 1100 && (lv(V(x + S * 1.5, y + S / 2)) !== l || lv(V(x + S / 2, y + S * 1.5)) !== l)) {
+          c.globalAlpha = 0.45; c.fillStyle = line; c.fillRect(x, y, S, S)
+        }
+      }
+    map = m
+  }
+  let p = [215, 70], v = [0, 0], start = [215, 70], kind = 1, moving = false, done = false, why = "", frames = 0
+  const reset = () => { p = [...start]; v = [0, 0]; moving = false; done = false; l.running = false; tr = []; frames = 0 }
+  const advance = () => {
+    for (let k = 0; k < 40; k++) {
+      const [ex, ey] = Ef(p[0], p[1])
+      v[0] += kind * ex * 0.0008; v[1] += kind * ey * 0.0008
+      const sp = Math.hypot(v[0], v[1]), f = sp > 0.6 ? 0.6 / sp : 1
+      p[0] += v[0] * f; p[1] += v[1] * f
+      if (Q.some((c) => c.q * kind < 0 && Math.hypot(p[0] - c.x, p[1] - c.y) < 14)) { moving = false; done = true; why = "hit"; break }
+      if (p[0] < 0 || p[0] > W || p[1] < 0 || p[1] > H) { p = [Math.max(0, Math.min(W, p[0])), Math.max(0, Math.min(H, p[1]))]; moving = false; done = true; why = "out"; break }
+    }
+    tr.push([p[0], p[1]])
+    if (++frames > 900 && moving) { moving = false; done = true; why = "time" }
+  }
+  let tr: [number, number][] = []
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const theme = cssVar("--tertiary") + cssVar("--secondary")
+    if (!map || theme !== mapTheme) { build(); mapTheme = theme }
+    ctx.drawImage(map!, 0, 0, W, H)
+    Q.forEach((c) => ball(ctx, c.x, c.y, 11, c.q))
+    ctx.strokeStyle = cssVar(kind > 0 ? "--tertiary" : "--secondary"); ctx.lineWidth = 1.5; ctx.globalAlpha = 0.6
+    ctx.beginPath(); tr.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke(); ctx.globalAlpha = 1
+    ctx.fillStyle = cssVar("--dark"); ctx.beginPath(); ctx.arc(p[0], p[1], 7, 0, 2 * Math.PI); ctx.fill()
+    ball(ctx, p[0], p[1], 5.5, kind)
+  }
+  const render = () => {
+    const vv = V(p[0], p[1]), v0 = V(start[0], start[1])
+    rV.textContent = `${fmtSigned(vv, 0)} V`
+    rU.textContent = `${fmtSigned(kind * vv, 0)} eV`
+    const K = kind * (v0 - vv)
+    rK.textContent = `${fmt(Math.max(0, K), 0)} eV`
+    bKind.textContent = kind > 0 ? "Trocar por elétron" : "Trocar por próton"
+    bGo.disabled = moving || done
+    const who = kind > 0 ? "O próton" : "O elétron"
+    const ride = kind > 0
+      ? "O próton desce a ladeira: vai do potencial alto (laranja) para o baixo (azul), trocando energia potencial por velocidade."
+      : "O elétron tem carga negativa, então para ele a ladeira é invertida: vai para o potencial alto (laranja), trocando energia potencial por velocidade."
+    msg.textContent = done
+      ? (why === "hit" ? `${who} chegou à carga que o atrai.` : why === "out" ? `${who} saiu do mapa.` : `${who} ficou indo e voltando sem cair na carga; paramos aqui.`) +
+        ` Cada volt atravessado vale 1 elétron-volt de energia de movimento: ${fmt(Math.max(0, K), 0)} eV.`
+      : moving
+        ? ride
+        : "Laranja é potencial alto (perto da carga +), azul é baixo (perto da −); as linhas finas ligam pontos de mesmo potencial, a cada 40 V (cargas de 1 nC, 1 pixel = 1 mm). Arraste a partícula e solte."
+  }
+  const l = loop(box, () => {
+    if (!moving) return
+    advance()
+    render(); draw()
+  })
+  l.running = false
+  pointer(ctx, W, H, (x, y) => Math.hypot(x - p[0], y - p[1]) < 18 && !moving, (x, y, dragging) => {
+    if (!dragging) return
+    if (Q.some((c) => Math.hypot(x - c.x, y - c.y) < 20)) return
+    p = [Math.max(6, Math.min(W - 6, x)), Math.max(6, Math.min(H - 6, y))]; start = [...p]; v = [0, 0]; done = false; tr = []; frames = 0
+    render(); draw()
+  })
+  bGo.addEventListener("click", () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      moving = true
+      while (moving) advance()
+    } else { moving = true; l.running = true }
+    render(); draw()
+  })
+  bKind.addEventListener("click", () => { kind = -kind; reset(); render(); draw() })
+  bReset.addEventListener("click", () => { reset(); render(); draw() })
+  render(); draw()
+}
+
+function cyclotronLab(box: HTMLElement) {
+  const W = 520, H = 300, CX = 260, CY = 150, PX_MM = 4.8
+  const ctx = canvas(box, W, H, "Partícula carregada girando num campo magnético que entra na tela")
+  const sv = slider(box, "Velocidade (milhões de m/s)", 0.5, 5, 2.5, 0.5)
+  const sb = slider(box, "Campo magnético (mT)", 1, 10, 1, 0.5)
+  const [bKind] = btnRow(box, ["Trocar por pósitron"])
+  const [rR, rT, rF] = readouts(box, ["Raio da volta", "Tempo de uma volta", "Força magnética"])
+  const msg = note(box)
+  let q = -1, phi = Math.PI / 2, tr: [number, number][] = []
+  const radius = () => (M_E * Number(sv.input.value) * 1e6) / (E_CHARGE * Number(sb.input.value) * 1e-3)
+  const posAt = (a: number): [number, number] => {
+    const R = radius() * 1000 * PX_MM
+    return [CX + R * Math.cos(a), CY - R * Math.sin(a)]
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--lightgray"); ctx.lineWidth = 1.2
+    for (let x = 20; x < W; x += 40)
+      for (let y = 20; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); ctx.stroke() }
+    const R = radius() * 1000 * PX_MM
+    ctx.setLineDash([3, 5]); ctx.strokeStyle = cssVar("--gray"); ctx.beginPath(); ctx.arc(CX, CY, R, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([])
+    const col = cssVar(q > 0 ? "--tertiary" : "--secondary")
+    ctx.strokeStyle = col; ctx.globalAlpha = 0.5; ctx.lineWidth = 2
+    ctx.beginPath(); tr.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke(); ctx.globalAlpha = 1
+    const [x, y] = posAt(phi)
+    const dir = q > 0 ? 1 : -1
+    const tx = -Math.sin(phi) * dir, ty = -Math.cos(phi) * dir
+    const fl = Math.min(26, R * 0.8)
+    arrow(ctx, x, y, x + tx * 34, y + ty * 34, cssVar("--darkgray"), 2)
+    const cx = CX - x, cy = CY - y, cm = Math.hypot(cx, cy) || 1
+    if (fl > 8) arrow(ctx, x, y, x + (cx / cm) * fl, y + (cy / cm) * fl, cssVar("--tertiary"), 2.5)
+    ball(ctx, x, y, 8, q)
+  }
+  const render = () => {
+    const v = Number(sv.input.value), B = Number(sb.input.value), r = radius()
+    sv.out.textContent = fmt(v, 1); sb.out.textContent = `${fmt(B, 1)} mT`
+    rR.textContent = `${fmt(r * 1000, r < 0.01 ? 2 : 1)} mm`
+    rT.textContent = `${fmt(((2 * Math.PI * M_E) / (E_CHARGE * B * 1e-3)) * 1e9, 1)} ns`
+    rF.textContent = `${supNum(E_CHARGE * v * 1e6 * B * 1e-3)} N`
+    bKind.textContent = q < 0 ? "Trocar por pósitron" : "Trocar por elétron"
+    msg.textContent =
+      `Os × são o campo entrando na tela. A força (seta laranja) é sempre perpendicular à velocidade (seta cinza): muda a direção, nunca a rapidez, e a partícula anda em círculo. ` +
+      (q < 0 ? "O elétron gira no sentido horário; o pósitron, de carga oposta, giraria ao contrário. " : "O pósitron gira no sentido anti-horário, ao contrário do elétron. ") +
+      "Mais rápida, volta maior; o tempo de uma volta não depende da velocidade." +
+      (r * 1000 * PX_MM < 8 ? " Nesta combinação o círculo fica pequeno demais para a escala do desenho." : "")
+  }
+  const l = loop(box, () => {
+    phi += (q > 0 ? 1 : -1) * Number(sb.input.value) * 0.02
+    tr.push(posAt(phi)); if (tr.length > 160) tr.shift()
+    draw()
+  })
+  ;[sv, sb].forEach((s) => s.input.addEventListener("input", () => { tr = []; render(); draw() }))
+  bKind.addEventListener("click", () => { q = -q; tr = []; render(); draw() })
+  playBtn(box, l, bKind.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function capacitorLab(box: HTMLElement) {
+  const V0 = 9
+  const ctx = canvas(box, 520, 110, "Circuito com bateria, resistor e capacitor")
+  const plot = chart(box, 520, 200, "Voltagem no capacitor ao longo do tempo")
+  axes(plot, 520, 200, 30, "tempo", "voltagem")
+  const full = svg("polyline", { class: "curve bh" }), done = svg("polyline", { class: "curve page" })
+  const dot = svg("circle", { r: 5, class: "pt" })
+  const tauLine = svg("line", { class: "axis" }); tauLine.setAttribute("stroke-dasharray", "3 4")
+  const tauTxt = svg("text", { class: "tick accent", "text-anchor": "middle" }); tauTxt.textContent = "τ"
+  plot.append(tauLine, tauTxt, full, done, dot)
+  const sR = slider(box, "Resistência (kΩ)", 1, 100, 20)
+  const sC = slider(box, "Capacitância (µF)", 10, 100, 50, 10)
+  const [bCh, bDis] = btnRow(box, ["Carregar", "Descarregar"])
+  const [rTau, rT, rV, rQ, rI] = readouts(box, ["τ = RC", "Tempo", "Voltagem", "Carga", "Corrente"])
+  const msg = note(box)
+  let vStart = 0, target = 0, u = 0, Vc = 0
+  const tau = () => Number(sR.input.value) * 1e3 * Number(sC.input.value) * 1e-6
+  const X = (s: number) => 30 + (s / 5) * 480, Yv = (v: number) => 170 - (v / V0) * 150
+  const vAt = (s: number) => target + (vStart - target) * Math.exp(-s)
+  const drawCircuit = () => {
+    ctx.clearRect(0, 0, 520, 110)
+    const g = cssVar("--gray")
+    ctx.strokeStyle = g; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(60, 30); ctx.lineTo(380, 30); ctx.moveTo(60, 90); ctx.lineTo(380, 90)
+    if (target > 0) { ctx.moveTo(60, 30); ctx.lineTo(60, 48); ctx.moveTo(60, 72); ctx.lineTo(60, 90) } else { ctx.moveTo(60, 30); ctx.lineTo(60, 90) }
+    ctx.moveTo(380, 30); ctx.lineTo(380, 52); ctx.moveTo(380, 68); ctx.lineTo(380, 90); ctx.stroke()
+    if (target > 0) {
+      ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(44, 48); ctx.lineTo(76, 48); ctx.stroke()
+      ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(52, 72); ctx.lineTo(68, 72); ctx.stroke()
+    }
+    ctx.fillStyle = g; ctx.font = "12px system-ui, sans-serif"; ctx.textAlign = "left"
+    ctx.fillText(target > 0 ? "bateria de 9 V" : "sem bateria", 72, 64)
+    ctx.clearRect(180, 22, 60, 16); ctx.strokeStyle = g; ctx.beginPath()
+    for (let i = 0; i <= 6; i++) ctx.lineTo(180 + i * 10, 30 + (i % 2 ? -7 : 7) * (i > 0 && i < 6 ? 1 : 0))
+    ctx.stroke()
+    ctx.fillText("R", 205, 52)
+    ctx.lineWidth = 4; ctx.strokeStyle = cssVar("--darkgray")
+    ctx.beginPath(); ctx.moveTo(355, 52); ctx.lineTo(405, 52); ctx.moveTo(355, 68); ctx.lineTo(405, 68); ctx.stroke()
+    const n = Math.round((Vc / V0) * 7)
+    for (let i = 0; i < n; i++) { sign(ctx, 360 + i * 7, 44, true, 3); sign(ctx, 360 + i * 7, 77, false, 3) }
+    ctx.fillStyle = g; ctx.fillText("C", 412, 64)
+    const I = Math.abs(target - Vc) / (Number(sR.input.value) * 1e3)
+    if (I > 1e-6) {
+      const L = 10 + Math.min(40, (I / (V0 / 1e3)) * 40)
+      const dir = target > Vc ? 1 : -1
+      arrow(ctx, 280 - (dir * L) / 2, 18, 280 + (dir * L) / 2, 18, cssVar("--tertiary"), 2)
+    }
+  }
+  const draw = () => {
+    const list: [number, number][] = [], fin: [number, number][] = []
+    for (let i = 0; i <= 100; i++) { const s = (i / 100) * 5; list.push([X(s), Yv(vAt(s))]); if (s <= u) fin.push([X(s), Yv(vAt(s))]) }
+    fin.push([X(u), Yv(Vc)])
+    full.setAttribute("points", pts(list)); done.setAttribute("points", pts(fin))
+    dot.setAttribute("cx", String(X(u))); dot.setAttribute("cy", String(Yv(Vc)))
+    tauLine.setAttribute("x1", String(X(1))); tauLine.setAttribute("x2", String(X(1))); tauLine.setAttribute("y1", "20"); tauLine.setAttribute("y2", "170")
+    tauTxt.setAttribute("x", String(X(1))); tauTxt.setAttribute("y", "16")
+    drawCircuit()
+  }
+  const render = () => {
+    const t = tau()
+    sR.out.textContent = `${sR.input.value} kΩ`; sC.out.textContent = `${sC.input.value} µF`
+    rTau.textContent = t >= 1 ? `${fmt(t, 2)} s` : `${fmt(t * 1000, 0)} ms`
+    const real = u * t
+    rT.textContent = real >= 1 ? `${fmt(real, 2)} s` : `${fmt(real * 1000, 0)} ms`
+    rV.textContent = `${fmt(Vc, 2)} V`
+    rQ.textContent = `${fmt(Number(sC.input.value) * Vc, 0)} µC`
+    rI.textContent = `${fmt((Math.abs(target - Vc) / (Number(sR.input.value) * 1e3)) * 1e3, 3)} mA`
+    const pct = Math.abs(target - vStart) > 0.01 ? (Math.abs(Vc - vStart) / Math.abs(target - vStart)) * 100 : 100
+    const charging = target > vStart
+    msg.textContent =
+      Math.abs(target - vStart) < 0.01
+        ? target > 0 ? "Capacitor já carregado: não passa mais corrente. Experimente descarregar." : "Capacitor vazio. Clique em carregar."
+        : u < 0.9
+          ? `No começo a corrente é máxima e a voltagem ${charging ? "sobe" : "cai"} rápido. Já foi ${fmt(pct, 0)}% do caminho.`
+          : u < 1.1
+            ? `Depois de um tempo τ = RC, o capacitor percorreu cerca de 63% do caminho${charging ? "" : " até ficar vazio"}.`
+            : u < 4.9
+              ? `A corrente vai minguando: ${charging ? "quanto mais cheio, mais devagar enche" : "quanto mais vazio, mais devagar esvazia"}. ${fmt(pct, 0)}% do caminho.`
+              : "Depois de 5τ, mais de 99% do caminho: na prática, terminou. Mude R ou C e veja τ mudar."
+  }
+  const start = (to: number) => { vStart = Vc; target = to; u = 0; render(); draw() }
+  const l = loop(box, () => {
+    if (u >= 5) return
+    u = Math.min(5, u + 5 / 240)
+    Vc = u >= 5 ? target : vAt(u)
+    render(); draw()
+  })
+  bCh.addEventListener("click", () => {
+    start(V0)
+    if (!l.running) { u = 5; Vc = target; render(); draw() }
+  })
+  bDis.addEventListener("click", () => {
+    start(0)
+    if (!l.running) { u = 5; Vc = target; render(); draw() }
+  })
+  ;[sR, sC].forEach((s) => s.input.addEventListener("input", () => (render(), draw())))
+  vStart = 0; target = 0; u = 0; Vc = 0
+  render(); draw()
+}
+
+function ohmLab(box: HTMLElement) {
+  const W = 520, H = 170
+  const ctx = canvas(box, W, H, "Fio com elétrons andando e um resistor que esquenta")
+  const sV = slider(box, "Voltagem (V)", 0, 240, 12)
+  const sR = slider(box, "Resistência (Ω)", 1, 100, 6, 0.1)
+  const [bPile, bShower] = btnRow(box, ["Pilha e lâmpada pequena", "Chuveiro elétrico"])
+  const [rI, rP, rVd] = readouts(box, ["Corrente", "Potência", "Deriva real dos elétrons (fio de 1 mm²)"])
+  const msg = note(box)
+  const r = rng(3)
+  const dots = Array.from({ length: 70 }, () => [r() * W, 52 + r() * 26])
+  const I = () => Number(sV.input.value) / Number(sR.input.value)
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const P = Number(sV.input.value) * I()
+    const heat = Math.min(1, Math.log10(1 + P) / 3.8)
+    ctx.fillStyle = cssVar("--lightgray"); ctx.globalAlpha = 0.5; ctx.fillRect(0, 48, W, 34); ctx.globalAlpha = 1
+    ctx.fillStyle = cssVar("--tertiary"); ctx.globalAlpha = 0.15 + 0.75 * heat
+    ctx.fillRect(210, 44, 100, 42); ctx.globalAlpha = 1
+    ctx.strokeStyle = cssVar("--darkgray"); ctx.lineWidth = 1.5; ctx.strokeRect(210, 44, 100, 42)
+    ctx.fillStyle = cssVar("--secondary")
+    dots.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 2 * Math.PI); ctx.fill() })
+    ctx.fillStyle = cssVar("--gray"); ctx.font = "12px system-ui, sans-serif"; ctx.textAlign = "center"
+    ctx.fillText("resistor", 260, 104)
+    if (I() > 0) {
+      arrow(ctx, 60, 126, 140, 126, cssVar("--tertiary"), 2.5)
+      ctx.fillText("sentido da corrente (convenção)", 100, 148)
+      arrow(ctx, 470, 126, 390, 126, cssVar("--secondary"), 2.5)
+      ctx.fillText("sentido dos elétrons", 430, 148)
+    }
+    ctx.textAlign = "left"; ctx.fillText("+", 6, 40); ctx.textAlign = "right"; ctx.fillText("−", W - 6, 40)
+  }
+  const render = () => {
+    const v = Number(sV.input.value), R = Number(sR.input.value), i = I(), P = v * i
+    sV.out.textContent = `${fmt(v, 1)} V`; sR.out.textContent = `${fmt(R, 1)} Ω`
+    rI.textContent = i >= 1 ? `${fmt(i, 2)} A` : `${fmt(i * 1000, 0)} mA`
+    rP.textContent = P >= 1000 ? `${fmt(P / 1000, 2)} kW` : `${fmt(P, P >= 10 ? 0 : 2)} W`
+    rVd.textContent = `${fmt((i / (8.49e28 * E_CHARGE * 1e-6)) * 1000, 3)} mm/s`
+    const tag = Math.abs(v - 220) < 0.5 && Math.abs(R - 8.8) < 0.05 ? "chuveiro" : Math.abs(v - 1.5) < 0.6 && Math.abs(R - 5) < 0.05 ? "pilha" : ""
+    msg.textContent =
+      v === 0
+        ? "Sem voltagem, os elétrons só se agitam ao acaso: nenhuma corrente líquida."
+        : tag === "chuveiro"
+          ? "Um chuveiro de 5500 W em 220 V: 25 A atravessando 8,8 Ω. É por isso que ele pede fio grosso e disjuntor próprio."
+          : `I = V/R. Dobre a voltagem e a corrente dobra; dobre a resistência e ela cai pela metade. Mesmo com ${rI.textContent}, os elétrons andam devagar: o que viaja rápido é o empurrão do campo.`
+    bPile.setAttribute("aria-pressed", String(tag === "pilha")); bShower.setAttribute("aria-pressed", String(tag === "chuveiro"))
+  }
+  const l = loop(box, () => {
+    const sp = Math.min(5, Math.sqrt(I()) * 0.9)
+    dots.forEach((d) => { d[0] -= sp * (0.7 + 0.6 * ((d[1] * 7) % 1)); if (d[0] < 0) d[0] += W; d[1] += (Math.random() - 0.5) * 0.8; d[1] = Math.max(52, Math.min(78, d[1])) })
+    draw()
+  })
+  ;[sV, sR].forEach((s) => s.input.addEventListener("input", () => (render(), draw())))
+  bPile.addEventListener("click", () => { sV.input.step = "0.5"; sV.input.value = "1.5"; sR.input.value = "5"; render(); draw() })
+  bShower.addEventListener("click", () => { sV.input.value = "220"; sR.input.value = "8.8"; render(); draw() })
+  sV.input.addEventListener("input", () => { if (Number(sV.input.value) > 2) sV.input.step = "1" })
+  playBtn(box, l, bPile.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function circuitLab(box: HTMLElement) {
+  const W = 520, H = 250
+  const s = chart(box, W, H, "Duas lâmpadas ligadas a uma bateria")
+  const gWire = svg("g", {}), gDots = svg("g", {}), gBulb = svg("g", {})
+  s.append(gWire, gDots, gBulb)
+  const sV = slider(box, "Voltagem da bateria (V)", 1, 12, 9)
+  const s1 = slider(box, "Resistência da lâmpada 1 (Ω)", 10, 500, 100, 10)
+  const s2 = slider(box, "Resistência da lâmpada 2 (Ω)", 10, 500, 200, 10)
+  const [bSer, bPar] = btnRow(box, ["Em série", "Em paralelo"])
+  const [rReq, rI, rL1, rL2] = readouts(box, ["Resistência equivalente", "Corrente da bateria", "Lâmpada 1", "Lâmpada 2"])
+  const msg = note(box)
+  let series = true
+  let paths: SVGPathElement[] = [], phase = 0
+  const layout = () => {
+    gWire.replaceChildren(); gBulb.replaceChildren()
+    const d = series
+      ? ["M 70 120 L 70 40 L 460 40 L 460 210 L 70 210 L 70 140"]
+      : ["M 70 120 L 70 40 L 240 40 L 240 210 L 70 210 L 70 140", "M 70 120 L 70 40 L 440 40 L 440 210 L 70 210 L 70 140"]
+    paths = d.map((p) => {
+      const e = svg("path", { d: p, fill: "none", stroke: "var(--gray)", "stroke-width": 2 }) as SVGPathElement
+      gWire.appendChild(e)
+      return e
+    })
+    gWire.append(svg("line", { x1: 52, x2: 88, y1: 120, y2: 120, stroke: "var(--darkgray)", "stroke-width": 2 }), svg("line", { x1: 60, x2: 80, y1: 140, y2: 140, stroke: "var(--darkgray)", "stroke-width": 5 }))
+    const lab = svg("text", { x: 96, y: 134, class: "tick" }); lab.textContent = "bateria"; gWire.appendChild(lab)
+  }
+  const bulbAt = (x: number, y: number, P: number, Pmax: number, name: string, I: number, Vb: number) => {
+    const glow = Math.min(1, Math.sqrt(P / Pmax))
+    gBulb.append(
+      svg("circle", { cx: x, cy: y, r: 30, fill: "var(--tertiary)", opacity: 0.1 + 0.6 * glow }),
+      svg("circle", { cx: x, cy: y, r: 15, fill: "var(--light)", stroke: "var(--darkgray)", "stroke-width": 2 }),
+      svg("circle", { cx: x, cy: y, r: 11, fill: "var(--tertiary)", opacity: 0.08 + 0.92 * glow }),
+    )
+    const right = x > 400 || !series, tx = right ? x - 22 : x + 22, anchor = right ? "end" : "start"
+    const t = svg("text", { x: tx, y: y - 20, class: "tick", "text-anchor": anchor }); t.textContent = name
+    const t2 = svg("text", { x: tx, y: y + 30, class: "tick accent", "text-anchor": anchor }); t2.textContent = `${fmt(I * 1000, 1)} mA, ${fmt(Vb, 2)} V`
+    gBulb.append(t, t2)
+  }
+  const solve = () => {
+    const V = Number(sV.input.value), R1 = Number(s1.input.value), R2 = Number(s2.input.value)
+    if (series) { const I = V / (R1 + R2); return { V, R1, R2, Req: R1 + R2, I, I1: I, I2: I, V1: I * R1, V2: I * R2 } }
+    const Req = 1 / (1 / R1 + 1 / R2)
+    return { V, R1, R2, Req, I: V / Req, I1: V / R1, I2: V / R2, V1: V, V2: V }
+  }
+  const draw = () => {
+    const c = solve()
+    gBulb.replaceChildren()
+    const Pm = 1.5
+    if (series) { bulbAt(200, 40, c.I1 * c.V1, Pm, "lâmpada 1", c.I1, c.V1); bulbAt(460, 125, c.I2 * c.V2, Pm, "lâmpada 2", c.I2, c.V2) }
+    else { bulbAt(240, 125, c.I1 * c.V1, Pm, "lâmpada 1", c.I1, c.V1); bulbAt(440, 125, c.I2 * c.V2, Pm, "lâmpada 2", c.I2, c.V2) }
+    gDots.replaceChildren()
+    const currents = series ? [c.I] : [c.I1, c.I2]
+    paths.forEach((p, k) => {
+      const L = p.getTotalLength()
+      const off = (phase * Math.min(4, currents[k] * 40)) % 30
+      for (let a = L - off; a > 0; a -= 30) {
+        const q = p.getPointAtLength(a)
+        gDots.appendChild(svg("circle", { cx: q.x, cy: q.y, r: 2.6, fill: "var(--secondary)" }))
+      }
+    })
+  }
+  const render = () => {
+    const c = solve()
+    sV.out.textContent = `${c.V} V`; s1.out.textContent = `${c.R1} Ω`; s2.out.textContent = `${c.R2} Ω`
+    rReq.textContent = `${fmt(c.Req, 1)} Ω`
+    rI.textContent = `${fmt(c.I * 1000, 1)} mA`
+    rL1.textContent = `${fmt(c.V1, 2)} V · ${fmt(c.I1 * c.V1 * 1000, 0)} mW`
+    rL2.textContent = `${fmt(c.V2, 2)} V · ${fmt(c.I2 * c.V2 * 1000, 0)} mW`
+    bSer.setAttribute("aria-pressed", String(series)); bPar.setAttribute("aria-pressed", String(!series))
+    msg.textContent = series
+      ? `Em série, a mesma corrente passa pelas duas e as voltagens se somam: ${fmt(c.V1, 2)} + ${fmt(c.V2, 2)} = ${fmt(c.V, 2)} V. A resistência total é a soma, e as lâmpadas ficam mais fracas.`
+      : `Em paralelo, cada lâmpada recebe a voltagem inteira e as correntes se somam: ${fmt(c.I1 * 1000, 1)} + ${fmt(c.I2 * 1000, 1)} = ${fmt(c.I * 1000, 1)} mA. A resistência total fica menor que a menor delas. É assim que se ligam os aparelhos de uma casa.`
+  }
+  const l = loop(box, () => { phase += 1; draw() })
+  ;[sV, s1, s2].forEach((x) => x.input.addEventListener("input", () => (render(), draw())))
+  bSer.addEventListener("click", () => { series = true; layout(); render(); draw() })
+  bPar.addEventListener("click", () => { series = false; layout(); render(); draw() })
+  playBtn(box, l, bSer.parentElement as HTMLElement)
+  layout(); render(); draw()
+}
+
+function wireField(box: HTMLElement) {
+  const W = 360, H = 360, C = 180, PX_CM = 32
+  const ctx = canvas(box, W, H, "Fio visto de frente, cercado de bússolas")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "380px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const sI = slider(box, "Corrente no fio (A, positiva saindo da tela)", -20, 20, 0)
+  const sr = slider(box, "Distância do ponto medido (cm)", 0.5, 5, 1, 0.5)
+  const [bEarth] = btnRow(box, ["Campo da Terra: ligado"])
+  const [rB, rRatio] = readouts(box, ["Campo do fio no ponto", "Comparado à Terra (componente horizontal, ~30 µT)"])
+  const msg = note(box)
+  let earth = true
+  const BE = 30
+  const Bwire = (rcm: number) => (MU0 * Number(sI.input.value)) / (2 * Math.PI * (rcm / 100)) * 1e6
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const I = Number(sI.input.value)
+    ctx.strokeStyle = cssVar("--lightgray"); ctx.lineWidth = 1
+    for (const rc of [1.25, 2.5, 3.75, 5]) { ctx.beginPath(); ctx.arc(C, C, rc * PX_CM, 0, 2 * Math.PI); ctx.stroke() }
+    const rp = Number(sr.input.value) * PX_CM
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.arc(C, C, rp, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([])
+    for (const rc of [1.25, 2.5, 3.75, 5])
+      for (let k = 0; k < 8; k++) {
+        const a = (2 * Math.PI * k) / 8 + (rc === 2.5 || rc === 5 ? Math.PI / 8 : 0)
+        const x = C + rc * PX_CM * Math.cos(a), y = C - rc * PX_CM * Math.sin(a)
+        const bw = Bwire(rc)
+        let bx = -Math.sin(a) * bw, by = Math.cos(a) * bw
+        if (earth) by += BE
+        const m = Math.hypot(bx, by)
+        ctx.fillStyle = cssVar("--light"); ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 1
+        ctx.beginPath(); ctx.arc(x, y, 12, 0, 2 * Math.PI); ctx.fill(); ctx.stroke()
+        if (m < 1e-9) continue
+        const ux = bx / m, uy = -by / m
+        ctx.lineWidth = 3
+        ctx.strokeStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + ux * 10, y + uy * 10); ctx.stroke()
+        ctx.strokeStyle = cssVar("--gray"); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - ux * 10, y - uy * 10); ctx.stroke()
+      }
+    ctx.fillStyle = cssVar("--darkgray"); ctx.beginPath(); ctx.arc(C, C, 11, 0, 2 * Math.PI); ctx.fill()
+    ctx.strokeStyle = cssVar("--light"); ctx.fillStyle = cssVar("--light"); ctx.lineWidth = 2
+    if (I > 0) { ctx.beginPath(); ctx.arc(C, C, 3, 0, 2 * Math.PI); ctx.fill() }
+    if (I < 0) { ctx.beginPath(); ctx.moveTo(C - 5, C - 5); ctx.lineTo(C + 5, C + 5); ctx.moveTo(C + 5, C - 5); ctx.lineTo(C - 5, C + 5); ctx.stroke() }
+    if (earth) { arrow(ctx, W - 24, 70, W - 24, 24, cssVar("--gray"), 2); ctx.fillStyle = cssVar("--gray"); ctx.font = "11px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillText("norte", W - 24, 84) }
+  }
+  const render = () => {
+    const I = Number(sI.input.value), rc = Number(sr.input.value), b = Math.abs(Bwire(rc))
+    sI.out.textContent = `${fmtSigned(I, 0)} A`; sr.out.textContent = `${fmt(rc, 1)} cm`
+    rB.textContent = `${fmt(b, b >= 10 ? 0 : 1)} µT`
+    rRatio.textContent = I === 0 ? "—" : `${fmt(b / BE, 2)} vezes`
+    bEarth.textContent = earth ? "Campo da Terra: ligado" : "Campo da Terra: desligado"
+    bEarth.setAttribute("aria-pressed", String(earth))
+    msg.textContent =
+      I === 0
+        ? earth ? "Sem corrente, todas as bússolas apontam para o norte da Terra. Aumente a corrente, como Ørsted em 1820." : "Sem corrente e sem a Terra: nenhum campo, as agulhas ficam soltas."
+        : `A corrente cria um campo em círculos em volta do fio (${I > 0 ? "anti-horário, com a corrente saindo da tela" : "horário, com a corrente entrando na tela"}): regra da mão direita. Ele cai com 1/r. ` +
+          (!earth
+            ? "Sem a Terra, só o campo do fio: as agulhas formam círculos completos."
+            : `A cerca de ${fmt((20 * Math.abs(I)) / BE, 1)} cm os dois campos se igualam: mais perto, o fio manda; mais longe, a Terra.`)
+  }
+  ;[sI, sr].forEach((s) => s.input.addEventListener("input", () => (render(), draw())))
+  bEarth.addEventListener("click", () => { earth = !earth; render(); draw() })
+  render(); draw()
+}
+
+function inductionLab(box: HTMLElement) {
+  const W = 520, H = 236, COIL = 300, PX_M = 2000
+  const ctx = canvas(box, W, H, "Ímã passando por dentro de uma bobina ligada a um medidor")
+  const plot = chart(box, 520, 150, "Fluxo magnético e tensão induzida ao longo do tempo")
+  const zero = svg("line", { x1: 10, x2: 510, y1: 75, y2: 75, class: "axis" })
+  const lF = svg("polyline", { class: "curve alt" }), lE = svg("polyline", { class: "curve page" })
+  plot.append(zero, lF, lE)
+  const sN = slider(box, "Número de voltas da bobina", 10, 200, 100, 10)
+  const sw = slider(box, "Rapidez do vaivém", 1, 10, 4)
+  const [rPhi, rEmf] = readouts(box, ["Fluxo numa volta (azul)", "Voltagem induzida (laranja)"])
+  const msg = note(box)
+  const PHI0 = 1e-4, A = 0.03
+  const phi = (x: number) => PHI0 / (1 + (x / A) ** 2) ** 1.5
+  let x = -0.09, t = 0, emf = 0, hist: [number, number][] = [], dragging = false, dragX = x
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const g = cssVar("--gray")
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 3
+    ctx.strokeStyle = g; ctx.lineWidth = 1.5
+    ctx.beginPath(); ctx.moveTo(COIL - 30, 129); ctx.lineTo(COIL - 30, 214); ctx.moveTo(COIL + 30, 129); ctx.lineTo(COIL + 30, 214); ctx.stroke()
+    ctx.fillStyle = cssVar("--light"); ctx.strokeStyle = cssVar("--darkgray")
+    ctx.beginPath(); ctx.arc(COIL, 216, 42, Math.PI, 2 * Math.PI); ctx.closePath(); ctx.fill(); ctx.stroke()
+    const ang = Math.max(-1, Math.min(1, emf / 0.06)) * 1.3
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 2.5
+    ctx.beginPath(); ctx.moveTo(COIL, 216); ctx.lineTo(COIL + 34 * Math.sin(ang), 216 - 34 * Math.cos(ang)); ctx.stroke()
+    ctx.fillStyle = g; ctx.font = "11px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillText("0", COIL, 190)
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 3
+    for (let k = 0; k < 7; k++) { ctx.beginPath(); ctx.ellipse(COIL - 30 + k * 10, 95, 7, 34, 0, Math.PI / 2, (3 * Math.PI) / 2); ctx.stroke() }
+    const mx = COIL + x * PX_M
+    ctx.fillStyle = cssVar("--secondary"); ctx.fillRect(mx - 40, 83, 40, 24)
+    ctx.fillStyle = cssVar("--tertiary"); ctx.fillRect(mx, 83, 40, 24)
+    ctx.fillStyle = cssVar("--light"); ctx.font = "bold 12px system-ui, sans-serif"; ctx.fillText("S", mx - 20, 100); ctx.fillText("N", mx + 20, 100)
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 3
+    for (let k = 0; k < 7; k++) { ctx.beginPath(); ctx.ellipse(COIL - 30 + k * 10, 95, 7, 34, 0, -Math.PI / 2, Math.PI / 2); ctx.stroke() }
+    const Yf = (v: number) => 140 - (v / PHI0) * 125, Ye = (v: number) => 75 - Math.max(-1.1, Math.min(1.1, v / 0.06)) * 60
+    lF.setAttribute("points", pts(hist.map(([f], i) => [10 + i, Yf(f)])))
+    lE.setAttribute("points", pts(hist.map(([, e], i) => [10 + i, Ye(e)])))
+  }
+  const render = () => {
+    sN.out.textContent = sN.input.value; sw.out.textContent = sw.input.value
+    rPhi.textContent = `${fmt(phi(x) * 1e6, 0)} µWb`
+    rEmf.textContent = `${fmtSigned(emf * 1000, 0)} mV`
+    const moving = Math.abs(emf) > 0.002
+    msg.textContent = !l.running && !dragging && !moving
+      ? "Ímã parado: o fluxo não muda e o medidor fica no zero, mesmo com o ímã dentro da bobina. Arraste o ímã ou rode o vaivém."
+      : Math.abs(x) < 0.008
+        ? "No meio da bobina o fluxo é máximo, mas por um instante não está mudando: a voltagem passa por zero e troca de sinal."
+        : "Só aparece voltagem enquanto o fluxo muda. Entrando, o ponteiro vai para um lado; saindo, para o outro. Mais voltas ou mais rapidez, mais voltagem."
+  }
+  const step = (nx: number, dt: number) => {
+    const N = Number(sN.input.value)
+    const e = (-N * (phi(nx) - phi(x))) / dt
+    emf = emf * 0.6 + e * 0.4
+    x = nx
+    hist.push([phi(x), emf]); if (hist.length > 500) hist.shift()
+  }
+  const l = loop(box, () => {
+    if (dragging) return
+    t += (Number(sw.input.value) * 0.5) / 60
+    step(-0.09 * Math.cos(t), 1 / 60)
+    render(); draw()
+  })
+  const idle = loop(box, () => {
+    if (l.running && !dragging) return
+    step(dragging ? dragX : x, 1 / 60)
+    render(); draw()
+  })
+  idle.running = true
+  pointer(ctx, W, H, (px, py) => {
+    if (Math.abs(px - (COIL + x * PX_M)) < 45 && py > 70 && py < 120) { dragging = true; dragX = x; l.running = false; sync(); return true }
+    return false
+  }, (px, _py, d) => {
+    if (d) dragX = Math.max(-0.12, Math.min(0.09, (px - COIL) / PX_M))
+  }, () => { dragging = false; t = Math.acos(Math.max(-1, Math.min(1, -x / 0.09))) })
+  const sync = playBtn(box, l)
+  sN.input.addEventListener("input", () => (render(), draw()))
+  sw.input.addEventListener("input", render)
+  render(); draw()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -2763,6 +3678,17 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "spring-pendulum": ["Laboratório: o pêndulo de mola", springPendulum],
   phase: ["Laboratório: o espaço de fase", phaseSpace],
   noether: ["Laboratório: simetria e conservação", noetherLab],
+  charges: ["Laboratório: esfregando um balão", chargesLab],
+  magnet: ["Laboratório: um ímã e muitas bússolas", magnetLab],
+  coulomb: ["Laboratório: a força entre duas cargas", coulombLab],
+  "field-lines": ["Laboratório: desenhando o campo elétrico", fieldLines],
+  potential: ["Laboratório: a paisagem do potencial", potentialLab],
+  cyclotron: ["Laboratório: uma carga num campo magnético", cyclotronLab],
+  capacitor: ["Laboratório: carregando um capacitor", capacitorLab],
+  ohm: ["Laboratório: a lei de Ohm num fio", ohmLab],
+  circuit: ["Laboratório: série ou paralelo?", circuitLab],
+  "wire-field": ["Laboratório: o experimento de Ørsted", wireField],
+  induction: ["Laboratório: um ímã atravessando a bobina", inductionLab],
 }
 
 function mountLabs() {

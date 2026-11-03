@@ -28,6 +28,13 @@ RHO_WATER = 1000.0
 RHO_ICE = 917.0
 RHO_SEAWATER = 1025.0
 ATM = 101325.0
+E_CHARGE = 1.602176634e-19
+M_ELECTRON = 9.1093837e-31
+M_PROTON = 1.67262192e-27
+EPS0 = 8.8541878128e-12
+MU0 = 1.25663706212e-6
+K_E = 1 / (4 * math.pi * EPS0)
+N_COPPER = 8.49e28
 
 
 def escape_velocity(m, r):
@@ -250,4 +257,21 @@ FORMULAS = {
     "action_delta_a05": lambda: action_perturbed(0.5) - action_perturbed(0.0),
     "pendulum_separatrix_energy": lambda: 2 * 1 * G0 * 1,
     "earth_orbital_angular_momentum": lambda: M_EARTH * 29780 * AU,
+    "electrons_per_coulomb": lambda: 1 / E_CHARGE,
+    "coulomb_constant": lambda: K_E,
+    "electric_over_gravity_pe": lambda: K_E * E_CHARGE**2 / (G * M_PROTON * M_ELECTRON),
+    "coulomb_two_1uc_10cm": lambda: K_E * 1e-6 * 1e-6 / 0.1**2,
+    "field_1nc_1m": lambda: K_E * 1e-9 / 1**2,
+    "electron_speed_100v": lambda: math.sqrt(2 * E_CHARGE * 100 / M_ELECTRON),
+    "electron_radius_1e6_1mt": lambda: M_ELECTRON * 1e6 / (E_CHARGE * 1e-3),
+    "plate_capacitor_1m2_1mm_nf": lambda: EPS0 * 1 / 1e-3 * 1e9,
+    "rc_charge_one_tau_percent": lambda: (1 - math.exp(-1)) * 100,
+    "shower_current_5500w_220v": lambda: 5500 / 220,
+    "shower_resistance_5500w_220v": lambda: 220**2 / 5500,
+    "drift_speed_copper_1a_1mm2": lambda: 1 / (N_COPPER * E_CHARGE * 1e-6),
+    "series_100_200_9v_ma": lambda: 9 / 300 * 1e3,
+    "parallel_100_200": lambda: 1 / (1 / 100 + 1 / 200),
+    "wire_field_10a_1cm_ut": lambda: MU0 * 10 / (2 * math.pi * 0.01) * 1e6,
+    "coil_emf_100turns": lambda: 100 * 0.01 * 0.1 / 0.1,
+    "generator_peak_emf_60hz": lambda: 200 * 0.05 * 0.02 * 2 * math.pi * 60,
 }
