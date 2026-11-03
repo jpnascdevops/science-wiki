@@ -60,6 +60,7 @@ function setupConceptPage(bar: HTMLElement) {
     s.has(id) ? s.delete(id) : s.add(id)
     writeStudied(s)
     paint()
+    paintStars()
   }
   studyBtn.addEventListener("click", toggle)
   window.addCleanup(() => studyBtn.removeEventListener("click", toggle))
@@ -139,8 +140,27 @@ function setupTrailTable(table: Element) {
   table.parentElement?.insertBefore(box, table)
 }
 
+function paintStars() {
+  const studied = readStudied()
+  document.querySelectorAll<SVGGElement>(".wv-star[data-id]").forEach((g) => {
+    g.classList.toggle("studied", studied.has(g.dataset.id!) && !g.classList.contains("current"))
+  })
+}
+
+function paintCards() {
+  const studied = readStudied()
+  document.querySelectorAll<HTMLElement>(".wv-card[data-ids]").forEach((card) => {
+    const ids = (card.dataset.ids ?? "").split(" ").filter((x) => x)
+    const count = ids.filter((id) => studied.has(id)).length
+    const out = card.querySelector(".wv-card-progress")
+    if (out) out.textContent = count ? `${count} estudados` : ""
+  })
+}
+
 document.addEventListener("nav", () => {
   const bar = document.querySelector<HTMLElement>(".study-tools")
   if (bar) setupConceptPage(bar)
-  if (location.pathname.replace(/\/$/, "").endsWith("/roadmap") || location.pathname.endsWith("roadmap.html")) setupRoadmap()
+  if (location.pathname.includes("/trails/")) setupRoadmap()
+  paintStars()
+  paintCards()
 })

@@ -1,0 +1,572 @@
+@use "./base.scss";
+
+:root {
+  --amber: #a85c0c;
+  --cyan: #1d6a80;
+  --glow: rgba(168, 92, 12, 0.16);
+  --card: rgba(255, 255, 255, 0.55);
+  --card-border: rgba(18, 26, 48, 0.1);
+  --planned: rgba(18, 26, 48, 0.28);
+}
+
+:root[saved-theme="dark"] {
+  --amber: #f2b35a;
+  --cyan: #7fd0e3;
+  --glow: rgba(242, 179, 90, 0.22);
+  --card: rgba(20, 28, 54, 0.55);
+  --card-border: rgba(127, 208, 227, 0.14);
+  --planned: rgba(194, 202, 224, 0.28);
+}
+
+body {
+  background-color: var(--light);
+}
+
+:root[saved-theme="dark"] body {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(1px 1px at 72% 9%, rgba(255, 255, 255, 0.4), transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 64%, rgba(242, 179, 90, 0.45), transparent 60%),
+    radial-gradient(1px 1px at 88% 52%, rgba(127, 208, 227, 0.45), transparent 60%),
+    radial-gradient(1px 1px at 22% 86%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1px 1px at 58% 32%, rgba(255, 255, 255, 0.3), transparent 60%),
+    radial-gradient(900px 600px at 85% -10%, rgba(127, 208, 227, 0.07), transparent 70%),
+    radial-gradient(800px 600px at -10% 110%, rgba(242, 179, 90, 0.05), transparent 70%);
+  background-size: 420px 420px, 380px 380px, 520px 520px, 460px 460px, 340px 340px, 300px 300px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+}
+
+.page-title a {
+  font-family: var(--headerFont);
+  letter-spacing: -0.02em;
+}
+
+article h2 {
+  margin-top: 2.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+a.internal {
+  background-color: transparent;
+  color: var(--secondary);
+  border-bottom: 1px solid color-mix(in srgb, var(--secondary) 35%, transparent);
+  border-radius: 0;
+  padding: 0;
+}
+
+a.internal:hover {
+  color: var(--tertiary);
+  border-bottom-color: var(--tertiary);
+}
+
+.katex-display {
+  margin: 1.4rem 0;
+  padding: 1.1rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--amber) 40%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--amber) 6%, transparent);
+  box-shadow: 0 0 28px var(--glow);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.callout {
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+}
+
+.callout[data-callout="abstract"] {
+  border-left: 3px solid var(--amber);
+  --color: var(--amber);
+  --bg: var(--card);
+  --border: var(--card-border);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+article table th {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  color: var(--darkgray);
+  border-bottom: 1px solid var(--gray);
+}
+
+article table td {
+  border-bottom: 1px solid var(--lightgray);
+}
+
+ul.tags {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lightgray);
+}
+
+.wv-intro {
+  font-size: 1.1rem;
+  color: var(--darkgray);
+  margin: 0.4rem 0 1.4rem;
+}
+
+.wv-label {
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-right: 0.5rem;
+}
+
+.wv-chip {
+  display: inline-block;
+  font-size: 0.88rem;
+  padding: 0.15rem 0.6rem;
+  margin: 0.15rem 0.35rem 0.15rem 0;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+}
+
+a.wv-chip.internal {
+  border: 1px solid color-mix(in srgb, var(--secondary) 40%, transparent);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  background: var(--card);
+}
+
+.wv-event-links a.wv-chip.internal {
+  padding: 0.05rem 0.5rem;
+}
+
+a.wv-chip.internal:hover {
+  border-color: var(--tertiary);
+}
+
+.wv-chip.planned {
+  color: var(--gray);
+  border-style: dashed;
+}
+
+.wv-concept {
+  margin: 0.2rem 0 1.2rem;
+}
+
+.wv-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 0.8rem;
+  font-family: var(--codeFont);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.wv-badge {
+  color: var(--darkgray);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.wv-badge.draft {
+  color: var(--amber);
+  border-color: color-mix(in srgb, var(--amber) 45%, transparent);
+}
+
+.wv-trailbox {
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 0.7rem 0.9rem 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.wv-strip {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.wv-path,
+.wv-edge {
+  stroke: color-mix(in srgb, var(--secondary) 35%, transparent);
+  stroke-width: 1.5;
+}
+
+.wv-star .wv-dot {
+  fill: var(--secondary);
+  stroke: var(--light);
+  stroke-width: 2;
+}
+
+.wv-star.planned .wv-dot {
+  fill: var(--light);
+  stroke: var(--planned);
+  stroke-dasharray: 3 3;
+}
+
+.wv-star.current .wv-dot {
+  fill: var(--amber);
+}
+
+.wv-star.studied .wv-dot {
+  fill: var(--amber);
+}
+
+.wv-halo {
+  fill: var(--glow);
+}
+
+.wv-num {
+  fill: var(--gray);
+  font-family: var(--codeFont);
+  font-size: 15px;
+  text-anchor: middle;
+}
+
+.wv-star.current .wv-num {
+  fill: var(--amber);
+  font-weight: 700;
+}
+
+a .wv-star:hover .wv-dot {
+  fill: var(--tertiary);
+}
+
+.wv-trailnote {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--darkgray);
+}
+
+.wv-also {
+  color: var(--gray);
+}
+
+.wv-nav > div,
+.wv-history {
+  margin: 0.35rem 0;
+}
+
+.wv-history .wv-label + a,
+.wv-history a + .wv-label {
+  margin-left: 0;
+}
+
+.wv-history .wv-label:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.wv-hero {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.wv-eyebrow {
+  font-family: var(--codeFont);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin: 0;
+}
+
+.wv-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.08;
+  margin: 0.6rem 0 1rem;
+  max-width: 16ch;
+}
+
+.wv-lede {
+  font-size: 1.15rem;
+  color: var(--darkgray);
+  max-width: 58ch;
+}
+
+.wv-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.4rem 0 2rem;
+}
+
+a.wv-btn.internal {
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+a.wv-btn.primary.internal {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--light);
+  box-shadow: 0 0 22px var(--glow);
+}
+
+a.wv-btn.internal:hover {
+  border-color: var(--tertiary);
+}
+
+.wv-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.wv-stats > div {
+  border-top: 1px solid var(--card-border);
+  padding-top: 0.6rem;
+}
+
+.wv-stats dt {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+.wv-stats dd {
+  margin: 0;
+  font-family: var(--headerFont);
+  font-size: 1.9rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--dark);
+}
+
+.wv-stats small {
+  font-size: 0.95rem;
+  color: var(--gray);
+}
+
+.wv-section {
+  border-bottom: none !important;
+}
+
+.wv-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.9rem;
+  margin: 1rem 0 2rem;
+}
+
+a.wv-card.internal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1rem 0.85rem;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--darkgray);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+a.wv-card.internal:hover {
+  border-color: color-mix(in srgb, var(--amber) 60%, transparent);
+  transform: translateY(-2px);
+}
+
+.wv-card-title {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: var(--dark);
+}
+
+.wv-card-summary {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.wv-meter {
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--lightgray);
+  overflow: hidden;
+}
+
+.wv-meter i {
+  display: block;
+  height: 100%;
+  background: var(--secondary);
+}
+
+.wv-card-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--gray);
+  font-variant-numeric: tabular-nums;
+}
+
+.wv-card-progress {
+  color: var(--amber);
+}
+
+.wv-map {
+  margin: 0 0 2rem;
+  padding: 0.8rem;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.wv-map svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.wv-map .wv-n {
+  fill: var(--light);
+  font-family: var(--codeFont);
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.wv-map .planned .wv-n {
+  fill: var(--gray);
+}
+
+.wv-map figcaption {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-top: 0.6rem;
+}
+
+.wv-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 0.25rem 0 0.6rem;
+  vertical-align: -1px;
+}
+
+.wv-key.written {
+  background: var(--secondary);
+}
+
+.wv-key.planned {
+  border: 1px dashed var(--gray);
+}
+
+.wv-key.studied {
+  background: var(--amber);
+}
+
+.wv-timeline {
+  list-style: none;
+  margin: 1.5rem 0 2rem;
+  padding: 0 0 0 1.6rem;
+  border-left: 1px solid color-mix(in srgb, var(--secondary) 35%, transparent);
+}
+
+.wv-era {
+  position: relative;
+  margin: 0 0 2.2rem;
+  scroll-margin-top: 1rem;
+}
+
+.wv-era-dot {
+  position: absolute;
+  left: calc(-1.6rem - 6px);
+  top: 0.35rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px var(--light), 0 0 18px var(--glow);
+}
+
+.wv-span {
+  font-family: var(--codeFont);
+  font-size: 0.78rem;
+  color: var(--amber);
+  margin: 0;
+}
+
+.wv-era h2 {
+  margin: 0.2rem 0 0.7rem;
+  border: none;
+  padding: 0;
+}
+
+.wv-events {
+  padding-left: 1.1rem;
+  margin: 0 0 0.6rem;
+}
+
+.wv-events li {
+  margin: 0.3rem 0;
+}
+
+.wv-event-links {
+  margin-left: 0.4rem;
+}
+
+.wv-event-links .wv-chip {
+  font-size: 0.78rem;
+  padding: 0.05rem 0.5rem;
+}
+
+.wv-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+}
+
+a.wv-person.internal {
+  font-size: 0.82rem;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: var(--card);
+}
+
+.wv-superseded {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+@media (max-width: 600px) {
+  .wv-hero {
+    padding-top: 1.2rem;
+  }
+
+  .wv-stats dd {
+    font-size: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.wv-card.internal {
+    transition: none;
+  }
+
+  a.wv-card.internal:hover {
+    transform: none;
+  }
+}

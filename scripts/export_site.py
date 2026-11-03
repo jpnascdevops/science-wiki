@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from wiki import ROOT, ancestors, children, depth, load_all, load_map, load_yaml, topo_order
+from wiki import ROOT, ancestors, children, load_all, load_map, load_yaml, topo_order
 
 OUT = ROOT / "site" / "content"
 LEVEL_PT = {"zero": "do zero", "intermediate": "intermediário", "technical": "técnico"}
@@ -29,11 +29,6 @@ CONSENSUS_PT = {
     "debated": "em debate",
     "speculative": "especulativo",
     "superseded": "superado",
-}
-REVIEW_PT = {
-    "draft": ("warning", "Rascunho: ainda não revisado por uma pessoa."),
-    "auto_checked": ("info", "Checado automaticamente; falta revisão humana."),
-    "human_reviewed": ("success", "Revisado por uma pessoa."),
 }
 
 
@@ -118,49 +113,85 @@ def flat_tags(meta):
     return out
 
 
-def render_concept(concepts, nodes, kids, history, cid, symbols):
+def trail_info(nodes, order, trails):
+    info = []
+    for t in trails:
+        ids = ancestors(nodes, t["targets"])
+        info.append({"id": t["id"], "title": t["title"], "summary": t["summary"], "order": [c for c in order if c in ids]})
+    return info
+
+
+def node_ref(concepts, nodes, cid):
+    return {"id": cid, "title": nodes[cid].title, "written": cid in concepts}
+
+
+def concept_view(concepts, nodes, kids, history, tinfo, module_titles, cid):
+    m = concepts[cid].meta
+    containing = sorted((t for t in tinfo if cid in t["order"]), key=lambda t: len(t["order"]))
+    trails = []
+    for t in containing:
+        pos = t["order"].index(cid)
+        lo = max(0, min(pos - 3, len(t["order"]) - 7))
+        window = t["order"][lo:lo + 7]
+        trails.append({
+            "id": t["id"], "title": t["title"], "pos": pos + 1, "total": len(t["order"]),
+            "window": [dict(node_ref(concepts, nodes, w), current=w == cid, n=t["order"].index(w) + 1) for w in window],
+        })
+    era = m["tags"].get("era")
+    return {
+        "kind": "concept",
+        "module": module_titles[nodes[cid].module],
+        "review": m["review"]["status"],
+        "consensus": CONSENSUS_PT[m["consensus"]],
+        "checked": str(m["review"].get("checked_at") or ""),
+        "before": [node_ref(concepts, nodes, p) for p in nodes[cid].requires],
+        "after": [node_ref(concepts, nodes, n) for n in kids[cid]],
+        "trails": trails,
+        "era": {"title": history["eras"][era]["title"], "anchor": heading_slug(history["eras"][era]["title"])} if era else None,
+        "people": [{"id": p, "name": history["people"][p]["name"]} for p in m["tags"].get("people", [])],
+    }
+
+
+def render_concept(concepts, nodes, kids, history, tinfo, module_titles, cid, symbols):
     c = concepts[cid]
     m = c.meta
-    front = {"title": m["title"], "description": m.get("summary", ""), "tags": flat_tags(m), "aliases": [cid]}
-    kind, note = REVIEW_PT[m["review"]["status"]]
-    checked = m["review"].get("checked_at") or "nunca"
-    head = [f"> [!{kind}] Status", f"> {note} Grau de consenso: {CONSENSUS_PT[m['consensus']]}. Última checagem: {checked}.", ""]
-    head += ["> [!abstract] Revisão rápida"] + [f"> - {b}" for b in m["recap"]] + [""]
-    trail = []
-    if nodes[cid].requires:
-        trail.append("**Antes:** " + ", ".join(link(concepts, nodes, p) for p in nodes[cid].requires))
-    if kids[cid]:
-        trail.append("**Depois:** " + ", ".join(link(concepts, nodes, n) for n in kids[cid]))
-    if trail:
-        head += [" · ".join(trail), ""]
-    era = m["tags"].get("era")
-    people = m["tags"].get("people", [])
-    if era or people:
-        bits = []
-        if era:
-            bits.append(f"**Época:** [[timeline#{heading_slug(history['eras'][era]['title'])}|{history['eras'][era]['title']}]]")
-        if people:
-            bits.append("**Pessoas:** " + ", ".join(f"[[people/{p}|{history['people'][p]['name']}]]" for p in people))
-        head += [" · ".join(bits), ""]
+    front = {
+        "title": m["title"], "description": m.get("summary", ""), "tags": flat_tags(m), "aliases": [cid],
+        "wiki": concept_view(concepts, nodes, kids, history, tinfo, module_titles, cid),
+    }
+    head = ["> [!abstract] Revisão rápida"] + [f"> - {b}" for b in m["recap"]] + [""]
     body = "\n".join(head) + "\n" + c.body.strip() + "\n\n" + pronunciation(m, symbols) + "\n" + resources(m) + "\n" + claims(m)
     return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + body
 
 
-def render_trail(concepts, nodes, trail, order, d, module_titles):
-    ids = ancestors(nodes, trail["targets"])
-    trail_order = [cid for cid in order if cid in ids]
-    written = sum(1 for cid in ids if cid in concepts)
-    lines = [f"## {trail['title']}", "", f"{trail['summary']} {len(ids)} conceitos, {written} já escritos.", ""]
+def trail_card(concepts, t):
+    written = sum(1 for c in t["order"] if c in concepts)
+    return {"id": t["id"], "title": t["title"], "summary": t["summary"], "total": len(t["order"]), "written": written, "ids": t["order"]}
+
+
+def render_trail(concepts, nodes, t, module_titles):
+    order = t["order"]
+    inside = set(order)
+    layer = {}
+    for cid in order:
+        layer[cid] = 1 + max((layer[p] for p in nodes[cid].requires if p in inside), default=-1)
+    view = {
+        "kind": "trail",
+        "nodes": [dict(node_ref(concepts, nodes, cid), n=i, layer=layer[cid], module=nodes[cid].module) for i, cid in enumerate(order, 1)],
+        "edges": [[p, cid] for cid in order for p in nodes[cid].requires if p in inside],
+    }
+    written = sum(1 for cid in order if cid in concepts)
+    view["intro"] = f"{t['summary']} {len(order)} conceitos, {written} já escritos. Cada estrela é um conceito; as linhas ligam um conceito ao que ele exige. Comece pelo número 1."
+    front = {"title": t["title"], "description": t["summary"], "wiki": view}
+    lines = ["## Ordem de estudo", ""]
     lines += ["| # | Conceito | Módulo | Depende de |", "| --- | --- | --- | --- |"]
-    for i, cid in enumerate(trail_order, 1):
+    for i, cid in enumerate(order, 1):
         pres = ", ".join(link(concepts, nodes, p) for p in nodes[cid].requires) or "nada"
         lines.append(f"| {i} | {link(concepts, nodes, cid)} | {module_titles[nodes[cid].module]} | {pres} |")
-    return "\n".join(lines) + "\n"
+    return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + "\n".join(lines) + "\n"
 
 
-def render_roadmap(concepts, nodes):
-    order = topo_order(nodes)
-    d = depth(nodes)
+def render_roadmap(concepts, nodes, tinfo):
     modules = load_yaml("map.yaml")["modules"]
     module_titles = {m["id"]: m["title"] for m in modules}
     weight = {}
@@ -171,40 +202,32 @@ def render_roadmap(concepts, nodes):
                 weight[key] = weight.get(key, 0) + 1
     strong = {k for k, w in weight.items() if w >= 2 and weight.get((k[1], k[0]), 0) < w}
     edges = {(a, b) for a, b in strong if not any((a, c) in strong and (c, b) in strong for c in module_titles)}
-    head = ["---", "title: Roadmap", "---", "",
-            "Cada trilha começa do zero e lista os conceitos na ordem em que um só depende dos anteriores. Conceitos ainda não escritos aparecem como \"em breve\".", "",
-            "### Como os módulos se ligam", "", "```mermaid", "graph TD"]
+    front = {"title": "Roadmap", "wiki": {"kind": "roadmap", "trails": [trail_card(concepts, t) for t in tinfo],
+             "intro": "Cada trilha começa do zero e segue a ordem em que um conceito só depende dos anteriores. Escolha uma para ver o mapa dela."}}
+    body = ["## Como os módulos se ligam", "", "```mermaid", "graph TD"]
     for m in modules:
-        head.append(f'  {m["id"].replace("-", "_")}["{m["title"]}"]')
+        body.append(f'  {m["id"].replace("-", "_")}["{m["title"]}"]')
     for a, b in sorted(edges):
-        head.append(f"  {a.replace('-', '_')} --> {b.replace('-', '_')}")
-    head += ["```", ""]
-    trails = load_yaml("trails.yaml")
-    return "\n".join(head) + "\n".join(render_trail(concepts, nodes, t, order, d, module_titles) for t in trails)
+        body.append(f"  {a.replace('-', '_')} --> {b.replace('-', '_')}")
+    body += ["```", ""]
+    return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + "\n".join(body)
 
 
 def render_timeline(concepts, nodes, history):
-    lines = ["---", "title: Linha do tempo", "---", "",
-             "A física por épocas: quem fez, o que aconteceu e quais ideias foram deixadas para trás. As datas exatas entram à medida que cada evento é checado.", ""]
+    eras = []
     for era in history["eras_list"]:
-        lines += [f"## {era['title']}", "", f"*{era['span']}*", ""]
-        evs = [e for e in history["events_list"] if e["era"] == era["id"]]
-        if evs:
-            lines += ["**Acontecimentos**", ""]
-            for e in evs:
-                cs = ", ".join(link(concepts, nodes, c) for c in e.get("concepts", []))
-                lines.append(f"- {e['title']}" + (f" · {cs}" if cs else ""))
-            lines.append("")
-        ppl = [p for p in history["people_list"] if p["era"] == era["id"]]
-        if ppl:
-            lines += ["**Pessoas**", "", ", ".join(f"[[people/{p['id']}|{p['name']}]]" for p in ppl), ""]
-        sup = [x for x in history["superseded_list"] if x["era"] == era["id"]]
-        if sup:
-            lines += ["**Ideias superadas**", ""]
-            for x in sup:
-                lines.append(f"- {x['title']}, substituída por: {link(concepts, nodes, x['superseded_by'])}")
-            lines.append("")
-    return "\n".join(lines) + "\n"
+        eras.append({
+            "id": era["id"], "title": era["title"], "span": era["span"], "anchor": heading_slug(era["title"]),
+            "events": [{"title": e["title"], "concepts": [node_ref(concepts, nodes, c) for c in e.get("concepts", [])]}
+                       for e in history["events_list"] if e["era"] == era["id"]],
+            "people": [{"id": p["id"], "name": p["name"]} for p in history["people_list"] if p["era"] == era["id"]],
+            "superseded": [{"title": x["title"], "by": node_ref(concepts, nodes, x["superseded_by"])}
+                           for x in history["superseded_list"] if x["era"] == era["id"]],
+        })
+    front = {"title": "Linha do tempo", "wiki": {"kind": "timeline", "eras": eras,
+             "intro": "A física por épocas: quem fez, o que aconteceu e quais ideias ficaram para trás. As datas exatas entram à medida que cada evento é checado."}}
+    body = ""
+    return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + body
 
 
 def render_person(person, concepts, nodes, history):
@@ -218,21 +241,18 @@ def render_person(person, concepts, nodes, history):
     return "\n".join(lines)
 
 
-def render_index(concepts, nodes):
+def render_index(concepts, nodes, tinfo, history):
     total = sum(len(c.meta.get("claims", [])) for c in concepts.values())
     ok = sum(1 for c in concepts.values() for x in c.meta.get("claims", []) if x["status"] == "verified")
-    trails = load_yaml("trails.yaml")
-    return "\n".join([
-        "---", "title: Wiki de Conceitos", "---", "",
-        "Física explicada do zero ao técnico, conceito por conceito, com a história de quem descobriu cada coisa, equações com pronúncia, exemplos calculados, laboratórios, materiais e checagem das afirmações.",
-        "",
-        f"- [[roadmap|Roadmap]]: {len(trails)} trilhas, do primeiro conceito até as fronteiras da física.",
-        "- [[timeline|Linha do tempo]]: da Antiguidade até hoje, com pessoas, acontecimentos e ideias superadas.",
-        "- Cada conceito tem uma **revisão rápida** no topo, para quem só quer recapitular.",
-        "",
-        f"Conceitos escritos: {len(concepts)} de {len(nodes)} no mapa. Afirmações verificadas: {ok} de {total}.",
-        "",
-    ])
+    view = {
+        "kind": "home",
+        "stats": {"written": len(concepts), "mapped": len(nodes), "verified": ok, "claims": total,
+                  "trails": len(tinfo), "people": len(history["people_list"])},
+        "trails": [trail_card(concepts, t) for t in tinfo],
+    }
+    front = {"title": "Wiki de Conceitos", "description": "Física do zero ao técnico, com história, equações com pronúncia, laboratórios e checagem.", "wiki": view}
+    body = "Cada conceito tem uma revisão rápida no topo, a equação central com a leitura em voz alta, um exemplo calculado, materiais para assistir, ler e estudar, e a lista das afirmações com o status da checagem.\n"
+    return "---\n" + yaml.safe_dump(front, allow_unicode=True, sort_keys=False) + "---\n\n" + body
 
 
 def main() -> int:
@@ -250,19 +270,25 @@ def main() -> int:
         "events_list": load_yaml("history/events.yaml"),
         "superseded_list": load_yaml("history/superseded.yaml"),
     }
+    modules = load_yaml("map.yaml")["modules"]
+    module_titles = {m["id"]: m["title"] for m in modules}
+    tinfo = trail_info(nodes, topo_order(nodes), load_yaml("trails.yaml"))
     if OUT.exists():
         shutil.rmtree(OUT)
-    (OUT / "concepts").mkdir(parents=True)
-    (OUT / "people").mkdir()
+    for sub in ("concepts", "people", "trails"):
+        (OUT / sub).mkdir(parents=True)
     for cid in concepts:
-        (OUT / "concepts" / f"{cid}.md").write_text(render_concept(concepts, nodes, kids, history, cid, symbols), encoding="utf-8")
+        (OUT / "concepts" / f"{cid}.md").write_text(render_concept(concepts, nodes, kids, history, tinfo, module_titles, cid, symbols), encoding="utf-8")
     for p in people_list:
         (OUT / "people" / f"{p['id']}.md").write_text(render_person(p, concepts, nodes, history), encoding="utf-8")
+    for t in tinfo:
+        (OUT / "trails" / f"{t['id']}.md").write_text(render_trail(concepts, nodes, t, module_titles), encoding="utf-8")
     (OUT / "concepts" / "index.md").write_text("---\ntitle: Conceitos\n---\n\nTodos os conceitos já escritos. Para a ordem de estudo, veja o [[roadmap|Roadmap]].\n", encoding="utf-8")
     (OUT / "people" / "index.md").write_text("---\ntitle: Pessoas\n---\n\nQuem construiu a física. Veja também a [[timeline|Linha do tempo]].\n", encoding="utf-8")
-    (OUT / "roadmap.md").write_text(render_roadmap(concepts, nodes), encoding="utf-8")
+    (OUT / "trails" / "index.md").write_text("---\ntitle: Trilhas\n---\n\nTodas as trilhas estão no [[roadmap|Roadmap]].\n", encoding="utf-8")
+    (OUT / "roadmap.md").write_text(render_roadmap(concepts, nodes, tinfo), encoding="utf-8")
     (OUT / "timeline.md").write_text(render_timeline(concepts, nodes, history), encoding="utf-8")
-    (OUT / "index.md").write_text(render_index(concepts, nodes), encoding="utf-8")
+    (OUT / "index.md").write_text(render_index(concepts, nodes, tinfo, history), encoding="utf-8")
     print(f"exported {len(concepts)} concepts and {len(people_list)} people to {OUT.relative_to(ROOT)}")
     return 0
 
