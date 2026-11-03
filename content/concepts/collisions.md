@@ -62,6 +62,12 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Collisions: Crash Course Physics #10"
+    url: "https://www.youtube.com/watch?v=Y-QOfc2XqOk"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

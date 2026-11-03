@@ -47,6 +47,12 @@ resources:
     level: intermediate
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "The Most Misunderstood Concept in Physics (Veritasium)"
+    url: "https://www.youtube.com/watch?v=DxL2HoqLbyA"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

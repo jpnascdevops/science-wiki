@@ -62,6 +62,18 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Exoplanets: Crash Course Astronomy #27"
+    url: "https://www.youtube.com/watch?v=7ATtD8x7vV0"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "51 Pegasi b - 25 anos (Instituto de Astrofísica e Ciências do Espaço)"
+    url: "https://www.youtube.com/watch?v=qPJY2wzrv5E"
+    level: zero
+    lang: pt
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

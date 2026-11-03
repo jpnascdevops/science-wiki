@@ -93,6 +93,24 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "What's so special about Euler's number e? | Chapter 5, Essence of calculus (3Blue1Brown)"
+    url: "https://www.youtube.com/watch?v=m2MIpDrF7Es"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Exponential growth and epidemics (3Blue1Brown lesson)"
+    url: "https://www.3blue1brown.com/lessons/exponential-and-epidemics/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Intro to logarithms (Khan Academy)"
+    url: "https://www.khanacademy.org/math/algebra2/exponential-and-logarithmic-functions/introduction-to-logarithms/v/logarithms"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

@@ -43,6 +43,12 @@ resources:
     level: intermediate
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "NASA SVS | Exoplanet Transit Animations (planet + light curve)"
+    url: "https://svs.gsfc.nasa.gov/13022"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: draft
   checked_at: 2026-11-02

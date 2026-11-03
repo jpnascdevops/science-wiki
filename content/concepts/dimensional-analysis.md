@@ -86,6 +86,12 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "Worked example: Dimensional analysis (Khan Academy)"
+    url: "https://en.khanacademy.org/science/up-class-11-physics/x3a9a44f124d01cf7:units-and-measurement/x3a9a44f124d01cf7:dimensional-analysis-and-its-applications/v/worked-example-dimensional-analysis"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

@@ -85,6 +85,12 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "Euler's formula with introductory group theory (3Blue1Brown)"
+    url: "https://www.youtube.com/watch?v=mvmuCPvRoWQ"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

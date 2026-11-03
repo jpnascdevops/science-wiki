@@ -79,6 +79,12 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Work, Energy, and Power: Crash Course Physics #9"
+    url: "https://www.youtube.com/watch?v=w4QFJb9a8vo"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

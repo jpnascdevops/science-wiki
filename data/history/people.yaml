@@ -678,3 +678,38 @@
   era: modern-revolution
   wikidata: null
   status: planned
+- id: walther-nernst
+  name: Walther Nernst
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: wilhelm-lenz
+  name: Wilhelm Lenz
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: ernst-ising
+  name: Ernst Ising
+  era: modern-revolution
+  wikidata: null
+  status: planned
+- id: lars-onsager
+  name: Lars Onsager
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: rolf-landauer
+  name: Rolf Landauer
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: gabriel-fahrenheit
+  name: Daniel Gabriel Fahrenheit
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: anders-celsius
+  name: Anders Celsius
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned

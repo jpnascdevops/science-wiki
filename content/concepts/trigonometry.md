@@ -63,6 +63,12 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Unit circle (Khan Academy)"
+    url: "https://en.khanacademy.org/math/trigonometry/unit-circle-trig-func/unit-circle-definition-of-trig-functions/v/unit-circle-definition-of-trig-functions-1"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

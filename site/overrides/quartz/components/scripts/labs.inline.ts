@@ -1034,6 +1034,548 @@ function matrix(box: HTMLElement) {
   render()
 }
 
+function cssVar(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888"
+}
+
+function canvas(box: HTMLElement, W: number, H: number, label: string) {
+  const c = document.createElement("canvas")
+  const dpr = Math.min(2, window.devicePixelRatio || 1)
+  c.width = W * dpr
+  c.height = H * dpr
+  c.className = "lab-canvas"
+  c.setAttribute("role", "img")
+  c.setAttribute("aria-label", label)
+  box.appendChild(c)
+  const ctx = c.getContext("2d")!
+  ctx.scale(dpr, dpr)
+  return ctx
+}
+
+function loop(box: HTMLElement, step: () => void) {
+  let running = !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  const tick = () => {
+    if (!box.isConnected) return
+    if (running) step()
+    requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+  return {
+    get running() {
+      return running
+    },
+    set running(v: boolean) {
+      running = v
+    },
+  }
+}
+
+const K_B = 1.380649e-23
+const M_N2 = 4.65e-26
+
+function gas(box: HTMLElement) {
+  const W = 520, H = 220
+  const ctx = canvas(box, W, H, "Moléculas de gás numa caixa")
+  const hist = chart(box, 520, 140, "Distribuição de velocidades")
+  const bars = svg("g", {})
+  const theory = svg("polyline", { class: "curve page" })
+  const lbl = svg("text", { x: 510, y: 138, class: "tick", "text-anchor": "end" })
+  lbl.textContent = "velocidade (m/s), até 2500"
+  hist.append(bars, theory, lbl)
+  const st = slider(box, "Temperatura", 50, 1200, 300, 10)
+  const [bPause] = btnRow(box, ["Pausar"])
+  const [rT, rV] = readouts(box, ["Temperatura", "Velocidade média do N₂"])
+  const msg = note(box)
+  const N = 120
+  const r = rng(5)
+  const scale = 0.0035
+  let T = 300
+  const ps = Array.from({ length: N }, () => {
+    const s = Math.sqrt((K_B * T) / M_N2)
+    return { x: 10 + r() * (W - 20), y: 10 + r() * (H - 20), vx: s * gauss(r), vy: s * gauss(r), vz: s * gauss(r) }
+  })
+  const speed = (p: { vx: number; vy: number; vz: number }) => Math.hypot(p.vx, p.vy, p.vz)
+  const vmean = (t: number) => Math.sqrt((8 * K_B * t) / (Math.PI * M_N2))
+  const draw = () => {
+    const fast = cssVar("--tertiary"), slow = cssVar("--secondary")
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--lightgray")
+    ctx.strokeRect(0.5, 0.5, W - 1, H - 1)
+    const vm = vmean(T)
+    for (const p of ps) {
+      ctx.fillStyle = speed(p) > 1.5 * vm ? fast : slow
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, 3.5, 0, 2 * Math.PI)
+      ctx.fill()
+    }
+  }
+  const step = () => {
+    for (const p of ps) {
+      p.x += p.vx * scale
+      p.y += p.vy * scale
+      if (p.x < 4 || p.x > W - 4) (p.vx *= -1), (p.x = Math.min(W - 4, Math.max(4, p.x)))
+      if (p.y < 4 || p.y > H - 4) (p.vy *= -1), (p.y = Math.min(H - 4, Math.max(4, p.y)))
+    }
+    draw()
+  }
+  const drawHist = () => {
+    const vmax = 2500
+    const nb = 25
+    const counts = new Array(nb).fill(0)
+    ps.forEach((p) => {
+      const b = Math.floor((speed(p) / vmax) * nb)
+      if (b < nb) counts[b]++
+    })
+    const a = M_N2 / (K_B * T)
+    const pdf = (v: number) => 4 * Math.PI * (a / (2 * Math.PI)) ** 1.5 * v * v * Math.exp((-a * v * v) / 2)
+    const bw = 500 / nb
+    const dens = counts.map((c) => c / N / (vmax / nb))
+    const peak = Math.max(...dens, pdf(Math.sqrt(2 / a)))
+    const Y = (d: number) => 125 - (d / peak) * 110
+    bars.replaceChildren()
+    dens.forEach((d, i) => bars.appendChild(svg("rect", { x: 10 + i * bw + 1, y: Y(d), width: bw - 2, height: 125 - Y(d), class: "bar" })))
+    const line: [number, number][] = []
+    for (let i = 0; i <= 100; i++) {
+      const v = (vmax * i) / 100
+      line.push([10 + (v / vmax) * 500, Y(pdf(v))])
+    }
+    theory.setAttribute("points", pts(line))
+  }
+  const render = () => {
+    const nt = Number(st.input.value)
+    const k = Math.sqrt(nt / T)
+    ps.forEach((p) => ((p.vx *= k), (p.vy *= k), (p.vz *= k)))
+    T = nt
+    st.out.textContent = `${nt} K`
+    rT.textContent = `${nt} K (${fmt(nt - 273.15, 0)} °C)`
+    rV.textContent = `${fmt(vmean(nt), 0)} m/s`
+    msg.textContent =
+      nt < 120
+        ? `Frio: as moléculas andam mais devagar (ainda uns ${fmt(vmean(nt), 0)} m/s). Na vida real, o N₂ já teria virado líquido abaixo de 77 K.`
+        : "Temperatura é a agitação média das moléculas. As laranjas são as mais rápidas; as barras mostram as velocidades (em 3D) das moléculas da caixa, e a curva, a distribuição de Maxwell prevista."
+    drawHist()
+    draw()
+  }
+  st.input.addEventListener("input", render)
+  render()
+  const l = loop(box, step)
+  bPause.textContent = l.running ? "Pausar" : "Rodar"
+  bPause.addEventListener("click", () => {
+    l.running = !l.running
+    bPause.textContent = l.running ? "Pausar" : "Rodar"
+  })
+}
+
+function pv(box: HTMLElement) {
+  const R = 8.314, n = 1, T1 = 300, V1 = 10
+  const P1 = (n * R * T1) / (V1 / 1000) / 1000
+  const W = 520, H = 250, P = 40
+  const s = chart(box, W, H, "Diagrama pressão por volume")
+  axes(s, W, H, P, "volume (L)", "pressão (kPa)")
+  const area = svg("polygon", { class: "shape" })
+  const path = svg("polyline", { class: "curve page" })
+  const start = svg("circle", { r: 5, class: "dot" })
+  s.append(area, path, start)
+  const bs = btnRow(box, ["Pressão constante", "Volume constante", "Temperatura constante", "Sem trocar calor"])
+  const sv = slider(box, "Volume final", 5, 20, 15)
+  const stt = slider(box, "Temperatura final", 150, 600, 450, 10)
+  const [rW, rQ, rU, rT] = readouts(box, ["Trabalho do gás (W)", "Calor recebido (Q)", "Energia interna (ΔU)", "Temperatura final"])
+  const msg = note(box)
+  let kind = 0
+  const X = (v: number) => P + (v / 22) * (W - P - 20)
+  const Y = (p: number) => H - P - (p / 820) * (H - P - 20)
+  const render = () => {
+    sv.input.parentElement!.style.display = kind === 1 ? "none" : ""
+    stt.input.parentElement!.style.display = kind === 1 ? "" : "none"
+    const V2 = Number(sv.input.value)
+    sv.out.textContent = `${V2} L`
+    stt.out.textContent = `${stt.input.value} K`
+    let T2 = T1, Wk = 0
+    const curve: [number, number][] = []
+    const Pof = (v: number) => {
+      if (kind === 0) return P1
+      if (kind === 2) return (P1 * V1) / v
+      return P1 * (V1 / v) ** (5 / 3)
+    }
+    if (kind === 1) {
+      T2 = Number(stt.input.value)
+      curve.push([V1, P1], [V1, (P1 * T2) / T1])
+    } else {
+      for (let i = 0; i <= 60; i++) {
+        const v = V1 + ((V2 - V1) * i) / 60
+        curve.push([v, Pof(v)])
+      }
+      if (kind === 0) {
+        T2 = (T1 * V2) / V1
+        Wk = P1 * 1000 * ((V2 - V1) / 1000)
+      } else if (kind === 2) {
+        Wk = n * R * T1 * Math.log(V2 / V1)
+      } else {
+        T2 = T1 * (V1 / V2) ** (2 / 3)
+        Wk = -1.5 * n * R * (T2 - T1)
+      }
+    }
+    const dU = 1.5 * n * R * (T2 - T1)
+    const Q = dU + Wk
+    path.setAttribute("points", pts(curve.map(([v, p]) => [X(v), Y(p)])))
+    area.setAttribute("points", pts([[X(curve[0][0]), Y(0)], ...curve.map(([v, p]) => [X(v), Y(p)] as [number, number]), [X(curve[curve.length - 1][0]), Y(0)]]))
+    start.setAttribute("cx", String(X(V1)))
+    start.setAttribute("cy", String(Y(P1)))
+    const J = (v: number) => `${v >= 0 ? "" : "−"}${fmt(Math.abs(v), 0)} J`
+    rW.textContent = J(Wk)
+    rQ.textContent = J(Q)
+    rU.textContent = J(dU)
+    rT.textContent = `${fmt(T2, 0)} K`
+    bs.forEach((b, i) => b.setAttribute("aria-pressed", String(i === kind)))
+    const lines = [
+      V2 >= V1
+        ? "Pressão constante: para expandir, o gás recebe calor; parte vira trabalho (a área sombreada) e parte aquece o gás."
+        : "Pressão constante: comprimindo, o gás perde calor e esfria; o trabalho é feito sobre ele (W negativo).",
+      "Volume constante: não há trabalho (área zero). Todo o calor vira energia interna.",
+      "Temperatura constante: a energia interna não muda; todo calor que entra sai como trabalho.",
+      "Sem trocar calor (adiabático): o trabalho sai da energia interna, e o gás esfria ao expandir. Comprimindo, esquenta (bomba de bicicleta).",
+    ]
+    msg.textContent = `${lines[kind]} Sempre vale Q = ΔU + W.`
+  }
+  bs.forEach((b, i) => b.addEventListener("click", () => ((kind = i), render())))
+  sv.input.addEventListener("input", render)
+  stt.input.addEventListener("input", render)
+  render()
+}
+
+function carnot(box: HTMLElement) {
+  const W = 520, H = 250, P = 44
+  const s = chart(box, W, H, "Ciclo de Carnot no diagrama temperatura por entropia")
+  axes(s, W, H, P, "entropia", "temperatura (K)")
+  const qh = svg("rect", { class: "band" })
+  const work = svg("rect", { class: "shape" })
+  const thL = svg("text", { class: "tick accent" })
+  const tcL = svg("text", { class: "tick" })
+  s.append(qh, work, thL, tcL)
+  const sh = slider(box, "Fonte quente", 400, 1500, 800, 10)
+  const sc = slider(box, "Fonte fria", 200, 390, 300, 5)
+  const [rE, rW, rQ] = readouts(box, ["Eficiência máxima", "De cada 100 J de calor, viram trabalho", "E vão para a fonte fria"])
+  const msg = note(box)
+  const Y = (t: number) => H - P - (t / 1600) * (H - P - 20)
+  const render = () => {
+    const Th = Number(sh.input.value), Tc = Number(sc.input.value)
+    sh.out.textContent = `${Th} K`
+    sc.out.textContent = `${Tc} K`
+    const e = 1 - Tc / Th
+    const x1 = P + 120, x2 = W - 120
+    qh.setAttribute("x", String(x1)); qh.setAttribute("width", String(x2 - x1)); qh.setAttribute("y", String(Y(Th))); qh.setAttribute("height", String(Y(0) - Y(Th)))
+    work.setAttribute("x", String(x1)); work.setAttribute("width", String(x2 - x1)); work.setAttribute("y", String(Y(Th))); work.setAttribute("height", String(Y(Tc) - Y(Th)))
+    thL.setAttribute("x", String(x2 + 6)); thL.setAttribute("y", String(Y(Th) + 4)); thL.textContent = `${Th} K`
+    tcL.setAttribute("x", String(x2 + 6)); tcL.setAttribute("y", String(Y(Tc) + 4)); tcL.textContent = `${Tc} K`
+    rE.textContent = `${fmt(e * 100, 1)}%`
+    rW.textContent = `${fmt(e * 100, 1)} J`
+    rQ.textContent = `${fmt((1 - e) * 100, 1)} J`
+    msg.textContent =
+      "O retângulo laranja é o trabalho de um ciclo; a área clara inteira é o calor que sai da fonte quente. A parte de baixo sempre vai para a fonte fria. Só uma fonte fria no zero absoluto daria 100%, e isso é inalcançável. Motores reais ficam abaixo deste limite."
+  }
+  sh.input.addEventListener("input", render)
+  sc.input.addEventListener("input", render)
+  render()
+}
+
+function mixing(box: HTMLElement, reverse: boolean) {
+  const W = 520, H = 200, RAD = 4
+  const ctx = canvas(box, W, H, "Partículas se espalhando numa caixa")
+  const plot = chart(box, 520, 110, "Fração de partículas na metade esquerda ao longo do tempo")
+  const line = svg("polyline", { class: "curve page" })
+  const half = svg("line", { x1: 10, x2: 510, y1: 55, y2: 55, class: "page-line" })
+  plot.append(half, line)
+  const btns = btnRow(box, reverse ? ["Recomeçar", "Inverter as velocidades", "Pausar"] : ["Recomeçar", "Pausar"])
+  const [rL, rS] = readouts(box, ["Na metade esquerda", "Entropia de mistura"])
+  const msg = note(box)
+  const N = 100
+  type Pt = { x: number; y: number; vx: number; vy: number }
+  let ps: Pt[] = []
+  let hist: number[] = []
+  let t = 0
+  let reversedAt = -1
+  const lnC = (n: number, k: number) => {
+    let s = 0
+    for (let i = 1; i <= k; i++) s += Math.log((n - k + i) / i)
+    return s
+  }
+  const reset = () => {
+    const r = rng(9)
+    ps = []
+    while (ps.length < N) {
+      const p = { x: 8 + r() * (W / 2 - 16), y: 8 + r() * (H - 16), vx: 0, vy: 0 }
+      if (ps.every((q) => Math.hypot(q.x - p.x, q.y - p.y) > 2 * RAD + 1)) {
+        const a = r() * 2 * Math.PI
+        p.vx = 1.6 * Math.cos(a)
+        p.vy = 1.6 * Math.sin(a)
+        ps.push(p)
+      }
+    }
+    hist = []
+    t = 0
+    reversedAt = -1
+  }
+  const drift = (h: number) => {
+    for (const p of ps) {
+      p.x += h * p.vx
+      p.y += h * p.vy
+      if (p.x < RAD) (p.x = 2 * RAD - p.x), (p.vx = -p.vx)
+      if (p.x > W - RAD) (p.x = 2 * (W - RAD) - p.x), (p.vx = -p.vx)
+      if (p.y < RAD) (p.y = 2 * RAD - p.y), (p.vy = -p.vy)
+      if (p.y > H - RAD) (p.y = 2 * (H - RAD) - p.y), (p.vy = -p.vy)
+    }
+  }
+  const physics = () => {
+    drift(0.5)
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const a = ps[i], b = ps[j]
+        const dx = b.x - a.x, dy = b.y - a.y
+        const d2 = dx * dx + dy * dy
+        if (d2 < 4 * RAD * RAD && d2 > 0) {
+          const dvx = b.vx - a.vx, dvy = b.vy - a.vy
+          const dot = dvx * dx + dvy * dy
+          if (dot < 0) {
+            const k = dot / d2
+            a.vx += k * dx; a.vy += k * dy
+            b.vx -= k * dx; b.vy -= k * dy
+          }
+        }
+      }
+    }
+    drift(0.5)
+    t++
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--lightgray")
+    ctx.strokeRect(0.5, 0.5, W - 1, H - 1)
+    ctx.setLineDash([4, 4])
+    ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke()
+    ctx.setLineDash([])
+    ps.forEach((p, i) => {
+      ctx.fillStyle = i % 2 ? cssVar("--secondary") : cssVar("--tertiary")
+      ctx.beginPath(); ctx.arc(p.x, p.y, RAD, 0, 2 * Math.PI); ctx.fill()
+    })
+    const left = ps.filter((p) => p.x < W / 2).length
+    hist.push(left / N)
+    if (hist.length > 500) hist.shift()
+    line.setAttribute("points", pts(hist.map((f, i) => [10 + i, 105 - f * 100])))
+    rL.textContent = `${left} de ${N}`
+    rS.textContent = `${fmt(lnC(N, left) / Math.LN2, 1)} bits`
+    if (reverse && reversedAt >= 0) {
+      const back = t - reversedAt
+      if (back >= reversedAt && l.running) {
+        l.running = false
+        pause.textContent = "Rodar"
+        msg.textContent =
+          left > 0.9 * N
+            ? `De volta ao começo: ${left} de ${N} na esquerda. As leis do movimento funcionam igual nos dois sentidos.`
+            : `Só ${left} de ${N} voltaram: pequenas imprecisões (do arredondamento e do passo da simulação) cresceram a cada colisão. Desfazer a mistura exige precisão perfeita.`
+      } else if (back < reversedAt) {
+        msg.textContent = "Filme rodando de trás para frente: cada colisão é desfeita..."
+      }
+    } else if (reverse) {
+      msg.textContent = "Deixe misturar e aperte inverter. Inverta cedo (uns 3 segundos) e depois tente inverter bem mais tarde (uns 10 segundos). As cores só ajudam a acompanhar as partículas."
+    } else {
+      msg.textContent =
+        left === N
+          ? "Todas começam na esquerda: um único arranjo, entropia de mistura zero (contando só esquerda e direita)."
+          : "Agora há mais de 10²⁹ arranjos com metade de cada lado e só um com todas à esquerda. Por isso o gás não volta sozinho: não é proibido, é improvável demais."
+    }
+  }
+  const pause = btns[btns.length - 1]
+  const l = loop(box, () => (physics(), draw()))
+  btns[0].addEventListener("click", () => (reset(), (l.running = true), (pause.textContent = "Pausar"), draw()))
+  if (reverse) {
+    btns[1].addEventListener("click", () => {
+      ps.forEach((p) => ((p.vx = -p.vx), (p.vy = -p.vy)))
+      reversedAt = t
+    })
+  }
+  pause.textContent = l.running ? "Pausar" : "Rodar"
+  pause.addEventListener("click", () => {
+    l.running = !l.running
+    pause.textContent = l.running ? "Pausar" : "Rodar"
+  })
+  reset()
+  draw()
+}
+
+function freeEnergy(box: HTMLElement) {
+  const dH = 6010, Tm = 273.15, dS = dH / Tm
+  const W = 520, H = 230, P = 40
+  const s = chart(box, W, H, "Energia livre de fusão do gelo pela temperatura")
+  const X = (t: number) => P + ((t - 243) / 60) * (W - P - 20)
+  const Y = (g: number) => H / 2 - (g / 700) * (H / 2 - 20)
+  s.append(svg("line", { x1: P, x2: W - 10, y1: Y(0), y2: Y(0), class: "axis" }), svg("line", { x1: X(Tm), x2: X(Tm), y1: 10, y2: H - 10, class: "page-line" }))
+  const g = svg("polyline", { class: "curve page" })
+  const dot = svg("circle", { r: 6, class: "dot" })
+  const l1 = svg("text", { x: P + 4, y: 22, class: "tick" })
+  l1.textContent = "ΔG > 0: o gelo é estável"
+  const l2 = svg("text", { x: W - 14, y: H - 12, class: "tick", "text-anchor": "end" })
+  l2.textContent = "ΔG < 0: a água é estável"
+  s.append(g, dot, l1, l2)
+  const line: [number, number][] = []
+  for (let t = 243; t <= 303; t += 1) line.push([X(t), Y(dH - t * dS)])
+  g.setAttribute("points", pts(line))
+  const st = slider(box, "Temperatura", 248, 298, 263)
+  const [rH, rTS, rG] = readouts(box, ["ΔH (energia para derreter)", "TΔS (ganho de desordem)", "ΔG = ΔH − TΔS"])
+  const msg = note(box)
+  const render = () => {
+    const T = Number(st.input.value)
+    st.out.textContent = `${T} K (${fmt(T - 273.15, 0)} °C)`
+    const G = dH - T * dS
+    dot.setAttribute("cx", String(X(T)))
+    dot.setAttribute("cy", String(Y(G)))
+    rH.textContent = `${fmt(dH, 0)} J/mol`
+    rTS.textContent = `${fmt(T * dS, 0)} J/mol`
+    rG.textContent = Math.abs(T - Tm) < 1 ? "≈ 0" : `${fmt(G, 0)} J/mol`
+    msg.textContent =
+      Math.abs(T - Tm) < 1
+        ? "No ponto de fusão, ΔG = 0: gelo e água convivem em equilíbrio."
+        : G > 0
+          ? "Abaixo de 0 °C, a energia para desfazer o cristal pesa mais que o ganho de entropia: o gelo vence."
+          : "Acima de 0 °C, o termo TΔS (mais temperatura vezes mais desordem) supera ΔH: a água líquida vence."
+  }
+  st.input.addEventListener("input", render)
+  render()
+}
+
+function shannon(box: HTMLElement) {
+  const W = 520, H = 200, P = 36
+  const s = chart(box, W, H, "Entropia de uma moeda viciada")
+  axes(s, W, H, P, "chance de cara (p)", "bits")
+  const H2 = (p: number) => (p <= 0 || p >= 1 ? 0 : -p * Math.log2(p) - (1 - p) * Math.log2(1 - p))
+  const X = (p: number) => P + p * (W - P - 20)
+  const Y = (b: number) => H - P - b * (H - P - 20)
+  const curve: [number, number][] = []
+  for (let i = 0; i <= 100; i++) curve.push([X(i / 100), Y(H2(i / 100))])
+  const c = svg("polyline", { class: "curve page", points: pts(curve) })
+  const dot = svg("circle", { r: 6, class: "dot" })
+  s.append(c, dot)
+  const sp = slider(box, "Chance de cara", 0, 100, 50)
+  const seq = el("p", "lab-thread")
+  box.appendChild(seq)
+  const [bGen] = btnRow(box, ["Jogar 40 vezes"])
+  const [rH, rK] = readouts(box, ["Entropia por lançamento", "1000 lançamentos cabem em"])
+  const msg = note(box)
+  const gen = () => {
+    const p = Number(sp.input.value) / 100
+    let out = ""
+    for (let i = 0; i < 40; i++) out += Math.random() < p ? "●" : "○"
+    seq.textContent = `${out}   (● cara, ○ coroa)`
+  }
+  const render = () => {
+    const p = Number(sp.input.value) / 100
+    sp.out.textContent = `${Math.round(p * 100)}%`
+    dot.setAttribute("cx", String(X(p)))
+    dot.setAttribute("cy", String(Y(H2(p))))
+    rH.textContent = `${fmt(H2(p), 3)} bit`
+    rK.textContent = `${fmt(1000 * H2(p), 0)} bits`
+    msg.textContent =
+      p === 0.5
+        ? "Moeda honesta: cada lançamento é 1 bit inteiro de surpresa. Não dá para comprimir."
+        : H2(p) < 0.1
+          ? "Quase sempre o mesmo lado: quase nenhuma surpresa, quase nenhuma informação. A sequência comprime muito."
+          : "Quanto mais previsível a moeda, menos bits por lançamento são precisos, em média, para descrever a sequência."
+    gen()
+  }
+  sp.input.addEventListener("input", render)
+  bGen.addEventListener("click", gen)
+  render()
+}
+
+function cooling(box: HTMLElement) {
+  const W = 520, H = 230, P = 44
+  const s = chart(box, W, H, "Temperatura a cada etapa de resfriamento, em escala logarítmica")
+  axes(s, W, H, P, "etapas", "temperatura (log)")
+  const curve = svg("polyline", { class: "curve page" })
+  const marks = svg("g", {})
+  s.append(marks, curve)
+  const sr = slider(box, "Cada etapa deixa a temperatura em", 10, 90, 50, 5)
+  const [r1, r2, r3] = readouts(box, ["Etapas até 1 mK", "Etapas até 1 nK", "Etapas até 0 K"])
+  const msg = note(box)
+  const X = (k: number) => P + (k / 60) * (W - P - 20)
+  const Y = (t: number) => H - P - ((Math.log10(t) + 12) / 15) * (H - P - 20)
+  ;[[300, "300 K"], [1e-3, "1 mK"], [1e-9, "1 nK"]].forEach(([t, l]) => {
+    marks.appendChild(svg("line", { x1: P, x2: W - 10, y1: Y(t as number), y2: Y(t as number), class: "grid" }))
+    const tx = svg("text", { x: P - 4, y: Y(t as number) + 4, class: "tick", "text-anchor": "end" })
+    tx.textContent = l as string
+    marks.appendChild(tx)
+  })
+  const render = () => {
+    const f = Number(sr.input.value) / 100
+    sr.out.textContent = `${Math.round(f * 100)}% da anterior`
+    const line: [number, number][] = []
+    for (let k = 0; k <= 60; k++) {
+      const t = 300 * f ** k
+      if (t < 1e-12) break
+      line.push([X(k), Y(t)])
+    }
+    curve.setAttribute("points", pts(line))
+    const steps = (target: number) => Math.ceil(Math.log(target / 300) / Math.log(f))
+    r1.textContent = String(steps(1e-3))
+    r2.textContent = String(steps(1e-9))
+    r3.textContent = "nunca"
+    msg.textContent = "Este modelo de fração fixa é uma caricatura: na vida real, perto do zero cada etapa rende cada vez menos, porque quase não sobra entropia para retirar. A terceira lei garante que o zero absoluto não se alcança num número finito de etapas."
+  }
+  sr.input.addEventListener("input", render)
+  render()
+}
+
+function ising(box: HTMLElement) {
+  const L = 64, S = 5
+  const ctx = canvas(box, L * S, L * S, "Ímã de spins: modelo de Ising")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "340px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const st = slider(box, "Temperatura (em unidades de J/k_B)", 100, 400, 150, 5)
+  const btns = btnRow(box, ["Bagunçar tudo", "Alinhar tudo", "Pausar"])
+  const [rM, rT] = readouts(box, ["Magnetização", "Temperatura / crítica"])
+  const msg = note(box)
+  const Tc = 2 / Math.log(1 + Math.SQRT2)
+  const r = rng(21)
+  let spin = new Int8Array(L * L).map(() => (r() < 0.5 ? 1 : -1))
+  const at = (x: number, y: number) => spin[((y + L) % L) * L + ((x + L) % L)]
+  const sweep = () => {
+    const T = Number(st.input.value) / 100
+    for (let k = 0; k < L * L; k++) {
+      const x = Math.floor(Math.random() * L), y = Math.floor(Math.random() * L)
+      const s = spin[y * L + x]
+      const dE = 2 * s * (at(x + 1, y) + at(x - 1, y) + at(x, y + 1) + at(x, y - 1))
+      if (dE <= 0 || Math.random() < Math.exp(-dE / T)) spin[y * L + x] = -s as 1 | -1
+    }
+  }
+  const draw = () => {
+    const up = cssVar("--tertiary"), down = cssVar("--lightgray")
+    for (let y = 0; y < L; y++) for (let x = 0; x < L; x++) {
+      ctx.fillStyle = spin[y * L + x] > 0 ? up : down
+      ctx.fillRect(x * S, y * S, S, S)
+    }
+    const m = spin.reduce((a, b) => a + b, 0) / (L * L)
+    const T = Number(st.input.value) / 100
+    rM.textContent = `${fmt(Math.abs(m) * 100, 0)}%`
+    rT.textContent = fmt(T / Tc, 2)
+    msg.textContent =
+      T < 0.9 * Tc
+        ? "Frio: os spins vizinhos se alinham e formam domínios grandes. Com o tempo, um lado vence (às vezes ficam faixas presas por muito tempo): o material vira ímã."
+        : T > 1.1 * Tc
+          ? "Quente: a agitação térmica vence o alinhamento. A magnetização média fica perto de zero."
+          : "Perto da temperatura crítica: domínios de todos os tamanhos aparecem e somem. É uma transição de fase."
+  }
+  const l = loop(box, () => (sweep(), sweep(), draw()))
+  btns[0].addEventListener("click", () => ((spin = spin.map(() => (Math.random() < 0.5 ? 1 : -1))), draw()))
+  btns[1].addEventListener("click", () => (spin.fill(1), draw()))
+  btns[2].textContent = l.running ? "Pausar" : "Rodar"
+  btns[2].addEventListener("click", () => {
+    l.running = !l.running
+    btns[2].textContent = l.running ? "Pausar" : "Rodar"
+  })
+  st.input.addEventListener("input", () => (st.out.textContent = fmt(Number(st.input.value) / 100, 2), draw()))
+  st.out.textContent = fmt(Number(st.input.value) / 100, 2)
+  draw()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -1052,6 +1594,15 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   noise: ["Laboratório: um planeta escondido no ruído", noise],
   fourier: ["Laboratório: montando ondas com senos", fourier],
   matrix: ["Laboratório: uma matriz deformando o plano", matrix],
+  gas: ["Laboratório: um gás na caixa", gas],
+  pv: ["Laboratório: aquecendo e expandindo um gás", pv],
+  carnot: ["Laboratório: o limite de Carnot", carnot],
+  mixing: ["Laboratório: um gás se espalhando", (b) => mixing(b, false)],
+  reverse: ["Laboratório: rodando o filme ao contrário", (b) => mixing(b, true)],
+  "free-energy": ["Laboratório: gelo ou água?", freeEnergy],
+  shannon: ["Laboratório: quanta informação tem uma moeda", shannon],
+  cooling: ["Laboratório: perseguindo o zero absoluto", cooling],
+  ising: ["Laboratório: um ímã esquentando", ising],
 }
 
 function mountLabs() {

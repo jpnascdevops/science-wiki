@@ -45,6 +45,18 @@ resources:
     level: zero
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Dilatação do tempo | Relatividade restrita | Khan Academy (Khan Academy Brasil)"
+    url: "https://www.youtube.com/watch?v=R3f8CYDen_8"
+    level: intermediate
+    lang: pt
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Special Relativity: Crash Course Physics #42"
+    url: "https://www.pbs.org/video/special-relativity-crash-course-physics-42-zawb5t/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

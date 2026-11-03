@@ -61,6 +61,12 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "What Everyone Gets Wrong About Gravity (Veritasium; originally 'Why Gravity is NOT a Force')"
+    url: "https://www.youtube.com/watch?v=XRr1kaXKBsU"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

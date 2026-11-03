@@ -62,6 +62,18 @@ resources:
     level: intermediate
     lang: en
     checked_at: null
+  - kind: watch
+    title: "The Holographic Universe Explained (PBS Space Time)"
+    url: "https://www.pbs.org/video/the-holographic-universe-explained-urhkpc"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "The Holographic Universe from AdS/CFT! | with Juan Maldacena (Int. Society for Quantum Gravity)"
+    url: "https://www.youtube.com/watch?v=dczKVhn-tvc"
+    level: technical
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: draft
   checked_at: 2026-11-02

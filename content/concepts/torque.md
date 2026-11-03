@@ -73,6 +73,12 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Torque: Crash Course Physics #12"
+    url: "https://www.youtube.com/watch?v=b-HZ1SZPaQw"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

@@ -74,6 +74,12 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "Taylor series | Chapter 11, Essence of calculus (3Blue1Brown)"
+    url: "https://www.youtube.com/watch?v=3d6DsjIBzJ4"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

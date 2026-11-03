@@ -78,6 +78,12 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "Intro to significant figures (Khan Academy)"
+    url: "https://en.khanacademy.org/districts-courses/grade-8-fl-best/x227e06ed62a17eb7:exponents-factoring-scientific-notation/x227e06ed62a17eb7:significant-figures/v/significant-figures"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

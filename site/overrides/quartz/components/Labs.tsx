@@ -95,6 +95,7 @@ Labs.css = `
 .lab-plot .star { fill: var(--tertiary); opacity: 0.85; }
 .lab-plot .planet { fill: var(--dark); }
 .lab-plot .curve.alt { stroke: var(--secondary); stroke-width: 2; opacity: 0.8; }
+.lab-canvas { width: 100%; height: auto; display: block; border-radius: 8px; }
 .lab-plot .axis { stroke: var(--gray); stroke-width: 1; }
 .lab-plot .pt { fill: var(--secondary); }
 .lab-plot .pt.faint { opacity: 0.45; }

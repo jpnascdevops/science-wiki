@@ -68,6 +68,12 @@ resources:
     level: intermediate
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Escape velocity (Khan Academy)"
+    url: "https://www.khanacademy.org/science/bmc-grade-10-science/x4e98504963be64d8:gravitation/x4e98504963be64d8:escape-velocity/v/escape-velocity"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

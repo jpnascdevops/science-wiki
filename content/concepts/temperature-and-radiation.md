@@ -29,6 +29,18 @@ resources:
     level: intermediate
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "The Ultraviolet Catastrophe (Physics Girl)"
+    url: "https://www.pbs.org/video/the-ultraviolet-catastrophe-rp9fqg/"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Light: Crash Course Astronomy #24"
+    url: "https://www.youtube.com/watch?v=jjy-eqWM38g"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

@@ -60,6 +60,12 @@ resources:
     level: intermediate
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Christina Hedges - Lightkurve: find planets with Python! (SF Python)"
+    url: "https://www.youtube.com/watch?v=vgzhb0N7pNA"
+    level: technical
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

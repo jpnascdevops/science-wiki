@@ -59,6 +59,18 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "The essence of calculus (3Blue1Brown, ch. 1)"
+    url: "https://www.youtube.com/watch?v=WUvTyaaNkzM"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Essence of calculus (3Blue1Brown playlist)"
+    url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

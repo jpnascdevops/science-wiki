@@ -61,6 +61,12 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Potential energy (Khan Academy)"
+    url: "https://en.khanacademy.org/science/ap-college-physics-1/xf557a762645cccc5:work-energy-and-power/xf557a762645cccc5:potential-energy/v/potential_energy"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

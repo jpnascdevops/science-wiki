@@ -33,6 +33,12 @@ resources:
     level: zero
     lang: pt
     checked_at: null
+  - kind: watch
+    title: "Derivatives: Crash Course Physics #2 (math as the language of physics)"
+    url: "https://www.pbs.org/video/crash-course-physics-derivatives/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

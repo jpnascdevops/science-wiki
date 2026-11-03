@@ -439,3 +439,59 @@
   date: null
   wikidata: null
   status: planned
+- id: temperature-scales
+  title: Fahrenheit e Celsius criam suas escalas
+  era: classical-mechanics-era
+  concepts: [temperature-and-heat]
+  date: null
+  wikidata: null
+  status: planned
+- id: kelvin-scale
+  title: Kelvin propõe a escala absoluta de temperatura
+  era: nineteenth-century
+  concepts: [temperature-and-heat, third-law-thermodynamics]
+  date: null
+  wikidata: null
+  status: planned
+- id: clausius-entropy
+  title: Clausius batiza a entropia
+  era: nineteenth-century
+  concepts: [second-law-thermodynamics]
+  date: null
+  wikidata: null
+  status: planned
+- id: gibbs-equilibrium
+  title: Gibbs publica o equilíbrio das substâncias heterogêneas
+  era: nineteenth-century
+  concepts: [free-energy]
+  date: null
+  wikidata: null
+  status: planned
+- id: nernst-theorem
+  title: Nernst enuncia o teorema do calor
+  era: modern-revolution
+  concepts: [third-law-thermodynamics]
+  date: null
+  wikidata: null
+  status: planned
+- id: eddington-arrow
+  title: Eddington fala em seta do tempo
+  era: modern-revolution
+  concepts: [arrow-of-time]
+  date: null
+  wikidata: null
+  status: planned
+- id: onsager-ising
+  title: Onsager resolve o modelo de Ising em duas dimensões
+  era: nuclear-age
+  concepts: [phase-transitions]
+  date: null
+  wikidata: null
+  status: planned
+- id: shannon-information
+  title: Shannon publica a teoria matemática da comunicação
+  era: nuclear-age
+  concepts: [information-entropy]
+  date: null
+  wikidata: null
+  status: planned

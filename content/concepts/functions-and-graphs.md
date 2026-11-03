@@ -53,6 +53,12 @@ resources:
     level: intermediate
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "What is a function? (Khan Academy)"
+    url: "https://en.khanacademy.org/math/algebra/algebra-functions/evaluating-functions/v/what-is-a-function"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

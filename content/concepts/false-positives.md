@@ -46,6 +46,18 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Binary and Multiple Stars: Crash Course Astronomy #34"
+    url: "https://www.pbs.org/video/crash-course-astronomy-34/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Deciphering Eclipsing Binary Systems (and how citizen scientists can help) (AAVSO)"
+    url: "https://www.youtube.com/watch?v=-K0NDMTg2IM"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: draft
   checked_at: 2026-11-02

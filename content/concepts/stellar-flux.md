@@ -50,6 +50,18 @@ resources:
     level: intermediate
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Stars: Crash Course Astronomy #26 (luminosity, HR diagram)"
+    url: "https://www.pbs.org/video/crash-course-astronomy-26/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Distances: Crash Course Astronomy #25"
+    url: "https://www.youtube.com/watch?v=CWMh61yutjU"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

@@ -41,6 +41,18 @@ resources:
     level: zero
     lang: pt
     checked_at: null
+  - kind: watch
+    title: "Quantum Mechanics - Part 1: Crash Course Physics #43"
+    url: "https://www.pbs.org/video/quantum-mechanics-part-1-crash-course-physics-43-nu4ylp/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Some light quantum mechanics (with minutephysics) (3Blue1Brown)"
+    url: "https://www.youtube.com/watch?v=MzRCDLre1b4"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

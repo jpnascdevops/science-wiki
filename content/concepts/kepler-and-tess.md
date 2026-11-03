@@ -50,6 +50,18 @@ resources:
     level: zero
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Legacy of NASA's Kepler Space Telescope: More Planets Than Stars (NASA)"
+    url: "https://www.youtube.com/watch?v=_V7J05fK5e0"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Meet NASA's new exoplanet-hunting satellite, TESS (CNET)"
+    url: "https://www.youtube.com/watch?v=tjkqhQ3NI3o"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

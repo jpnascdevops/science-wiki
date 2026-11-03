@@ -34,6 +34,12 @@ resources:
     level: zero
     lang: pt
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Einstein's Proof of E=mc² (minutephysics)"
+    url: "https://www.youtube.com/watch?v=hW7DW9NIO9M"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

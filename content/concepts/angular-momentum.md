@@ -69,6 +69,18 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Constant angular momentum when no net torque (Khan Academy)"
+    url: "https://en.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/v/constant-angular-momentum-when-no-net-torque"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "The Bizarre Behavior of Rotating Bodies (Veritasium)"
+    url: "https://www.youtube.com/watch?v=1VPfZ_XzisU"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

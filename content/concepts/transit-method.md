@@ -84,6 +84,18 @@ resources:
     level: intermediate
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Detecting exoplanets with the transit method (ESA Space Science Hub)"
+    url: "https://www.youtube.com/watch?v=xNeRqbw18Jk"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "What's a transit? (NASA Science, page with embedded video + animation)"
+    url: "https://science.nasa.gov/exoplanets/whats-a-transit/"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

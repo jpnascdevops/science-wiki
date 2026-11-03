@@ -80,6 +80,18 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-03
+  - kind: watch
+    title: "Bayes theorem, the geometry of changing beliefs (3Blue1Brown)"
+    url: "https://www.youtube.com/watch?v=HZGCoVF3YvM"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Bayes' theorem (3Blue1Brown lesson page)"
+    url: "https://www.3blue1brown.com/lessons/bayes-theorem/"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-03

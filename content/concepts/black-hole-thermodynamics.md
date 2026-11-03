@@ -82,6 +82,18 @@ resources:
     level: technical
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Hawking Radiation (PBS Space Time)"
+    url: "https://www.pbs.org/video/hawking-radiation-joztzy/"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "The Black Hole Entropy Enigma (PBS Space Time)"
+    url: "https://www.pbs.org/video/the-black-hole-entropy-enigma-space-time-6fpeqc/"
+    level: intermediate
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02

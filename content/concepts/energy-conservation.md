@@ -73,6 +73,18 @@ resources:
     level: zero
     lang: en
     checked_at: 2026-11-02
+  - kind: watch
+    title: "Law of conservation of energy (Khan Academy)"
+    url: "https://en.khanacademy.org/science/ap-physics-1/ap-work-and-energy/conservation-of-energy-ap/v/law-of-conservation-of-energy"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
+  - kind: watch
+    title: "Work, Energy, and Power: Crash Course Physics #9"
+    url: "https://www.youtube.com/watch?v=w4QFJb9a8vo"
+    level: zero
+    lang: en
+    checked_at: 2026-11-03
 review:
   status: auto_checked
   checked_at: 2026-11-02
