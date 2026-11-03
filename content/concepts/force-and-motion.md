@@ -57,6 +57,8 @@ review:
 
 Velocidade é quanto você anda por unidade de tempo. Aceleração é quanto a velocidade muda por unidade de tempo. Força é o que causa aceleração: empurrar um carrinho vazio é fácil, um carrinho cheio exige mais força para ganhar a mesma velocidade.
 
+A expressão abaixo supõe massa constante e um referencial inercial, no regime newtoniano.
+
 ## Equação
 
 $$
@@ -67,7 +69,7 @@ $$
 
 | Símbolo | Significado | Unidade |
 | --- | --- | --- |
-| $F$ | força | newton (N) |
+| $F$ | força resultante | newton (N) |
 | $m$ | massa | quilograma (kg) |
 | $a$ | aceleração | m/s² |
 | $v$ | velocidade | m/s |

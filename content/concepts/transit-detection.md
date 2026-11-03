@@ -34,6 +34,7 @@ claims:
     expected_title: "A box-fitting algorithm in the search for periodic transits"
     sources: [https://www.aanda.org/articles/aa/full/2002/31/aa2422/aa2422.right.html]
     status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: study
     title: "Lightkurve: identifying transiting planet signals (BLS, Kepler-69)"

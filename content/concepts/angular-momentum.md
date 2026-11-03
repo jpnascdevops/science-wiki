@@ -3,7 +3,7 @@ id: angular-momentum
 title: Momento angular
 summary: O momento angular é o "embalo" de rotação; sem torque externo ele se conserva, e por isso quem encolhe gira mais rápido.
 recap:
-  - "Momento angular L = I ω: inércia de rotação vezes velocidade de giro."
+  - "Para rotação em torno de um eixo principal, L = I ω: inércia de rotação vezes velocidade de giro."
   - "Sem torque externo, L não muda."
   - "Encolher (diminuir I) faz girar mais rápido: patinadora, estrela que vira pulsar."
   - "A segunda lei de Kepler (áreas iguais) é a conservação do momento angular do planeta."
@@ -116,7 +116,7 @@ O que, além do momento, fica sempre igual quando nada de fora atrapalha?
 | Evite dizer | Diga |
 | --- | --- |
 | "ela gira mais rápido porque faz força com os braços" | "nenhum torque externo age; o giro acelera porque o momento de inércia diminuiu" |
-| "momento angular é velocidade de rotação" | "é velocidade de rotação vezes momento de inércia" |
+| "momento angular é velocidade de rotação" | "para rotação em torno de um eixo principal, é momento de inércia vezes velocidade angular" |
 
 ## Nível técnico
 

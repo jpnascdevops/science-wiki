@@ -96,8 +96,8 @@ function escapeVelocity(box: HTMLElement) {
     const frac = v / C
     s.out.textContent = len(r)
     rR.textContent = len(r)
-    rV.textContent = frac >= 1 ? "maior que a luz" : `${fmt(v / 1000, v < 1e5 ? 1 : 0)} km/s`
-    rC.textContent = frac >= 1 ? "100% ou mais" : `${fmt(frac * 100, frac < 0.01 ? 4 : 1)}%`
+    rV.textContent = frac >= 1 ? "sem escape do horizonte" : `${fmt(v / 1000, v < 1e5 ? 1 : 0)} km/s`
+    rC.textContent = frac >= 1 ? "extrapolação newtoniana ≥ 100%" : `${fmt(frac * 100, frac < 0.01 ? 4 : 1)}%`
     fill.style.width = `${Math.min(100, Math.max(0.5, frac * 100))}%`
     bar.classList.toggle("full", frac >= 1)
     msg.classList.toggle("alert", r <= rs)
@@ -105,7 +105,7 @@ function escapeVelocity(box: HTMLElement) {
       r <= rs
         ? `Buraco negro: com ${len(rs)} de raio ou menos, nem a luz escapa. Esse é o raio de Schwarzschild da Terra.`
         : frac > 0.1
-          ? "A luz ainda escapa, mas por pouco. Aqui a gravidade de Newton já não é precisa."
+          ? "Fora do horizonte ainda há trajetórias de escape para a luz. A fórmula é newtoniana; campos fortes exigem relatividade geral."
           : "Arraste para espremer a Terra. A massa fica igual; só o raio diminui."
   }
   s.input.addEventListener("input", render)
@@ -202,7 +202,7 @@ function entangledPair(box: HTMLElement) {
     msg.textContent =
       n === 0
         ? "Meça alguns pares. Olhe A sozinha e depois compare com B."
-        : "Sozinha, A parece cara ou coroa (1 bit de entropia). Juntas, sempre combinam (entropia zero)."
+        : "Sozinha, A parece cara ou coroa (1 bit). Juntas, sempre saem opostas: o par inteiro, antes de medir, está num estado puro de entropia zero. Só esta correlação não prova emaranhamento; para isso é preciso medir em outras bases (teste de Bell)."
   }
   one.addEventListener("click", () => show(measure()))
   hundred.addEventListener("click", () => {
@@ -280,10 +280,10 @@ function pageCurve(box: HTMLElement) {
     dot.setAttribute("cy", String(Y(sP(t))))
     msg.textContent =
       t < tPage
-        ? "Antes do tempo de Page, a conta de Hawking vale: cada partícula que sai deixa uma parceira dentro."
+        ? "Antes do tempo de Page, a curva acompanha a conta de Hawking: cada partícula que sai deixa uma parceira dentro."
         : t < 1
-          ? "Depois do tempo de Page, aparece a ilha e a curva desce. A conta de Hawking passa da capacidade do buraco negro, o que seria impossível."
-          : "Evaporou: a radiação guarda toda a informação."
+          ? "Depois do tempo de Page, a curva desce. Nos modelos estudados, as ilhas explicam essa virada."
+          : "Evaporou: se o buraco negro nasceu de um estado puro, a radiação final volta a ter entropia zero."
   }
   s.input.addEventListener("input", render)
   render()
@@ -310,7 +310,7 @@ function transit(box: HTMLElement) {
     const rp = Number(sp.input.value) / 10
     const rsun = Number(ss.input.value) / 100
     const ratio = rp / (rsun * R_SUN_IN_EARTH)
-    const depth = ratio * ratio
+    const depth = Math.min(1, ratio * ratio)
     sp.out.textContent = `${fmt(rp, 1)} R⊕`
     ss.out.textContent = `${fmt(rsun, 2)} R☉`
     rD.textContent = `${fmt(depth * 100, depth < 0.001 ? 4 : 2)}%`
@@ -329,8 +329,9 @@ function transit(box: HTMLElement) {
       pts.push(`${(220 + x * 280).toFixed(1)},${y.toFixed(1)}`)
     }
     curve.setAttribute("points", pts.join(" "))
-    msg.textContent =
-      rp >= 9
+    msg.textContent = ratio >= 1
+      ? "O corpo é maior que a estrela: na passagem central, ele tapa 100% da luz, nunca mais que isso."
+      : rp >= 9
         ? "Um planeta do tamanho de Júpiter numa estrela como o Sol apaga cerca de 1% da luz: dá para ver até com telescópios pequenos."
         : "Um planeta como a Terra numa estrela como o Sol apaga menos de 0,01%. Por isso foi preciso ir ao espaço (Kepler, TESS)."
   }

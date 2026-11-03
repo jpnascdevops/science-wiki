@@ -24,19 +24,19 @@ claims:
   - text: "Mayor e Queloz anunciaram 51 Pegasi b em 6 de outubro de 1995, o primeiro exoplaneta em volta de uma estrela como o Sol, pelo método de velocidade radial"
     type: attribution
     check: source
-    sources: [https://www.space.com/astronomy/exoplanets/the-exoplanet-revolution-at-30-1st-alien-world-was-found-around-a-sun-like-star-three-decades-ago]
+    sources: [https://science.nasa.gov/universe/exoplanets/will-the-real-first-exoplanet-please-stand-up/]
     status: verified
   - text: "Mayor e Queloz dividiram metade do Nobel de Física de 2019; a outra metade foi para James Peebles"
     type: attribution
     check: source
     sources: [https://www.kva.se/en/news/nobelpriset-i-fysik-2019-2/]
     status: verified
-  - text: "O NASA Exoplanet Archive listava cerca de 6.450 exoplanetas confirmados em outubro de 2026"
+  - text: "A página de contagem do NASA Exoplanet Archive consultada em 2 de novembro de 2026 listava 6.451 exoplanetas confirmados"
     type: number
     check: source
     sources: [https://exoplanetarchive.ipac.caltech.edu/docs/counts_detail.html, https://exoplanet.ipac.caltech.edu/docs/exonews_archive.html]
     status: verified
-    note: "6.445 em 8 de outubro de 2026 (notícias do Archive); 6.451 na página de contagem em 2 de novembro de 2026. Número muda toda semana."
+    note: "Total reconferido na página de contagem em 2026-11-02; é uma fotografia datada de um catálogo que muda."
 resources:
   - kind: read
     title: "IAU OAE, glossário: Exoplaneta"
@@ -92,7 +92,7 @@ Este conceito não tem uma equação central. As duas técnicas que mais acharam
 | 1992 | Wolszczan e Frail: planetas em volta do pulsar PSR B1257+12 |
 | 1995 | Mayor e Queloz: 51 Pegasi b, primeiro em volta de uma estrela como o Sol |
 | 2019 | Mayor e Queloz dividem metade do Nobel de Física |
-| out. 2026 | cerca de 6.450 confirmados no NASA Exoplanet Archive |
+| consulta em 2 nov. 2026 | 6.451 confirmados no NASA Exoplanet Archive |
 
 51 Pegasi b foi uma surpresa: um gigante gasoso dando uma volta na estrela a cada 4,2 dias, muito mais perto do que Mercúrio está do Sol.
 

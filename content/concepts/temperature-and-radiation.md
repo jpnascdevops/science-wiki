@@ -1,11 +1,11 @@
 ---
 id: temperature-and-radiation
 title: Temperatura e radiação
-summary: Tudo que tem temperatura brilha; quanto mais quente, mais energia por partícula de luz.
+summary: Tudo que tem temperatura brilha; quanto mais quente, maior a energia média dos fótons da radiação térmica.
 recap:
   - "Tudo que tem temperatura emite luz."
   - "A potência irradiada cresce com T à quarta (Stefan-Boltzmann)."
-  - "Mais quente significa mais energia por fóton."
+  - "Mais quente significa maior energia média por fóton na radiação térmica."
 levels: [zero]
 consensus: established
 tags:
@@ -37,7 +37,7 @@ review:
 
 ## Intuição
 
-Um ferro em brasa brilha vermelho, o Sol brilha amarelo, o seu corpo brilha em infravermelho. Temperatura é a medida da energia de agitação das partículas, e essa agitação vira luz. Quanto mais quente, mais energia carrega cada partícula de luz emitida.
+Um ferro em brasa brilha vermelho, o Sol emite luz que, vista do espaço, é branca, o seu corpo brilha em infravermelho. Num gás, temperatura é a medida da agitação média das partículas, e essa agitação vira luz. A luz emitida tem fótons de várias energias; quanto mais quente o corpo, maior a energia média deles, e a cor puxa do vermelho para o azul.
 
 ## Equação
 
@@ -57,7 +57,7 @@ $$
 
 ## Exemplo
 
-Dobrar a temperatura multiplica a potência irradiada por $2^4 = 16$.
+Para um corpo negro de área fixa, dobrar a temperatura em kelvin multiplica a potência irradiada por $2^4 = 16$. Corpos reais dependem também da emissividade; a potência líquida inclui a radiação absorvida do ambiente.
 
 ## Onde isso volta
 
@@ -72,3 +72,5 @@ Se temperatura é energia de agitação, o que mede quantos jeitos diferentes es
 | Evite dizer | Diga |
 | --- | --- |
 | "só coisas quentes emitem luz" | "tudo acima do zero absoluto emite; o que muda é o tipo de luz" |
+
+[Cor do Sol: NASA/SOHO](https://soho.nascom.nasa.gov/classroom/faq.html).

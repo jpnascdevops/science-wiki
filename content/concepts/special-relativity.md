@@ -53,7 +53,7 @@ review:
 
 ## Intuição
 
-A luz anda sempre a $c \approx 300$ mil km/s, não importa quem mede. Para isso ser verdade, o tempo de quem se move rápido passa mais devagar e as distâncias encurtam na direção do movimento. No dia a dia isso é invisível porque andamos devagar demais.
+No vácuo, a luz é medida localmente com velocidade $c \approx 300$ mil km/s, não importa quem mede. Para isso ser verdade, o tempo de quem se move rápido passa mais devagar e as distâncias encurtam na direção do movimento. No dia a dia isso é invisível porque andamos devagar demais.
 
 ## Equação
 
@@ -68,8 +68,8 @@ $$
 | $\gamma$ | fator de Lorentz | sem unidade |
 | $v$ | velocidade | m/s |
 | $c$ | velocidade da luz | m/s |
-| $\Delta t_0$ | tempo no relógio de quem se move | s |
-| $\Delta t$ | o mesmo intervalo visto por quem está parado | s |
+| $\Delta t_0$ | tempo próprio entre eventos no mesmo relógio | s |
+| $\Delta t$ | intervalo no referencial inercial em que esse relógio se move a $v$ | s |
 
 ## Exemplo
 

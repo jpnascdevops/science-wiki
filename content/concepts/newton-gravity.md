@@ -38,10 +38,10 @@ claims:
     check: source
     sources: [https://www.britannica.com/place/Neptune-planet/Neptunes-discovery]
     status: verified
-  - text: "Le Verrier notou em 1859 um avanço anômalo do periélio de Mercúrio de cerca de 43 segundos de arco por século"
+  - text: "Le Verrier estimou em 1859 um avanço anômalo do periélio de Mercúrio de cerca de 38 segundos de arco por século; o valor posteriormente refinado é cerca de 43"
     type: attribution
     check: source
-    sources: [https://arxiv.org/pdf/1705.04397]
+    sources: [https://mathshistory.st-andrews.ac.uk/Biographies/Le_Verrier/]
     status: verified
 resources:
   - kind: watch
@@ -108,3 +108,5 @@ Se a gravidade fica mais forte perto de massas compactas, existe um ponto em que
 ## Nível técnico
 
 A forma vetorial é $\vec F = -\frac{GMm}{r^2}\hat r$, ou, com o potencial gravitacional, $\vec g = -\nabla\Phi$ e $\nabla^2\Phi = 4\pi G\rho$ (equação de Poisson). Na relatividade geral, no limite de campo fraco, $g_{00}\approx-(1+2\Phi/c^2)$ recupera exatamente essa equação.
+
+A fórmula $GMm/r^2$ aplica-se diretamente a massas pontuais ou a corpos esfericamente simétricos sem sobreposição; para distribuições gerais é preciso somar ou integrar as contribuições.

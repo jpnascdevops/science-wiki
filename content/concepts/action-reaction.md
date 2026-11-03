@@ -1,7 +1,7 @@
 ---
 id: action-reaction
 title: 'Ação e reação: a terceira lei'
-summary: Forças sempre vêm em pares iguais e opostos, agindo em corpos diferentes.
+summary: Na mecânica newtoniana, forças de interação vêm em pares iguais e opostos, agindo em corpos diferentes.
 recap:
   - "Se A empurra B, B empurra A com força igual e oposta, no mesmo instante."
   - "As duas forças agem em corpos diferentes, por isso não se cancelam."
@@ -76,7 +76,7 @@ review:
 
 ## Intuição
 
-Não existe força solitária. Quando você empurra a parede, a parede empurra sua mão de volta, com a mesma força. Quando você anda, seu pé empurra o chão para trás e o chão empurra você para frente. Um foguete joga gás para trás e o gás empurra o foguete para frente; não precisa de ar para se apoiar.
+Na mecânica newtoniana, as forças de interação entre dois corpos formam pares. Quando você empurra a parede, a parede empurra sua mão de volta, com a mesma força. Quando você anda, seu pé empurra o chão para trás e o chão empurra você para frente. Um foguete joga gás para trás e o gás empurra o foguete para frente; não precisa de ar para se apoiar.
 
 Se as forças são iguais e opostas, por que não se cancelam? Porque agem em corpos diferentes. Uma está no foguete, a outra no gás.
 
@@ -98,7 +98,7 @@ $$
 
 Dois patinadores parados no gelo, um de 60 kg e outro de 40 kg, se empurram com 120 N. Cada um sente 120 N. O de 60 kg acelera $120/60 = 2$ m/s²; o de 40 kg, $120/40 = 3$ m/s². O mais leve sai mais rápido.
 
-Quando uma pessoa de 60 kg está no ar depois de pular, ela puxa a Terra com a mesma força com que a Terra a puxa, cerca de 590 N. Mas a massa dela é tão grande que a aceleração é da ordem de $10^{-22}$ m/s².
+Quando uma pessoa de 60 kg está no ar depois de pular, ela puxa a Terra com a mesma força com que a Terra a puxa, cerca de 590 N. Mas a massa da Terra é tão grande que a aceleração é da ordem de $10^{-22}$ m/s².
 
 ## Onde isso volta
 
@@ -113,5 +113,7 @@ Se as forças são iguais, o que fica igual entre os dois patinadores depois do 
 | Evite dizer | Diga |
 | --- | --- |
 | "a reação vem depois da ação" | "as duas forças acontecem ao mesmo tempo" |
-| "ação e reação se anulam" | "agem em corpos diferentes, então não se anulam" |
+| "ação e reação se anulam" | "não se cancelam no balanço de forças de um só corpo; somam zero como forças internas do conjunto" |
 | "o peso e a normal são ação e reação" | "o par do peso é a força que você faz puxando a Terra; a normal é outra interação" |
+
+A terceira lei nessa forma instantânea não se estende a toda interação relativística. No eletromagnetismo, o momento total conservado inclui o dos campos. [Feynman, seção 10–3](https://www.feynmanlectures.caltech.edu/I_10.html).

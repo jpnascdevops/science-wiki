@@ -1,9 +1,9 @@
 ---
 id: page-curve
 title: Curva de Page
-summary: Se a informação sobrevive, a entropia da radiação sobe e depois desce até zero.
+summary: Para um estado inicial puro e evaporação completa e unitária, a entropia da radiação volta a zero.
 recap:
-  - "Se a informação sobrevive, a entropia da radiação sobe e depois desce até zero."
+  - "Para um estado inicial puro e evaporação completa e unitária, a entropia da radiação volta a zero."
   - "A virada é no tempo de Page, perto da metade da vida do buraco negro."
   - "A conta de Hawking só subia."
 levels: [zero, technical]
@@ -36,13 +36,17 @@ claims:
     check: arxiv
     arxiv: hep-th/9306083
     expected_title: "Information in black hole radiation"
-    status: pending
+    sources: [https://arxiv.org/abs/hep-th/9306083]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Don Page publicou 'Average entropy of a subsystem' em 1993"
     type: reference
     check: arxiv
     arxiv: gr-qc/9305007
     expected_title: "Average entropy of a subsystem"
-    status: pending
+    sources: [https://arxiv.org/abs/gr-qc/9305007]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: read
     title: "Quanta Magazine: The Most Famous Paradox in Physics Nears Its End (George Musser, 2020)"
@@ -64,7 +68,7 @@ review:
 
 ## Intuição
 
-Olhe para o quanto a radiação que já saiu está emaranhada com o que ficou dentro. No começo, isso sobe: cada partícula que sai deixa uma parceira lá dentro. Mas o buraco negro é um copo que encolhe; a radiação não pode estar mais emaranhada com ele do que ele tem capacidade de guardar. Se a informação sobrevive, a curva tem que virar no meio e descer até zero.
+Olhe para o quanto a radiação que já saiu está emaranhada com o que ficou dentro. No começo, isso sobe: cada partícula que sai deixa uma parceira lá dentro. Mas o buraco negro é um copo que encolhe; a radiação não pode estar mais emaranhada com ele do que ele tem capacidade de guardar. Se o estado inicial é puro e a evaporação é completa e unitária, a entropia final da radiação é zero. A forma típica que sobe e desce também pressupõe uma dinâmica que mistura suficientemente os graus de liberdade.
 
 ## Equação
 
@@ -102,9 +106,11 @@ O que, dentro da própria gravidade, faz a curva virar?
 
 | Evite dizer | Diga |
 | --- | --- |
-| "a curva vira exatamente na metade" | "vira no tempo de Page, perto da metade; em 4D, cerca de 54% da vida" |
+| "a curva vira exatamente na metade" | "vira no tempo de Page, perto da metade; no modelo 4D sem rotação, inicialmente puro, emitindo fótons e grávitons, cerca de 54% da vida" |
 | "Page resolveu o paradoxo" | "Page mostrou como a resposta teria de ser se a informação sobrevive" |
 
 ## Nível técnico
 
-Para um estado puro aleatório em $\mathcal H_A\otimes\mathcal H_B$ com $m\le n$, Page mostrou $\langle S_A\rangle\simeq\ln m - \frac{m}{2n}$. Aplicado a buraco negro + radiação, isso dá $S(R)\approx\min(S_{\text{rad}},S_{BH})$. Depois do tempo de Page, a conta de Hawking dá $S(R) > S_{BH}$, o que é impossível para evolução unitária.
+Para um estado puro aleatório em $\mathcal H_A\otimes\mathcal H_B$ com $1\ll m\le n$, Page mostrou $\langle S_A\rangle\simeq\ln m - \frac{m}{2n}$. Aplicado a buraco negro + radiação, isso dá $S(R)\approx\min(S_{\text{rad}},S_{BH})$. Depois do tempo de Page, a conta de Hawking dá $S(R) > S_{BH}$, o que conflita com um estado global puro e com a identificação de $S_{BH}$ como limite da entropia do buraco negro.
+
+O valor de 54% depende do modelo de emissão; não é universal. Um estado inicial misto pode terminar com entropia da radiação diferente de zero. As entropias quânticas aqui são adimensionais ($k_B=1$). [Page, 2013](https://arxiv.org/abs/1301.4995).

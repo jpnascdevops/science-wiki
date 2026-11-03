@@ -78,7 +78,7 @@ review:
 
 Jogue uma pedra para cima e ela volta. Jogue mais rápido e ela sobe mais. Existe uma velocidade a partir da qual ela nunca volta: a velocidade de escape. Quanto mais massa e quanto mais compacto o corpo, maior ela é.
 
-A imagem da pedra falha num ponto: a velocidade de escape não depende da direção nem da massa da pedra, só do planeta.
+A imagem da pedra falha num ponto: a velocidade de escape não depende da direção nem da massa da pedra, da massa do astro e da distância inicial ao centro. Isso supõe ausência de arrasto e de propulsão posterior; a trajetória também não pode colidir com o astro.
 
 ## Equação
 

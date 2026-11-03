@@ -4,7 +4,7 @@ title: Paradoxo da informação
 summary: A evaporação térmica de buracos negros parece destruir informação, o que a mecânica quântica proíbe.
 recap:
   - "Pela conta de Hawking, a radiação é térmica e apagaria a informação do que caiu."
-  - "A mecânica quântica proíbe apagar informação."
+  - "A evolução unitária de um sistema fechado preserva informação."
   - "Hawking apostou que ela se perdia e admitiu a derrota em 2004."
 levels: [zero, technical]
 consensus: established
@@ -30,7 +30,7 @@ claims:
     check: source
     sources: [https://en.wikipedia.org/wiki/Thorne%E2%80%93Hawking%E2%80%93Preskill_bet]
     status: verified
-  - text: "Kip Thorne não admitiu a derrota"
+  - text: "Kip Thorne não acompanhou a concessão de Hawking em 2004"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Thorne%E2%80%93Hawking%E2%80%93Preskill_bet]
@@ -75,7 +75,7 @@ review:
 
 Jogue um livro num buraco negro e espere ele evaporar. Pela conta de Hawking, a radiação que sai é puramente térmica e não carrega nada do livro. Seria como esvaziar a lixeira, não só jogar o arquivo nela.
 
-Mas a mecânica quântica diz que informação nunca é destruída. Um livro queimado continua, em princípio, escrito na fumaça, nas cinzas e no calor. Duas teorias muito bem testadas dizem coisas incompatíveis.
+Mas a evolução unitária de um sistema fechado preserva informação. Um livro queimado continua, em princípio, escrito na fumaça, nas cinzas e no calor. O conflito aparece ao extrapolar o cálculo semiclássico até a evaporação completa; a radiação Hawking de buracos negros astrofísicos não foi diretamente medida.
 
 ## Equação
 
@@ -93,7 +93,7 @@ $$
 
 ## Exemplo
 
-A evolução quântica sempre leva estado puro em estado puro: $\rho\to U\rho U^\dagger$. A conta de Hawking leva o estado puro de uma estrela em colapso para radiação térmica, que é mista. Nenhum $U$ faz isso.
+A evolução unitária de um sistema fechado leva estado puro em estado puro: $\rho\to U\rho U^\dagger$. A conta de Hawking leva o estado puro de uma estrela em colapso para radiação térmica, que é mista. Nenhum $U$ faz isso.
 
 ## Onde isso volta
 

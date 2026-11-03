@@ -13,20 +13,20 @@ tags:
   topics: [transits, signal-processing]
   arxiv_category: astro-ph.EP
 equations:
-  - tex: \delta_{\text{obs}} = \delta_{\text{real}}\,\frac{F_{\text{alvo}}}{F_{\text{alvo}} + F_{\text{contam}}}
-    spoken: "delta observado é igual a delta real vezes F alvo sobre, F alvo mais F contaminante"
+  - tex: \delta_{\text{obs}} = \delta_{\text{real}}\,\frac{F_{\text{ecl}}}{F_{\text{ecl}} + F_{\text{outros}}}
+    spoken: "delta observado é igual a delta real vezes F da fonte eclipsada sobre, F da fonte eclipsada mais F das outras fontes"
 claims:
   - text: "Binárias eclipsantes, inclusive misturadas com a luz de outra estrela (blended) ou rasantes (grazing), são uma fonte importante de falsos positivos"
     type: conceptual
     check: source
     sources: [https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets]
     status: verified
-  - text: "Para candidatos únicos do Kepler, a taxa de falsos positivos já foi estimada em cerca de 40%"
+  - text: "Santerne et al. (2012) estimaram 34,8 ± 6,5% de falsos positivos numa amostra de candidatos gigantes do Kepler com período menor que 25 dias, profundidade maior que 0,4% e magnitude Kepler menor que 14,7"
     type: number
     check: source
-    sources: [https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets]
-    status: pending
-    note: "Valor citado na Wikipedia; falta a fonte primária."
+    sources: [https://arxiv.org/abs/1206.0601]
+    status: verified
+    note: "A taxa depende da seleção; não se aplica a todos os candidatos únicos do Kepler."
 resources:
   - kind: read
     title: "Wikipedia: Methods of detecting exoplanets"
@@ -59,7 +59,7 @@ Uma queda periódica de brilho pode ser um planeta, mas também pode ser duas es
 ## Equação
 
 $$
-\delta_{\text{obs}} = \delta_{\text{real}}\,\frac{F_{\text{alvo}}}{F_{\text{alvo}} + F_{\text{contam}}}
+\delta_{\text{obs}} = \delta_{\text{real}}\,\frac{F_{\text{ecl}}}{F_{\text{ecl}} + F_{\text{outros}}}
 $$
 
 ## Variáveis
@@ -68,8 +68,8 @@ $$
 | --- | --- |
 | $\delta_{\text{obs}}$ | profundidade medida |
 | $\delta_{\text{real}}$ | profundidade do evento na estrela que o produz |
-| $F_{\text{alvo}}$ | fluxo da estrela de interesse |
-| $F_{\text{contam}}$ | fluxo de outras estrelas no mesmo pixel |
+| $F_{\text{ecl}}$ | fluxo fora do eclipse da fonte que sofre o evento |
+| $F_{\text{outros}}$ | fluxo das demais fontes na abertura fotométrica |
 
 ## Exemplo
 
@@ -92,4 +92,6 @@ Confirmado o planeta, ele poderia ter água líquida?
 
 ## Nível técnico
 
-Testes padrão: comparar profundidade de trânsitos pares e ímpares, procurar eclipse secundário na fase 0,5, checar o deslocamento do centroide e a forma (V versus U), e usar imagem de alta resolução para achar companheiras próximas. Ferramentas como TRICERATOPS e VESPA calculam a probabilidade de cada cenário (planeta, binária eclipsante, binária hierárquica, fundo) e declaram o planeta "validado" quando a probabilidade de falso positivo fica abaixo de cerca de 1%.
+Testes padrão: comparar profundidade de trânsitos pares e ímpares, procurar eclipse secundário (fase 0,5 em órbita circular; pode mudar em órbita excêntrica), checar o deslocamento do centroide e a forma (V versus U), e usar imagem de alta resolução para achar companheiras próximas. Ferramentas como TRICERATOPS e VESPA calculam a probabilidade de cada cenário (planeta, binária eclipsante, binária hierárquica, fundo) com critérios próprios. Giacalone et al. usam FPP < 0,015 e NFPP < 0,001 no TRICERATOPS; não há um limiar único para todas as ferramentas.
+
+No exemplo, $\delta_{obs}=0{,}5\times(1/1000)/(1+1/1000)\approx0{,}04995\%$: a fonte eclipsada é a binária de fundo. [Critérios do TRICERATOPS](https://arxiv.org/abs/2002.00691).

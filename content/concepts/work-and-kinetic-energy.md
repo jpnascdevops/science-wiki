@@ -111,7 +111,7 @@ $$
 
 ## Exemplo
 
-Um carro de 1000 kg a 72 km/h (20 m/s): $E_c = \tfrac12 \times 1000 \times 20^2 = 200$ kJ. A 144 km/h: 800 kJ. Os freios precisam dissipar quatro vezes mais energia, e a distância de frenagem também fica cerca de quatro vezes maior.
+Um carro de 1000 kg a 72 km/h (20 m/s): $E_c = \tfrac12 \times 1000 \times 20^2 = 200$ kJ. A 144 km/h: 800 kJ. Os freios precisam dissipar quatro vezes mais energia, e, mantendo a mesma força média de frenagem, a distância de frenagem fica quatro vezes maior (sem incluir o percurso durante a reação do motorista).
 
 ## Onde isso volta
 

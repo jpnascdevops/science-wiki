@@ -1,9 +1,9 @@
 ---
 id: islands
 title: Ilhas
-summary: Depois do tempo de Page, uma região dentro do buraco negro passa a contar como parte da radiação; com ela, a curva vira.
+summary: Nos modelos de evaporação com ilhas, uma região interna entra no cálculo da entropia da radiação após o tempo de Page.
 recap:
-  - "Depois do tempo de Page, uma região dentro do buraco negro passa a contar como radiação."
+  - "Nos modelos estudados, uma ilha interna passa a integrar a cunha de emaranhamento da radiação."
   - "Com essa ilha, a entropia da radiação desce: aparece a curva de Page."
   - "O interior fica codificado do lado de fora."
 levels: [intermediate, technical]
@@ -25,20 +25,26 @@ claims:
     check: arxiv
     arxiv: "1905.08255"
     expected_title: "Entanglement Wedge Reconstruction and the Information Paradox"
-    status: pending
+    sources: [https://arxiv.org/abs/1905.08255]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Almheiri, Engelhardt, Marolf e Maxfield: The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole (2019)"
     type: reference
     check: arxiv
     arxiv: "1905.08762"
     expected_title: "The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole"
-    status: pending
+    sources: [https://arxiv.org/abs/1905.08762]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Almheiri, Mahajan, Maldacena e Zhao: The Page curve of Hawking radiation from semiclassical geometry (2019)"
     type: reference
     check: arxiv
     arxiv: "1908.10996"
     expected_title: "The Page curve of Hawking radiation from semiclassical geometry"
-    status: pending
-  - text: "Depois do tempo de Page, a ilha fica na cunha de emaranhamento da radiação"
+    sources: [https://arxiv.org/abs/1908.10996]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
+  - text: "Nos modelos holográficos de evaporação estudados, a ilha fica na cunha de emaranhamento da radiação depois do tempo de Page"
     type: conceptual
     check: verifier
     sources: [https://ar5iv.arxiv.org/html/2006.06872]
@@ -106,3 +112,5 @@ De onde vem essa fórmula, se ninguém a postulou a partir das leis da gravidade
 ## Nível técnico
 
 Penington e Almheiri-Engelhardt-Marolf-Maxfield usaram a prescrição QES num buraco negro em AdS acoplado a um banho com condições transparentes. O QES não trivial fica ligeiramente dentro do horizonte, atrasado pelo tempo de scrambling. Almheiri-Mahajan-Maldacena-Zhao escreveram a fórmula das ilhas na forma acima. Isso é consistente com Hayden-Preskill: informação jogada num buraco negro velho reaparece na radiação após cerca de $t_{scr}$.
+
+Usamos $c=\hbar=k_B=1$ e $\beta=1/T_H$. A ilha entra na reconstrução e no cálculo da entropia; não se desloca fisicamente para fora. A posição da superfície e o tempo de recuperação dependem do modelo e do estado. [Penington, 2019](https://arxiv.org/abs/1905.08255).

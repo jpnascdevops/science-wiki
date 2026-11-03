@@ -1,10 +1,10 @@
 ---
 id: black-hole-thermodynamics
 title: Termodinâmica de buracos negros
-summary: Buracos negros têm entropia proporcional à área, temperatura, e evaporam emitindo radiação Hawking.
+summary: A teoria semiclássica prevê entropia proporcional à área e emissão de radiação Hawking; há evaporação líquida se a emissão superar a absorção.
 recap:
   - "Buracos negros têm entropia proporcional à área do horizonte: S = A/4 (em unidades de Planck)."
-  - "Têm temperatura e emitem radiação Hawking, por isso evaporam."
+  - "A teoria prevê temperatura e radiação Hawking; perdem massa se emitem mais energia do que absorvem."
   - "Quanto menores, mais quentes."
 levels: [zero, technical]
 consensus: established
@@ -39,7 +39,7 @@ claims:
     expected: 1.05e77
     tolerance: 0.02
     status: verified
-  - text: "Considerando só fótons, um buraco negro solar levaria cerca de 2 × 10^67 anos para evaporar"
+  - text: "Na aproximação de corpo negro ideal com área do horizonte, sem absorção externa, um buraco negro solar levaria cerca de 2 × 10^67 anos para evaporar"
     type: number
     check: compute
     formula: evaporation_time_sun_years
@@ -47,6 +47,7 @@ claims:
     unit: anos
     tolerance: 0.02
     status: verified
+    note: "Verificação aritmética da aproximação de Stefan–Boltzmann; não inclui fatores greybody, outras espécies de partículas nem absorção externa."
   - text: "Hawking fixou a constante de proporcionalidade da entropia em 1/4"
     type: attribution
     check: source
@@ -89,7 +90,7 @@ review:
 
 ## Intuição
 
-Jogar uma xícara de chá quente num buraco negro faria a entropia dela sumir do universo, o que a termodinâmica proíbe. Bekenstein propôs a saída: o buraco negro tem entropia, e ela é proporcional à área do horizonte, não ao volume. Hawking tentou mostrar que isso era absurdo e acabou provando que buracos negros têm temperatura e brilham.
+Jogar uma xícara de chá quente num buraco negro faria a entropia dela sumir do universo, o que a termodinâmica proíbe. Bekenstein propôs a saída: o buraco negro tem entropia, e ela é proporcional à área do horizonte, não ao volume. Hawking tentou mostrar que isso era absurdo e acabou derivando, na teoria semiclássica, que buracos negros têm temperatura e emitem radiação.
 
 O brilho vem de efeitos quânticos perto do horizonte. A imagem de pares de partículas surgindo do vácuo, um caindo e outro escapando, é uma simplificação; o ponto correto é que cada quantum que sai está emaranhado com um parceiro do lado de dentro.
 
@@ -116,7 +117,7 @@ $$
 | --- | --- |
 | Temperatura | ≈ $6{,}2\times10^{-8}$ K, mais frio que a radiação cósmica de fundo (2,7 K) |
 | Entropia | ≈ $10^{77}\,k_B$ |
-| Tempo de evaporação (só fótons) | ≈ $2\times10^{67}$ anos |
+| Tempo de evaporação (corpo negro ideal, sem absorção) | ≈ $2\times10^{67}$ anos |
 
 ## Onde isso volta
 
@@ -135,4 +136,6 @@ Quando o buraco negro termina de evaporar, a informação do que caiu nele sobre
 
 ## Nível técnico
 
-As leis de Bardeen-Carter-Hawking (1973) têm a forma $dM = \frac{\kappa}{8\pi G}dA + \Omega\,dJ + \Phi\,dQ$, com $T_H = \hbar\kappa/(2\pi c k_B)$. Para um modo de frequência $\omega$, o vácuo de quem cai é visto de fora como $\sum_n e^{-\beta\omega n/2}|n\rangle_{\text{out}}|n\rangle_{\text{in}}$; traçando os modos internos, a radiação externa é exatamente térmica. Pela lei de Stefan-Boltzmann, $dM/dt\propto -1/M^2$, o que dá $M(t) = M_0(1-t/t_{evap})^{1/3}$.
+Em unidades SI, a primeira lei de Bardeen-Carter-Hawking (1973) tem a forma $d(Mc^2) = \frac{\kappa c^2}{8\pi G}dA + \Omega\,dJ + \Phi\,dQ$, com $\kappa$ a gravidade superficial em m/s² e $T_H = \hbar\kappa/(2\pi c k_B)$. Para um modo bosônico de frequência angular $\omega$, o estado idealizado de dois modos é proporcional a $\sum_n e^{-\beta\hbar\omega n/2}|n\rangle_{\text{out}}|n\rangle_{\text{in}}$, com $\beta=1/(k_BT_H)$ e um fator de normalização implícito. Traçar o modo interno produz um estado térmico nesse modelo. O espectro observado longe do buraco negro inclui fatores de transmissão dependentes da frequência (greybody factors). Pela lei de Stefan-Boltzmann, $dM/dt\propto -1/M^2$, o que dá $M(t) = M_0(1-t/t_{evap})^{1/3}$.
+
+O coeficiente $5120\pi$ vem de aplicar Stefan–Boltzmann à área $4\pi r_s^2$; não é uma previsão completa da emissão de fótons em espaço-tempo curvo. A evolução $M(t)$ supõe taxa proporcional a $M^{-2}$ com coeficiente constante. [Aproximação e correções, seção 11.2](https://sites.ualberta.ca/~gingrich/textbooks/phys530.pdf); [cálculo com fótons e grávitons](https://arxiv.org/abs/1301.4995).

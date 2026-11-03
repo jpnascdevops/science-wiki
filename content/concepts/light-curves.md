@@ -5,7 +5,7 @@ summary: O brilho de uma estrela medido ao longo do tempo; é o dado bruto de on
 recap:
   - "Curva de luz é o brilho de uma estrela ao longo do tempo."
   - "Normalizada, 1 é o brilho normal; 0,99 é um apagão de 1%."
-  - "Juntar N medidas reduz o ruído aleatório por raiz de N."
+  - "A média de N medidas independentes de mesmo ruído reduz seu desvio padrão por raiz de N."
 levels: [zero, technical]
 consensus: established
 tags:
@@ -18,10 +18,12 @@ equations:
   - tex: \sigma_{\text{bin}} \approx \frac{\sigma}{\sqrt{N}}
     spoken: "sigma do bin é aproximadamente sigma sobre a raiz de N"
 claims:
-  - text: "Juntar N medidas independentes reduz o ruído aleatório por um fator de raiz de N"
+  - text: "A média de N medidas independentes, com a mesma variância finita, tem desvio padrão igual ao de uma medida dividido por raiz de N"
     type: definition
-    check: human
-    status: pending
+    check: source
+    sources: [https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-d1-terminology]
+    status: verified
+    note: "Conferido em 2026-11-02; para a média aritmética de erros independentes de variância sigma², Var(média) = sigma²/N."
 resources:
   - kind: read
     title: "NASA Science: What's a transit?"
@@ -68,7 +70,7 @@ $$
 
 ## Exemplo
 
-Normalizar divide tudo pela mediana: o brilho típico vira 1,0. Uma queda para 0,99 é um apagão de 1%. Se cada medida tem 0,1% de ruído, juntar 100 medidas reduz o ruído para cerca de 0,01%.
+Normalizar divide tudo pela mediana: o brilho típico vira 1,0. Uma queda para 0,99 é um apagão de 1%. Se as medidas são independentes e cada uma tem 0,1% de ruído, calcular a média de 100 medidas reduz o ruído para cerca de 0,01%.
 
 ## Onde isso volta
 

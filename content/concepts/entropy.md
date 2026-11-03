@@ -55,9 +55,9 @@ review:
 
 ## Intuição
 
-Entropia não é "bagunça" no sentido do dia a dia. É o número de jeitos diferentes que um sistema pode estar por dentro sem que você perceba a diferença por fora. Também é quanta informação falta para você saber o estado exato.
+Entropia não é "bagunça" no sentido do dia a dia. Para estados equiprováveis, ela é proporcional ao logaritmo do número de jeitos diferentes que um sistema pode estar por dentro sem que você perceba a diferença por fora. Também é quanta informação falta para você saber o estado exato.
 
-Com moedas: 8 moedas viradas podem estar em $2^8 = 256$ arranjos. Para dizer qual saiu, você precisa de 8 respostas de sim ou não, ou seja, 8 bits.
+Com moedas justas e independentes, antes de conhecer os resultados: 8 moedas podem estar em $2^8 = 256$ arranjos. Para dizer qual saiu, você precisa de 8 respostas de sim ou não, ou seja, 8 bits.
 
 ## Equação
 
@@ -91,7 +91,7 @@ coins
 
 ## Onde isso volta
 
-Bekenstein mostrou que um buraco negro tem entropia proporcional à área do horizonte. Na física quântica, a versão de von Neumann, $S(\rho)$, mede o emaranhamento, e é ela que a curva de Page acompanha.
+Bekenstein mostrou que um buraco negro tem entropia proporcional à área do horizonte. Na física quântica, a entropia reduzida de von Neumann, $S(\rho)$, mede o emaranhamento quando o estado global é puro, e é ela que a curva de Page acompanha.
 
 ## Pergunta-ponte
 
@@ -106,4 +106,4 @@ Na física quântica, o que significa uma parte de um sistema ter entropia se o 
 
 ## Nível técnico
 
-Para uma distribuição de probabilidades $p_i$, a entropia de Gibbs-Shannon é $S = -k_B\sum_i p_i\ln p_i$, que se reduz a $k_B\ln W$ quando os $W$ estados são equiprováveis. Na mecânica quântica, com a matriz densidade $\rho$, a entropia de von Neumann é $S(\rho) = -\operatorname{Tr}\rho\log\rho$; ela é zero para um estado puro.
+Para uma distribuição de probabilidades $p_i$, a entropia de Gibbs-Shannon é $S = -k_B\sum_i p_i\ln p_i$, que se reduz a $k_B\ln W$ quando os $W$ estados são equiprováveis. Na mecânica quântica, com a matriz densidade $\rho$, a entropia de von Neumann é $S(\rho) = -\operatorname{Tr}\rho\log\rho$; ela é zero para um estado puro. Com log natural, essa expressão sem $k_B$ é medida em nats; com log de base 2, em bits. A entropia de von Neumann de um sistema fechado é constante sob evolução unitária; a segunda lei se refere à entropia termodinâmica macroscópica.

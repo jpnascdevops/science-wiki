@@ -53,7 +53,7 @@ claims:
     check: source
     sources: [https://ui.adsabs.harvard.edu/abs/1939PhRv...56..455O/abstract]
     status: verified
-  - text: "Um buraco negro estacionário é descrito só por massa, carga e momento angular"
+  - text: "Na relatividade geral em quatro dimensões, sob as hipóteses usuais de unicidade em eletrovácuo assintoticamente plano, um buraco negro estacionário é caracterizado por massa, carga e momento angular"
     type: definition
     check: source
     sources: [https://pt.wikipedia.org/wiki/Teorema_da_calv%C3%ADcie]
@@ -133,7 +133,7 @@ Um objeto que engole tudo pode ter temperatura e entropia?
 | Evite dizer | Diga |
 | --- | --- |
 | "Schwarzschild provou que buracos negros existem" | "Schwarzschild achou a solução; a existência veio com o colapso de Oppenheimer-Snyder e, depois, com observações" |
-| "o horizonte é uma superfície sólida" | "o horizonte é uma fronteira no espaço-tempo; quem cai não sente nada especial ao cruzá-lo" |
+| "o horizonte é uma superfície sólida" | "o horizonte é uma fronteira no espaço-tempo, não uma parede; num buraco negro muito grande, quem cai não sente nada de especial ao cruzá-lo, enquanto num pequeno as forças de maré já esticam o corpo antes" |
 
 ## Nível técnico
 

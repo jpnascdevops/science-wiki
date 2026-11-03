@@ -38,7 +38,7 @@ claims:
     unit: ppm
     tolerance: 0.01
     status: verified
-  - text: "Um trânsito da Terra vista de longe duraria cerca de 13 horas"
+  - text: "Um trânsito central da Terra diante do Sol, numa órbita aproximadamente circular, duraria cerca de 13 horas"
     type: number
     check: compute
     formula: transit_duration_earth_hours
@@ -143,4 +143,6 @@ Como achar uma queda de 84 ppm escondida em anos de dados ruidosos?
 
 ## Nível técnico
 
-Com o parâmetro de impacto $b$, a duração total é $T_{14} = \frac{P}{\pi}\arcsin\!\left[\frac{R_\star}{a}\frac{\sqrt{(1+k)^2 - b^2}}{\sin i}\right]$, com $k = R_p/R_\star$. A forma da curva com escurecimento de limbo é dada pelo modelo de Mandel e Agol (2002). Da razão $a/R_\star$, ajustada na curva, e do período, sai a densidade média da estrela, $\rho_\star = \frac{3\pi}{GP^2}(a/R_\star)^3$.
+Para órbita circular e parâmetro de impacto $b$, a duração total é $T_{14} = \frac{P}{\pi}\arcsin\!\left[\frac{R_\star}{a}\frac{\sqrt{(1+k)^2 - b^2}}{\sin i}\right]$, com $k = R_p/R_\star$. A forma da curva com escurecimento de limbo é dada pelo modelo de Mandel e Agol (2002). Desprezando a massa do planeta, da razão $a/R_\star$, ajustada na curva com a geometria orbital apropriada, e do período, sai a densidade média da estrela, $\rho_\star = \frac{3\pi}{GP^2}(a/R_\star)^3$.
+
+A profundidade $(R_p/R_\star)^2$ supõe disco uniforme, sem luz contaminante e planeta inteiramente projetado sobre a estrela. A duração de 13 h é para trânsito central; trânsitos rasantes são mais curtos. [Geometria e hipóteses: Winn](https://arxiv.org/html/1001.2010v5).

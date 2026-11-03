@@ -103,7 +103,7 @@ Se a derivada tira a velocidade da posição, como fazer o caminho de volta?
 | Evite dizer | Diga |
 | --- | --- |
 | "derivada é dividir por zero" | "derivada é o valor de que a divisão se aproxima quando o intervalo encolhe" |
-| "velocidade média e instantânea são a mesma coisa" | "só são iguais quando o ritmo não muda" |
+| "velocidade média e instantânea são a mesma coisa" | "com velocidade constante, coincidem em qualquer intervalo; com aceleração constante, a média coincide com a instantânea no ponto médio do intervalo" |
 
 ## Nível técnico
 

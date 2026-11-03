@@ -30,19 +30,25 @@ claims:
     check: arxiv
     arxiv: hep-th/0603001
     expected_title: "Holographic Derivation of Entanglement Entropy from AdS/CFT"
-    status: pending
+    sources: [https://arxiv.org/abs/hep-th/0603001]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Maldacena: The large N limit of superconformal field theories and supergravity (1997)"
     type: reference
     check: arxiv
     arxiv: hep-th/9711200
     expected_title: "The Large N Limit of Superconformal Field Theories and Supergravity"
-    status: pending
+    sources: [https://arxiv.org/abs/hep-th/9711200]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Engelhardt e Wall: Quantum extremal surfaces (2014)"
     type: reference
     check: arxiv
     arxiv: "1408.3203"
     expected_title: "Quantum Extremal Surfaces: Holographic Entanglement Entropy beyond the Classical Regime"
-    status: pending
+    sources: [https://arxiv.org/abs/1408.3203]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: read
     title: "Wikipedia: Conjectura de Ryu-Takayanagi"
@@ -64,7 +70,7 @@ review:
 
 ## Intuição
 
-A entropia de um buraco negro cresce com a área, não com o volume. Isso sugere que a informação de uma região com gravidade está escrita na borda dela, como um holograma, que guarda uma imagem 3D num filme plano. Maldacena encontrou um exemplo concreto: um universo com gravidade equivale a uma teoria quântica comum, sem gravidade, vivendo na borda dele.
+A entropia de um buraco negro cresce com a área, não com o volume. Isso sugere que a informação de uma região com gravidade está escrita na borda dela, como um holograma, que guarda uma imagem 3D num filme plano. Maldacena propôs uma dualidade concreta, sustentada por muitos testes teóricos: certos modelos com gravidade equivalem a teorias quânticas sem gravidade definidas na fronteira do espaço-tempo.
 
 ## Equação
 
@@ -77,7 +83,7 @@ $$
 | Símbolo | Significado |
 | --- | --- |
 | $A$ | uma região da borda |
-| $\gamma_A$ | a superfície de área mínima, no interior, que termina na borda de $A$ |
+| $\gamma_A$ | a superfície mínima na fatia espacial estática, ancorada em $\partial A$ e homóloga a $A$ |
 | $G_N$ | constante de Newton |
 | $\chi$ | superfície candidata (na versão quântica) |
 | $S_{\text{bulk}}$ | entropia dos campos quânticos no interior |
@@ -103,3 +109,5 @@ O que essa regra diz sobre a radiação de um buraco negro que evapora?
 ## Nível técnico
 
 A correspondência AdS/CFT liga gravidade quântica em $\text{AdS}_{d+1}$ a uma CFT em $d$ dimensões. Ryu-Takayanagi (2006), Hubeny-Rangamani-Takayanagi (versão covariante), Faulkner-Lewkowycz-Maldacena (correções quânticas, 2013) e Engelhardt-Wall (2014) levam à prescrição da superfície extremal quântica, que extremiza a entropia generalizada $\frac{\operatorname{Area}}{4G_N}+S_{\text{bulk}}$.
+
+As fórmulas usam $c=\hbar=k_B=1$. Ryu–Takayanagi vale no limite clássico estático; situações dependentes do tempo exigem a versão covariante HRT. [Ryu e Takayanagi](https://arxiv.org/abs/hep-th/0603001); [superfícies extremais quânticas](https://arxiv.org/abs/1408.3203).

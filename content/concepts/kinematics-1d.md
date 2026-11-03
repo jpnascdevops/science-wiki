@@ -31,7 +31,7 @@ claims:
     unit: m/s²
     tolerance: 0.002
     status: verified
-  - text: "Nessa arrancada, o carro percorre cerca de 139 m"
+  - text: "Nessa arrancada, supondo aceleração constante, o carro percorre cerca de 139 m"
     type: number
     check: compute
     formula: distance_0_100_kmh_10s
@@ -98,7 +98,7 @@ $$
 
 ## Exemplo
 
-Um carro vai de 0 a 100 km/h (27,8 m/s) em 10 s. Aceleração: $27{,}8 / 10 \approx 2{,}78$ m/s². Distância: $\tfrac12 \times 2{,}78 \times 10^2 \approx 139$ m. Pela velocidade média: metade de 27,8 m/s durante 10 s, também 139 m.
+Um carro vai de 0 a 100 km/h (27,8 m/s) em 10 s, com aceleração constante. Aceleração: $27{,}8 / 10 \approx 2{,}78$ m/s². Distância: $\tfrac12 \times 2{,}78 \times 10^2 \approx 139$ m. Pela velocidade média: metade de 27,8 m/s durante 10 s, também 139 m.
 
 ## Onde isso volta
 

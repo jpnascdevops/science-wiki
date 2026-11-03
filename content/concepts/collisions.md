@@ -70,7 +70,7 @@ review:
 
 ## Intuição
 
-Numa colisão, os corpos se empurram com forças iguais e opostas pelo mesmo tempo. Por isso o momento total sempre se conserva. A energia cinética é outra história: depende de quanto os corpos se deformam e esquentam.
+Numa colisão, os corpos se empurram com forças iguais e opostas pelo mesmo tempo. Se o impulso externo durante a colisão é desprezível, o momento total dos corpos se conserva. A energia cinética é outra história: depende de quanto os corpos se deformam e esquentam.
 
 Bolas de bilhar quase não se deformam: a colisão é quase elástica, e numa batida de frente uma bola para e a outra sai com a velocidade dela (se a branca deslizar sem girar), como no pêndulo de Newton. Carros se amassam de propósito: a carroceria absorve energia que, de outro modo, iria para os passageiros.
 
@@ -110,4 +110,4 @@ E se em vez de corpos sólidos for um fluido, como a água num cano?
 
 ## Nível técnico
 
-Para colisão elástica frontal, $v_1' = \dfrac{m_1 - m_2}{m_1 + m_2}v_1 + \dfrac{2m_2}{m_1+m_2}v_2$ e $v_2' = \dfrac{2m_1}{m_1+m_2}v_1 + \dfrac{m_2 - m_1}{m_1+m_2}v_2$; massas iguais trocam de velocidade. No referencial do centro de massa, as velocidades só mudam de direção (elástica) ou se anulam (perfeitamente inelástica). O coeficiente de restituição $e = (v_2' - v_1')/(v_1 - v_2)$ vai de 0 (grudam) a 1 (elástica).
+Para colisão elástica frontal, $v_1' = \dfrac{m_1 - m_2}{m_1 + m_2}v_1 + \dfrac{2m_2}{m_1+m_2}v_2$ e $v_2' = \dfrac{2m_1}{m_1+m_2}v_1 + \dfrac{m_2 - m_1}{m_1+m_2}v_2$; massas iguais trocam de velocidade. No referencial do centro de massa, as velocidades só mudam de direção (elástica) ou se anulam (perfeitamente inelástica). Para colisões passivas unidimensionais, o coeficiente de restituição $e = (v_2' - v_1')/(v_1 - v_2)$ vai de 0 (grudam) a 1 (elástica).

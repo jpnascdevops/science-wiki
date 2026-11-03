@@ -31,7 +31,7 @@ claims:
     unit: m/s
     tolerance: 0.001
     status: verified
-  - text: "Nessa aceleração de 2 para 8 m/s, a pressão da água cai 30 kPa"
+  - text: "Nessa aceleração de 2 para 8 m/s, em escoamento ideal à mesma altura, a pressão da água cai 30 kPa"
     type: number
     check: compute
     formula: bernoulli_dp_kpa
@@ -93,7 +93,7 @@ review:
 
 Num cano que afina, ou num rio que estreita, a água corre mais rápido no trecho estreito. A água não se acumula nem some no meio do caminho: a mesma quantidade que entra por segundo tem que sair. Se a passagem fica menor, ela precisa correr mais.
 
-Daniel Bernoulli percebeu a outra metade: onde o fluido acelera, a pressão cai. É a conservação da energia aplicada a um fluido: se ganha energia de movimento, alguma outra coisa precisa diminuir, e o que diminui é a pressão. Um caso particular é bonito: a água que sai de um furo no fundo de uma caixa d'água sai com a velocidade que teria se tivesse caído da superfície até o furo.
+Em escoamento estacionário ideal, ao longo da mesma linha de corrente e na mesma altura, Bernoulli relaciona aumento de velocidade a queda de pressão. É a conservação da energia aplicada a um fluido: se ganha energia de movimento, alguma outra coisa precisa diminuir, e o que diminui é a pressão. Um caso particular é bonito: a água que sai de um furo no fundo de uma caixa d'água sai com a velocidade que teria se tivesse caído da superfície até o furo.
 
 ## Equação
 
@@ -113,7 +113,7 @@ $$
 
 ## Exemplo
 
-Água a 2 m/s num cano que termina num bico com um quarto da área: pela continuidade, sai a 8 m/s. Por Bernoulli, a pressão no cano largo é $\tfrac12 \times 1000 \times (8^2 - 2^2) = 30$ kPa maior que no bico.
+Água a 2 m/s num cano que termina num bico com um quarto da área: pela continuidade, sai a 8 m/s. Desprezando perdas e mantendo a mesma altura, por Bernoulli a pressão no cano largo é $\tfrac12 \times 1000 \times (8^2 - 2^2) = 30$ kPa maior que no bico.
 
 Uma caixa d'água com um furo 5 m abaixo da superfície: $v = \sqrt{2 \times 9{,}8 \times 5} \approx 9{,}9$ m/s.
 

@@ -81,7 +81,7 @@ $$
 | --- | --- | --- |
 | $T_{\text{eq}}$ | temperatura de equilíbrio do planeta (sem efeito estufa) | K |
 | $T_\star$ | temperatura da superfície da estrela | K |
-| $A$ | albedo: fração da luz refletida | 0 a 1 |
+| $A$ | albedo de Bond: fração da potência incidente refletida | 0 a 1 |
 | $H$ | escala de altura da atmosfera | m |
 | $\Delta\delta$ | variação da profundidade do trânsito com a cor | sem unidade |
 
@@ -89,7 +89,7 @@ $$
 
 Para a Terra, com albedo 0,3, a conta dá cerca de 255 K, ou −18 °C. A temperatura média real é de uns 15 °C: a diferença é o efeito estufa. Ou seja, a temperatura de equilíbrio sozinha não diz se um planeta é habitável.
 
-Em 2022, o JWST observou WASP-39 b, um gigante quente, e viu a assinatura do dióxido de carbono por volta de 4,3 µm: a primeira detecção clara desse gás fora do Sistema Solar.
+Em 2022, o JWST observou WASP-39 b, um gigante quente, e viu a assinatura do dióxido de carbono por volta de 4,3 µm: a primeira detecção clara desse gás na atmosfera de um exoplaneta.
 
 ## Onde isso volta
 
@@ -108,4 +108,6 @@ Que moléculas, juntas, seriam um indício de vida, e como distinguir isso de qu
 
 ## Nível técnico
 
-A escala de altura é $H = \frac{k_B T}{\mu g}$; atmosferas quentes, leves e de baixa gravidade (gigantes inflados como WASP-39 b) dão os sinais maiores, de centenas de ppm. Para planetas rochosos em estrelas do tipo Sol, $\Delta\delta$ fica em poucos ppm, o que explica por que estrelas anãs vermelhas, pequenas, são os alvos preferidos. Os limites da zona habitável usados hoje vêm de modelos climáticos (Kopparapu et al.), em termos do fluxo recebido, não da distância.
+Para uma atmosfera ideal aproximadamente isotérmica, a escala de altura é $H = \frac{k_B T}{\mu g}$, com $\mu$ a massa média por molécula em kg; atmosferas quentes, leves e de baixa gravidade (gigantes inflados como WASP-39 b) dão os sinais maiores, de centenas de ppm. Para planetas rochosos em estrelas do tipo Sol, $\Delta\delta$ fica em poucos ppm, o que explica por que estrelas anãs vermelhas, pequenas, são os alvos preferidos. Os limites da zona habitável usados hoje vêm de modelos climáticos (Kopparapu et al.), em termos do fluxo recebido, não da distância.
+
+A temperatura de equilíbrio acima assume redistribuição uniforme do calor por toda a superfície e emissão como corpo negro. [Detecção de CO₂ em WASP-39 b](https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/).

@@ -1,10 +1,10 @@
 ---
 id: energy-and-mass
 title: Energia e E = mc²
-summary: Massa é uma forma de energia; perder energia é perder massa.
+summary: A massa determina a energia de repouso; perder energia interna reduz a massa de um sistema.
 recap:
   - "Massa é energia concentrada: E = m c²."
-  - "Perder energia é perder massa, quase sempre num valor minúsculo."
+  - "Perder energia interna reduz a massa, quase sempre num valor minúsculo."
   - "É por isso que um buraco negro que irradia encolhe."
 levels: [zero]
 consensus: established
@@ -54,7 +54,7 @@ $$
 
 | Símbolo | Significado | Unidade |
 | --- | --- | --- |
-| $E$ | energia | joule (J) |
+| $E$ | energia de repouso | joule (J) |
 | $m$ | massa | kg |
 | $c$ | velocidade da luz, $3\times10^8$ | m/s |
 | $E_c$ | energia de movimento (cinética) | J |
@@ -75,4 +75,6 @@ Quanta energia de movimento é preciso ter para escapar da gravidade de um plane
 
 | Evite dizer | Diga |
 | --- | --- |
-| "massa vira energia só em bombas" | "toda perda de energia é uma perda de massa, quase sempre minúscula" |
+| "massa vira energia só em bombas" | "perder energia interna reduz a massa; frear um corpo não reduz por si só sua massa de repouso" |
+
+Aqui $E=mc^2$ é a energia no referencial de repouso. Para um corpo em movimento, $E=\gamma mc^2$; energia cinética e massa de repouso são distintas. [Energia relativística](https://www.feynmanlectures.caltech.edu/I_16.html).

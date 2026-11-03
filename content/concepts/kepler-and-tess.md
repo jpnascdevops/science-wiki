@@ -58,7 +58,7 @@ review:
 
 ## Intuição
 
-Da Terra, a atmosfera tremula e o dia interrompe as medidas; quedas de 0,01% se perdem. No espaço, um telescópio pode medir o brilho de muitas estrelas ao mesmo tempo, sem parar, por meses. Foi para isso que foram feitos o Kepler e o TESS: são, basicamente, máquinas de fazer curvas de luz.
+Da Terra, a atmosfera e as interrupções diárias dificultam medir quedas de cerca de 0,01% durante vários trânsitos. No espaço, um telescópio pode medir o brilho de muitas estrelas ao mesmo tempo, sem parar, por meses. Foi para isso que foram feitos o Kepler e o TESS: são, basicamente, máquinas de fazer curvas de luz.
 
 ## Equação
 
@@ -74,7 +74,7 @@ Este conceito não tem uma equação central; ele usa as do método de trânsito
 
 ## Exemplo
 
-Para achar uma Terra a 1 UA, com período de um ano, são precisos pelo menos três trânsitos: três anos olhando a mesma estrela. Foi a aposta do Kepler. O TESS fica menos tempo em cada pedaço do céu, então acha mais planetas de período curto, mas em estrelas brilhantes, onde a confirmação por velocidade radial é mais fácil.
+Uma busca como a do Kepler normalmente exige pelo menos três trânsitos. Para período de um ano, o primeiro e o terceiro estão separados por dois anos; a espera até o primeiro e as lacunas de observação exigem uma campanha mais longa. Foi a aposta do Kepler. O TESS fica menos tempo em cada pedaço do céu, então acha mais planetas de período curto, mas em estrelas brilhantes, onde a confirmação por velocidade radial é mais fácil.
 
 ## Onde isso volta
 
@@ -90,3 +90,5 @@ Dos milhares de candidatos que essas missões produzem, quantos são planetas de
 | --- | --- |
 | "o Kepler fotografou planetas" | "o Kepler mediu o brilho de estrelas; os planetas apareceram como quedas" |
 | "o TESS substituiu o Kepler" | "são estratégias complementares: fundo e estreito versus raso e amplo" |
+
+A missão original foi planejada para 3,5 anos. Três trânsitos são um critério de busca, não uma condição universal para confirmar um planeta com observações complementares. [Objetivos do Kepler](https://science.nasa.gov/mission/kepler/).

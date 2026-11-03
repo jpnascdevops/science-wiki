@@ -23,8 +23,8 @@ equations:
     spoken: "traço de rô R à n é igual a Z n sobre Z um elevado a n"
   - tex: Z_n = \int \mathcal{D}g\,\mathcal{D}\phi\; e^{-I[g,\phi]}
     spoken: "Z n é a integral sobre todas as métricas g e campos fi de e elevado a menos I de g e fi"
-  - tex: \operatorname{Tr}\rho_R^{\,n} \approx e^{-(n-1)S_{\text{Hawking}}} + e^{-(n-1)S_{\text{ilha}}}
-    spoken: "traço de rô R à n é aproximadamente e elevado a menos, n menos um, S Hawking; mais e elevado a menos, n menos um, S ilha"
+  - tex: S(R) \approx \min\left(S_{\text{Hawking}}, S_{\text{ilha}}\right)
+    spoken: "S de R é aproximadamente o mínimo entre S Hawking e S ilha"
 claims:
   - text: "Almheiri, Hartman, Maldacena, Shaghoulian e Tajdini: Replica Wormholes and the Entropy of Hawking Radiation (2019)"
     type: reference
@@ -33,23 +33,27 @@ claims:
     expected_title: "Replica Wormholes and the Entropy of Hawking Radiation"
     sources: [https://arxiv.org/pdf/1911.12333]
     status: verified
-    note: "Título e autores conferidos no PDF; a API do arXiv confirma no CI."
+    note: "Título, autores e ano reconferidos na página do arXiv em 2026-11-02; a checagem da API no CI é independente."
   - text: "Penington, Shenker, Stanford e Yang: Replica wormholes and the black hole interior (2019)"
     type: reference
     check: arxiv
     arxiv: "1911.11977"
     expected_title: "Replica wormholes and the black hole interior"
-    status: pending
+    sources: [https://arxiv.org/abs/1911.11977]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
   - text: "Almheiri et al.: The entropy of Hawking radiation (revisão, 2020)"
     type: reference
     check: arxiv
     arxiv: "2006.06872"
     expected_title: "The entropy of Hawking radiation"
-    status: pending
-  - text: "O método de réplicas foi criado por Sam Edwards para sistemas desordenados (vidros de spin); Giorgio Parisi dividiu o Nobel de Física de 2021 em parte pela quebra de simetria de réplicas"
+    sources: [https://arxiv.org/abs/2006.06872]
+    status: verified
+    note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
+  - text: "Edwards e Anderson aplicaram o método de réplicas a vidros de spin em 1975; Parisi recebeu metade do Nobel de Física de 2021 por suas contribuições à compreensão de sistemas desordenados"
     type: attribution
     check: source
-    sources: [https://physicstoday.aip.org/news/parisi-shares-nobel-prize-for-breakthroughs-in-understanding-disordered-systems, https://en.wikipedia.org/wiki/Replica_trick]
+    sources: [https://garfield.library.upenn.edu/classics1985/A1985APZ5700001.pdf, https://www.nobelprize.org/prizes/physics/2021/summary/]
     status: verified
   - text: "No limite n → 1, extremizar sobre a posição dos pontos fixos da réplica conectada dá a superfície extremal quântica, que é a borda da ilha"
     type: conceptual
@@ -113,7 +117,7 @@ $$
 
 ## Onde isso volta
 
-É o ponto final da trilha. Ele responde à pergunta do conceito de ilhas e fecha o paradoxo no nível da entropia: Hawking não errou a conta; ele calculou só uma das geometrias.
+É o ponto final da trilha. Ele responde à pergunta do conceito de ilhas e reproduz a entropia compatível com unitariedade nos modelos estudados. O cálculo semiclássico usual de Hawking não incluía as contribuições conectadas entre réplicas.
 
 ## Pergunta-ponte
 
@@ -124,10 +128,12 @@ Se o interior está codificado na radiação, como a informação sai, e como al
 | Evite dizer | Diga |
 | --- | --- |
 | "eles simularam cópias do universo" | "eles calcularam com réplicas, um artifício matemático" |
-| "provaram que a informação não se perde" | "é a evidência mais forte até hoje, em modelos simplificados" |
+| "provaram que a informação não se perde" | "obtiveram uma curva de entropia compatível com unitariedade em modelos controlados" |
 | "o paper uniu quântica e relatividade" | "o método é semiclássico; a teoria completa ainda não existe" |
 | "a informação atravessa o buraco de minhoca" | "o cálculo diz quanta informação está na radiação, não o mecanismo" |
 
 ## Nível técnico
 
-A sela conectada tem simetria $\mathbb{Z}_n$. O quociente $\mathcal M_n/\mathbb{Z}_n$ é uma geometria com defeitos cônicos de ângulo $2\pi/n$; para $n\to1$, a tensão dos defeitos vai a zero, as equações de movimento viram a condição de extremalidade da entropia generalizada, e extremizar sobre a posição dos pontos fixos dá a superfície extremal quântica, $\partial I$. As contas explícitas usam gravidade de Jackiw-Teitelboim em 2D acoplada a uma CFT e a um banho. O trabalho paralelo de Penington-Shenker-Stanford-Yang usa branas de fim de mundo e resolve a soma sobre topologias. Pontos abertos: o mecanismo lorentziano, a complexidade de decodificação, buracos negros realistas em 4D e o problema de fatoração (wormholes sugerem média sobre teorias).
+A sela conectada tem simetria $\mathbb{Z}_n$. O quociente $\mathcal M_n/\mathbb{Z}_n$ é uma geometria com defeitos cônicos com ângulo de abertura $2\pi/n$ e déficit $2\pi(1-1/n)$; para $n\to1$, a tensão dos defeitos vai a zero, as equações de movimento viram a condição de extremalidade da entropia generalizada, e extremizar sobre a posição dos pontos fixos dá a superfície extremal quântica, $\partial I$. As contas explícitas usam gravidade de Jackiw-Teitelboim em 2D acoplada a uma CFT e a um banho. O trabalho paralelo de Penington-Shenker-Stanford-Yang usa branas de fim de mundo e resolve a soma sobre topologias. Pontos abertos: o mecanismo lorentziano, a complexidade de decodificação, buracos negros realistas em 4D e o problema de fatoração (wormholes sugerem média sobre teorias).
+
+A expressão com o mínimo é uma aproximação de sela dominante, longe da transição. Não se pode substituir o traço normalizado por uma soma simples de duas exponenciais: em $n=1$ essa soma daria 2, mas $\operatorname{Tr}\rho_R=1$. Usamos $\hbar=k_B=1$ na integral de caminho e na entropia. [Derivação e limites do modelo](https://arxiv.org/html/1911.12333v2).
