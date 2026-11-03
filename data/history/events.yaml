@@ -495,3 +495,59 @@
   date: null
   wikidata: null
   status: planned
+- id: horologium
+  title: Huygens publica o Horologium Oscillatorium
+  era: scientific-revolution
+  concepts: [pendulum, harmonic-oscillator]
+  date: null
+  wikidata: null
+  status: planned
+- id: maupertuis-action
+  title: Maupertuis enuncia a mínima ação
+  era: classical-mechanics-era
+  concepts: [least-action]
+  date: null
+  wikidata: null
+  status: planned
+- id: mecanique-analytique
+  title: Lagrange publica a Mecânica Analítica
+  era: classical-mechanics-era
+  concepts: [lagrangian-mechanics]
+  date: null
+  wikidata: null
+  status: planned
+- id: hamilton-dynamics
+  title: Hamilton reformula a dinâmica
+  era: nineteenth-century
+  concepts: [hamiltonian-mechanics, least-action]
+  date: null
+  wikidata: null
+  status: planned
+- id: foucault-pendulum
+  title: O pêndulo de Foucault mostra a Terra girando
+  era: nineteenth-century
+  concepts: [pendulum]
+  date: null
+  wikidata: null
+  status: planned
+- id: poincare-three-body
+  title: Poincaré encontra o caos no problema de três corpos
+  era: nineteenth-century
+  concepts: [chaos]
+  date: null
+  wikidata: null
+  status: planned
+- id: noether-1918
+  title: Noether publica o teorema das simetrias
+  era: modern-revolution
+  concepts: [noether-theorem]
+  date: null
+  wikidata: null
+  status: planned
+- id: lorenz-1963
+  title: Lorenz publica o fluxo determinístico não periódico
+  era: nuclear-age
+  concepts: [chaos]
+  date: null
+  wikidata: null
+  status: planned

@@ -713,3 +713,18 @@
   era: classical-mechanics-era
   wikidata: null
   status: planned
+- id: pierre-louis-maupertuis
+  name: Pierre-Louis Maupertuis
+  era: classical-mechanics-era
+  wikidata: null
+  status: planned
+- id: edward-lorenz
+  name: Edward Lorenz
+  era: nuclear-age
+  wikidata: null
+  status: planned
+- id: leon-foucault
+  name: Léon Foucault
+  era: nineteenth-century
+  wikidata: null
+  status: planned

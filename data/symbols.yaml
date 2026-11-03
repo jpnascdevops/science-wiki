@@ -75,3 +75,8 @@
 "\\det": determinante de
 "\\binom": combinações de
 "!": fatorial
+"\\dot": ponto (derivada no tempo)
+"\\ddot": dois pontos (segunda derivada no tempo)
+"\\mathcal{L}": L cursivo (lagrangiana)
+"\\mathcal{H}": H cursivo (hamiltoniana)
+"\\delta": delta (variação pequena)

@@ -119,6 +119,23 @@ def eigenvalues_2x2(a, b, c, d):
     return (tr + root) / 2, (tr - root) / 2
 
 
+def agm(a, b):
+    for _ in range(40):
+        a, b = (a + b) / 2, math.sqrt(a * b)
+    return a
+
+
+def action_perturbed(a, T=2.0, m=1.0, g=G0, n=20000):
+    total = 0.0
+    dt = T / n
+    for i in range(n):
+        t = (i + 0.5) * dt
+        x = g * t * (T - t) / 2 + a * math.sin(math.pi * t / T)
+        v = g * (T - 2 * t) / 2 + a * math.pi / T * math.cos(math.pi * t / T)
+        total += (0.5 * m * v * v - m * g * x) * dt
+    return total
+
+
 FORMULAS = {
     "escape_velocity_earth_km_s": lambda: escape_velocity(M_EARTH, R_EARTH) / 1e3,
     "escape_velocity_sun_km_s": lambda: escape_velocity(M_SUN, R_SUN) / 1e3,
@@ -223,4 +240,14 @@ FORMULAS = {
     "halvings_300k_to_1nk": lambda: math.ceil(math.log2(300 / 1e-9)),
     "ising_onsager_tc": lambda: 2 / math.log(1 + math.sqrt(2)),
     "ice_latent_heat_kj_kg": lambda: 6010 / 0.018015 / 1e3,
+    "euler_h05_at_1": lambda: (1 - 0.5) ** 2,
+    "euler_h01_at_1": lambda: 0.9**10,
+    "exact_decay_at_1": lambda: math.exp(-1),
+    "spring_period_05kg_20nm": lambda: 2 * math.pi * math.sqrt(0.5 / 20),
+    "pendulum_90deg_ratio": lambda: 1 / agm(1, math.cos(math.radians(45))),
+    "foucault_paris_hours": lambda: 23.934 / math.sin(math.radians(48.846)),
+    "doublings_1e6": lambda: math.log2(1e6),
+    "action_delta_a05": lambda: action_perturbed(0.5) - action_perturbed(0.0),
+    "pendulum_separatrix_energy": lambda: 2 * 1 * G0 * 1,
+    "earth_orbital_angular_momentum": lambda: M_EARTH * 29780 * AU,
 }

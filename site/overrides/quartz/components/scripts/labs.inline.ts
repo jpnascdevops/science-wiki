@@ -2249,6 +2249,473 @@ function vectorAdd(box: HTMLElement) {
   render()
 }
 
+function rk4(f: (y: number[]) => number[], y: number[], h: number) {
+  const k1 = f(y)
+  const k2 = f(y.map((v, i) => v + (h / 2) * k1[i]))
+  const k3 = f(y.map((v, i) => v + (h / 2) * k2[i]))
+  const k4 = f(y.map((v, i) => v + h * k3[i]))
+  return y.map((v, i) => v + (h / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]))
+}
+
+function eulerSteps(box: HTMLElement) {
+  const W = 520, H = 230, P = 36
+  const s = chart(box, W, H, "Solução exata e método de Euler")
+  axes(s, W, H, P, "tempo", "valor")
+  const zero = svg("line", { x1: P, x2: W - 10, class: "grid" })
+  const exact = svg("polyline", { class: "curve alt" })
+  const approx = svg("polyline", { class: "curve page" })
+  const dots = svg("g", {})
+  s.append(zero, exact, approx, dots)
+  const sh = slider(box, "Tamanho do passo (h)", 2, 100, 50)
+  const bs = btnRow(box, ["Decaimento: dN/dt = −N", "Oscilação: x'' = −x"])
+  const [rE, rA, rErr] = readouts(box, ["Exato no fim", "Euler no fim", "Erro"])
+  const msg = note(box)
+  let mode = 0
+  const render = () => {
+    const h = Number(sh.input.value) / 100
+    sh.out.textContent = fmt(h, 2)
+    const T = mode === 0 ? 4 : 12
+    const X = (t: number) => P + (t / T) * (W - P - 20)
+    const lim = mode === 0 ? 1.05 : 6
+    const Y = (v: number) => (mode === 0 ? H - P - (v / lim) * (H - P - 20) : (H - P) / 2 + 5 - (Math.max(-lim, Math.min(lim, v)) / lim) * ((H - P) / 2 - 10))
+    zero.setAttribute("y1", String(Y(0))); zero.setAttribute("y2", String(Y(0)))
+    const ex: [number, number][] = []
+    for (let i = 0; i <= 200; i++) { const t = (T * i) / 200; ex.push([X(t), Y(mode === 0 ? Math.exp(-t) : Math.cos(t))]) }
+    exact.setAttribute("points", pts(ex))
+    const ap: [number, number][] = []
+    dots.replaceChildren()
+    let y = 1, v = 0, t = 0
+    while (t <= T + 1e-9) {
+      ap.push([X(t), Y(y)])
+      if (ap.length % Math.max(1, Math.round(0.1 / h)) === 0 || h >= 0.1) dots.appendChild(svg("circle", { cx: X(t), cy: Y(y), r: 3, class: "dot" }))
+      if (mode === 0) y += h * -y
+      else { const ny = y + h * v; v += h * -y; y = ny }
+      t += h
+    }
+    approx.setAttribute("points", pts(ap))
+    const tEnd = t - h
+    const exEnd = mode === 0 ? Math.exp(-tEnd) : Math.cos(tEnd)
+    let yy = 1, vv = 0
+    for (let k = 0; k < Math.round(tEnd / h); k++) { if (mode === 0) yy += h * -yy; else { const ny = yy + h * vv; vv += h * -yy; yy = ny } }
+    rE.textContent = fmt(exEnd, 3)
+    rA.textContent = fmt(yy, 3)
+    rErr.textContent = fmt(Math.abs(yy - exEnd), 3)
+    bs.forEach((b, i) => b.setAttribute("aria-pressed", String(i === mode)))
+    msg.textContent =
+      mode === 0
+        ? h >= 1
+          ? "Passo grande demais: com h = 1, Euler já zera tudo no primeiro passo. A reta do passo erra feio quando a curva muda rápido."
+          : "Euler anda em retas: usa a inclinação de agora para dar o próximo passo. Passos menores seguem melhor a curva."
+        : "Na oscilação, o Euler simples ganha energia a cada passo e a amplitude cresce sem parar, mesmo com passo pequeno. Por isso simulações sérias usam métodos melhores (como Runge-Kutta ou métodos simpléticos, que conservam a energia). A curva é cortada em ±6."
+  }
+  sh.input.addEventListener("input", render)
+  bs.forEach((b, i) => b.addEventListener("click", () => ((mode = i), render())))
+  render()
+}
+
+function springLab(box: HTMLElement) {
+  const W = 520, H = 90
+  const ctx = canvas(box, W, H, "Massa presa numa mola")
+  const plot = chart(box, 520, 140, "Posição pelo tempo")
+  const curve = svg("polyline", { class: "curve page" })
+  plot.append(svg("line", { x1: 10, x2: 510, y1: 70, y2: 70, class: "grid" }), curve)
+  const sm = slider(box, "Massa", 1, 40, 5)
+  const sk = slider(box, "Constante da mola", 5, 100, 20)
+  const sb = slider(box, "Amortecimento", 0, 40, 0)
+  const [bKick] = btnRow(box, ["Puxar e soltar"])
+  const [rT, rF] = readouts(box, ["Período", "Frequência"])
+  const msg = note(box)
+  let x = 1, v = 0
+  const hist: number[] = []
+  const params = () => ({ m: Number(sm.input.value) / 10, k: Number(sk.input.value), b: Number(sb.input.value) / 10 })
+  const render = () => {
+    const { m, k, b } = params()
+    sm.out.textContent = `${fmt(m, 1)} kg`; sk.out.textContent = `${k} N/m`; sb.out.textContent = `${fmt(b, 1)} kg/s`
+    const crit = 2 * Math.sqrt(k * m)
+    const wd2 = k / m - (b / (2 * m)) ** 2
+    const T = wd2 > 0 ? (2 * Math.PI) / Math.sqrt(wd2) : Infinity
+    rT.textContent = b >= crit ? "—" : `${fmt(T, 2)} s`
+    rF.textContent = b >= crit ? "—" : `${fmt(1 / T, 2)} Hz`
+    msg.textContent =
+      b === 0
+        ? "Sem atrito, oscila para sempre. O período só depende da massa e da mola, não de quanto você puxou."
+        : b < 0.3 * crit
+          ? "Com amortecimento fraco, a amplitude cai como uma exponencial, mas o ritmo quase não muda."
+          : b < crit
+            ? "O amortecimento já deixa a oscilação visivelmente mais lenta, além de apagá-la depressa."
+          : "Amortecimento forte: a massa volta devagar ao centro sem oscilar (como o amortecedor de um carro)."
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const px = W / 2 + x * 120
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(20, 45)
+    const n = 14
+    for (let i = 1; i < n; i++) ctx.lineTo(20 + ((px - 40) * i) / n, 45 + (i % 2 ? -10 : 10))
+    ctx.lineTo(px - 20, 45); ctx.stroke()
+    ctx.fillStyle = cssVar("--gray"); ctx.fillRect(14, 20, 6, 50)
+    ctx.fillStyle = cssVar("--tertiary"); ctx.fillRect(px - 20, 25, 40, 40)
+    curve.setAttribute("points", pts(hist.map((h, i) => [510 - (hist.length - 1 - i) * 1, 70 - h * 55])))
+  }
+  const l = loop(box, () => {
+    const { m, k, b } = params()
+    const dt = 1 / 240
+    for (let s = 0; s < 4; s++) { v += ((-k * x - b * v) / m) * dt; x += v * dt }
+    hist.push(Math.max(-1.2, Math.min(1.2, x)))
+    if (hist.length > 500) hist.shift()
+    draw()
+  })
+  ;[sm, sk, sb].forEach((q) => q.input.addEventListener("input", render))
+  bKick.addEventListener("click", () => ((x = 1), (v = 0), (l.running = true), sync()))
+  const sync = playBtn(box, l, bKick.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function pendulumLab(box: HTMLElement) {
+  const W = 520, H = 250, Lp = 100
+  const ctx = canvas(box, W, H, "Pêndulo real e pêndulo de ângulo pequeno")
+  const sa = slider(box, "Amplitude", 5, 175, 30)
+  const [rR, rS, rD] = readouts(box, ["Período real (1 m)", "Fórmula de ângulo pequeno", "Diferença"])
+  const msg = note(box)
+  const g = 9.81, L = 1
+  let real = [0, 0], lin = [0, 0]
+  const T0 = 2 * Math.PI * Math.sqrt(L / g)
+  const agmF = (a: number, b: number) => { for (let i = 0; i < 30; i++) [a, b] = [(a + b) / 2, Math.sqrt(a * b)]; return a }
+  const reset = () => {
+    const a = (Number(sa.input.value) * Math.PI) / 180
+    real = [a, 0]; lin = [a, 0]
+  }
+  const render = () => {
+    const a = (Number(sa.input.value) * Math.PI) / 180
+    sa.out.textContent = `${sa.input.value}°`
+    const T = T0 / agmF(1, Math.cos(a / 2))
+    rR.textContent = `${fmt(T, 3)} s`
+    rS.textContent = `${fmt(T0, 3)} s`
+    rD.textContent = `+${fmt((T / T0 - 1) * 100, 1)}%`
+    msg.textContent =
+      a < 0.35
+        ? "Ângulos pequenos: os dois pêndulos andam juntos. É a aproximação sen θ ≈ θ, e o período não depende da amplitude."
+        : a < 1
+          ? "Amplitude média: a diferença ainda é pequena, mas o pêndulo real (laranja) já atrasa um pouco a cada balanço."
+          : "Amplitude grande: o pêndulo real (laranja) atrasa em relação ao de ângulo pequeno (azul). Galileu achava que o período nunca mudava; só vale para balanços pequenos."
+  }
+  const drawBob = (th: number, cx: number, color: string) => {
+    const bx = cx + Lp * Math.sin(th), by = 120 + Lp * Math.cos(th)
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 1.5
+    ctx.beginPath(); ctx.moveTo(cx, 120); ctx.lineTo(bx, by); ctx.stroke()
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(bx, by, 11, 0, 2 * Math.PI); ctx.fill()
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--gray"); ctx.fillRect(W / 2 - 60, 116, 120, 4)
+    drawBob(lin[0], W / 2, cssVar("--secondary"))
+    drawBob(real[0], W / 2, cssVar("--tertiary"))
+  }
+  const l = loop(box, () => {
+    const dt = 1 / 240
+    for (let k = 0; k < 4; k++) {
+      real = rk4(([th, w]) => [w, (-g / L) * Math.sin(th)], real, dt)
+      lin = rk4(([th, w]) => [w, (-g / L) * th], lin, dt)
+    }
+    draw()
+  })
+  sa.input.addEventListener("input", () => (reset(), render(), draw()))
+  playBtn(box, l)
+  reset(); render(); draw()
+}
+
+function doublePendulum(box: HTMLElement) {
+  const W = 400, H = 340, C = 200, R = 75
+  const ctx = canvas(box, W, H, "Dois pêndulos duplos quase iguais")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "420px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const sd = slider(box, "Diferença inicial no ângulo", 1, 9, 6)
+  const [bReset] = btnRow(box, ["Recomeçar"])
+  const [rT, rS] = readouts(box, ["Tempo", "Distância entre as pontas"])
+  const msg = note(box)
+  const g = 9.81, L = 1
+  const f = (y: number[]) => {
+    const [a1, a2, w1, w2] = y
+    const d = a1 - a2
+    const den = 3 - Math.cos(2 * d)
+    const dw1 = (-3 * g * Math.sin(a1) - g * Math.sin(a1 - 2 * a2) - 2 * Math.sin(d) * (w2 * w2 * L + w1 * w1 * L * Math.cos(d))) / (L * den)
+    const dw2 = (2 * Math.sin(d) * (2 * w1 * w1 * L + 2 * g * Math.cos(a1) + w2 * w2 * L * Math.cos(d))) / (L * den)
+    return [w1, w2, dw1, dw2]
+  }
+  let A: number[] = [], B: number[] = [], t = 0
+  let ta: [number, number][] = [], tb: [number, number][] = []
+  const tip = (y: number[]): [number, number] => [C + R * Math.sin(y[0]) + R * Math.sin(y[1]), 170 + R * Math.cos(y[0]) + R * Math.cos(y[1])]
+  const reset = () => {
+    const eps = 10 ** -Number(sd.input.value)
+    A = [2.2, 2.6, 0, 0]; B = [2.2 + eps, 2.6, 0, 0]; t = 0; ta = []; tb = []
+    sd.out.textContent = `10⁻${"⁰¹²³⁴⁵⁶⁷⁸⁹"[Number(sd.input.value)]} rad`
+  }
+  const drawP = (y: number[], color: string) => {
+    const x1 = C + R * Math.sin(y[0]), y1 = 170 + R * Math.cos(y[0])
+    const [x2, y2] = tip(y)
+    ctx.strokeStyle = color; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(C, 170); ctx.lineTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke()
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x2, y2, 6, 0, 2 * Math.PI); ctx.fill()
+  }
+  const trail = (pts2: [number, number][], color: string) => {
+    ctx.strokeStyle = color; ctx.globalAlpha = 0.35; ctx.lineWidth = 1
+    ctx.beginPath(); pts2.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke()
+    ctx.globalAlpha = 1
+  }
+  const draw = () => {
+    const c1 = cssVar("--tertiary"), c2 = cssVar("--secondary")
+    ctx.clearRect(0, 0, W, H)
+    trail(ta, c1); trail(tb, c2)
+    drawP(B, c2); drawP(A, c1)
+    const [xa, ya] = tip(A), [xb, yb] = tip(B)
+    const dist = Math.hypot(xa - xb, ya - yb) / R
+    rT.textContent = `${fmt(t, 1)} s`
+    rS.textContent = dist < 0.001 ? "< 1 mm" : dist < 0.1 ? `${fmt(dist * 100, 1)} cm` : `${fmt(dist, 2)} m`
+    msg.textContent =
+      Number(sd.input.value) <= 3 && t < 1
+        ? "Diferença inicial visível; mesmo assim, ela vai crescer muito mais depressa do que parece."
+        : dist < 0.01
+          ? "Os dois começam quase iguais (diferença menor que um fio de cabelo) e, por um tempo, andam juntos."
+        : dist < 0.5
+          ? "A diferença minúscula está crescendo depressa..."
+          : "Agora fazem coisas completamente diferentes. É o caos: o movimento é determinado pelas leis de Newton, mas imprevisível na prática."
+  }
+  const l = loop(box, () => {
+    const h = 1 / 600
+    for (let k = 0; k < 10; k++) { A = rk4(f, A, h); B = rk4(f, B, h); t += h }
+    ta.push(tip(A)); tb.push(tip(B))
+    if (ta.length > 400) { ta.shift(); tb.shift() }
+    draw()
+  })
+  sd.input.addEventListener("input", () => (reset(), draw()))
+  bReset.addEventListener("click", () => (reset(), (l.running = true), sync(), draw()))
+  const sync = playBtn(box, l, bReset.parentElement as HTMLElement)
+  reset(); draw()
+}
+
+function actionLab(box: HTMLElement) {
+  const W = 520, H = 200, P = 36, T = 2, g = 9.81, m = 1
+  const s = chart(box, W, H, "Caminhos possíveis de uma bola jogada para cima")
+  axes(s, W, H, P, "tempo (s)", "altura (m)")
+  const truth = svg("polyline", { class: "curve alt" })
+  const trial = svg("polyline", { class: "curve page" })
+  s.append(truth, trial)
+  const sp = chart(box, 520, 120, "Ação de cada caminho")
+  const parab = svg("polyline", { class: "curve alt" })
+  const dot = svg("circle", { r: 6, class: "dot" })
+  sp.append(svg("line", { x1: 20, x2: 500, y1: 110, y2: 110, class: "axis" }), parab, dot)
+  const sa = slider(box, "Quanto entortar o caminho", -100, 100, 60)
+  const bs = btnRow(box, ["Entortar uma vez", "Entortar duas vezes"])
+  const [rS, rD] = readouts(box, ["Ação do caminho", "A mais que o real"])
+  const msg = note(box)
+  let n = 1
+  const S = (a: number) => {
+    let tot = 0
+    const N = 400, dt = T / N
+    for (let i = 0; i < N; i++) {
+      const t = (i + 0.5) * dt
+      const x = (g * t * (T - t)) / 2 + a * Math.sin((n * Math.PI * t) / T)
+      const v = (g * (T - 2 * t)) / 2 + ((a * n * Math.PI) / T) * Math.cos((n * Math.PI * t) / T)
+      tot += (0.5 * m * v * v - m * g * x) * dt
+    }
+    return tot
+  }
+  const render = () => {
+    const a = Number(sa.input.value) / 100
+    sa.out.textContent = `${fmt(a, 2)} m`
+    const X = (t: number) => P + (t / T) * (W - P - 20)
+    const Y = (x: number) => H - P - ((x + 1.2) / 6.5) * (H - P - 20)
+    const tr: [number, number][] = [], tt: [number, number][] = []
+    for (let i = 0; i <= 80; i++) {
+      const t = (T * i) / 80
+      const x0 = (g * t * (T - t)) / 2
+      tr.push([X(t), Y(x0)])
+      tt.push([X(t), Y(x0 + a * Math.sin((n * Math.PI * t) / T))])
+    }
+    truth.setAttribute("points", pts(tr))
+    trial.setAttribute("points", pts(tt))
+    const s0 = S(0)
+    const curve: [number, number][] = []
+    for (let i = 0; i <= 50; i++) { const aa = -1 + (2 * i) / 50; curve.push([20 + ((aa + 1) / 2) * 480, 110 - ((S(aa) - s0) / (1.3 * n * n)) * 95]) }
+    parab.setAttribute("points", pts(curve))
+    dot.setAttribute("cx", String(20 + ((a + 1) / 2) * 480))
+    dot.setAttribute("cy", String(110 - ((S(a) - s0) / (1.3 * n * n)) * 95))
+    rS.textContent = `${fmt(S(a), 3)} J·s`
+    rD.textContent = `${fmt(S(a) - s0, 3)} J·s`
+    bs.forEach((b, i) => b.setAttribute("aria-pressed", String(i + 1 === n)))
+    msg.textContent =
+      Math.abs(a) < 0.005
+        ? "Este é o caminho que a bola segue de verdade: o de menor ação. Qualquer jeito de entortá-lo aumenta a ação."
+        : "A curva azul é a trajetória real; a laranja, uma alternativa com o mesmo começo e o mesmo fim. Embaixo, a ação de cada alternativa: o mínimo está no caminho real."
+  }
+  sa.input.addEventListener("input", render)
+  bs.forEach((b, i) => b.addEventListener("click", () => ((n = i + 1), render())))
+  render()
+}
+
+function springPendulum(box: HTMLElement) {
+  const W = 400, H = 340, C = 200
+  const ctx = canvas(box, W, H, "Pêndulo de mola")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "420px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const sk = slider(box, "Rigidez da mola", 10, 120, 40)
+  const [bReset] = btnRow(box, ["Soltar de novo"])
+  const msg = note(box)
+  const g = 9.81, m = 1, L0 = 1
+  let y = [1.2, 0.8, 0, 0]
+  let tr: [number, number][] = []
+  const f = ([r, th, vr, w]: number[]) => {
+    const k = Number(sk.input.value)
+    return [vr, w, r * w * w + g * Math.cos(th) - (k / m) * (r - L0), -(g * Math.sin(th) + 2 * vr * w) / r]
+  }
+  const S = 90
+  const pos = (s: number[]): [number, number] => [C + S * s[0] * Math.sin(s[1]), 30 + S * s[0] * Math.cos(s[1])]
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.globalAlpha = 0.35; ctx.lineWidth = 1
+    ctx.beginPath(); tr.forEach(([x, yy], i) => (i ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy))); ctx.stroke()
+    ctx.globalAlpha = 1
+    const [bx, by] = pos(y)
+    ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(C, 30)
+    const n = 16
+    for (let i = 1; i < n; i++) {
+      const fx = C + ((bx - C) * i) / n, fy = 30 + ((by - 30) * i) / n
+      const nx = -(by - 30), ny = bx - C, nl = Math.hypot(nx, ny) || 1
+      ctx.lineTo(fx + ((i % 2 ? 7 : -7) * nx) / nl, fy + ((i % 2 ? 7 : -7) * ny) / nl)
+    }
+    ctx.lineTo(bx, by); ctx.stroke()
+    ctx.fillStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.arc(bx, by, 10, 0, 2 * Math.PI); ctx.fill()
+  }
+  const l = loop(box, () => {
+    const h = 1 / 600
+    for (let k = 0; k < 10; k++) y = rk4(f, y, h)
+    tr.push(pos(y))
+    if (tr.length > 600) tr.shift()
+    draw()
+  })
+  const render = () => {
+    sk.out.textContent = `${sk.input.value} N/m`
+    msg.textContent = "Duas coordenadas (o comprimento da mola e o ângulo) que trocam energia entre si. Com forças de Newton seria trabalhoso; com a lagrangiana L = T − V, as duas equações saem de uma receita só."
+  }
+  sk.input.addEventListener("input", () => ((y = [1.2, 0.8, 0, 0]), (tr = []), render(), draw()))
+  bReset.addEventListener("click", () => ((y = [1.2, 0.8, 0, 0]), (tr = []), (l.running = true), sync(), draw()))
+  const sync = playBtn(box, l, bReset.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function phaseSpace(box: HTMLElement) {
+  const W = 520, H = 260
+  const s = chart(box, W, H, "Espaço de fase do pêndulo")
+  const X = (th: number) => 20 + ((th + Math.PI) / (2 * Math.PI)) * (W - 40)
+  const Y = (p: number) => H / 2 - (p / 3.2) * (H / 2 - 14)
+  s.append(svg("line", { x1: 20, x2: W - 20, y1: H / 2, y2: H / 2, class: "axis" }), svg("line", { x1: W / 2, x2: W / 2, y1: 8, y2: H - 8, class: "axis" }))
+  const lev = svg("g", {})
+  s.appendChild(lev)
+  for (const E of [0.25, 0.75, 1.25, 1.75, 2, 2.6, 3.4]) {
+    for (const sg of [1, -1]) {
+      const ln: [number, number][] = []
+      for (let i = 0; i <= 200; i++) {
+        const th = -Math.PI + (2 * Math.PI * i) / 200
+        const q = 2 * (E - (1 - Math.cos(th)))
+        if (q >= 0) ln.push([X(th), Y(sg * Math.sqrt(q))])
+        else if (ln.length) { lev.appendChild(svg("polyline", { points: pts(ln), class: E === 2 ? "curve page" : "grid", fill: "none" })); ln.length = 0 }
+      }
+      if (ln.length) lev.appendChild(svg("polyline", { points: pts(ln), class: E === 2 ? "curve page" : "grid", fill: "none" }))
+    }
+  }
+  const tl = svg("text", { x: W - 20, y: H / 2 - 6, class: "tick", "text-anchor": "end" }); tl.textContent = "ângulo"
+  const pl = svg("text", { x: W / 2 + 6, y: 18, class: "tick" }); pl.textContent = "momento"
+  const dot = svg("circle", { r: 6, class: "dot" })
+  s.append(tl, pl, dot)
+  const se = slider(box, "Energia (em unidades de m g L)", 10, 340, 100)
+  const [rE, rK] = readouts(box, ["Energia", "Movimento"])
+  const msg = note(box)
+  let y = [0, 0]
+  const reset = () => {
+    const E = Number(se.input.value) / 100
+    y = [0, Math.sqrt(2 * E)]
+    dot.setAttribute("cx", String(X(0)))
+    dot.setAttribute("cy", String(Y(Math.min(3.2, y[1]))))
+  }
+  const render = () => {
+    const E = Number(se.input.value) / 100
+    se.out.textContent = fmt(E, 2)
+    rE.textContent = `${fmt(E, 2)} m g L`
+    rK.textContent = E < 2 ? "vai e volta" : E > 2 ? "dá voltas completas" : "no limite"
+    msg.textContent =
+      E < 2
+        ? "Cada curva fechada é um balanço com energia fixa. O ponto anda pela curva da sua energia: no espaço de fase, o estado inteiro do pêndulo é um ponto."
+        : E === 2
+          ? "Exatamente na separatriz (a curva laranja): o pêndulo se aproxima do topo sem nunca chegar."
+          : "Fora da curva laranja (a separatriz, energia 2 m g L) o pêndulo passa do topo e gira sem parar: as curvas deixam de fechar."
+  }
+  const l = loop(box, () => {
+    for (let k = 0; k < 6; k++) y = rk4(([th, p]) => [p, -Math.sin(th)], y, 1 / 120)
+    const th = ((((y[0] + Math.PI) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)) - Math.PI
+    dot.setAttribute("cx", String(X(th)))
+    dot.setAttribute("cy", String(Y(Math.max(-3.2, Math.min(3.2, y[1])))))
+  })
+  se.input.addEventListener("input", () => (reset(), render()))
+  playBtn(box, l)
+  reset(); render()
+  dot.setAttribute("cx", String(X(0))); dot.setAttribute("cy", String(Y(y[1])))
+}
+
+function noetherLab(box: HTMLElement) {
+  const W = 300, H = 300, C = 150, S = 80
+  const ctx = canvas(box, W, H, "Órbita num potencial com e sem simetria de rotação")
+  ;(ctx.canvas as HTMLCanvasElement).style.maxWidth = "320px"
+  ;(ctx.canvas as HTMLCanvasElement).style.margin = "0 auto"
+  const plot = chart(box, 520, 110, "Momento angular e energia ao longo do tempo")
+  const lL = svg("polyline", { class: "curve page" })
+  const lE = svg("polyline", { class: "curve alt" })
+  plot.append(lL, lE)
+  const se = slider(box, "Quanto quebrar a simetria de rotação", 0, 30, 0)
+  const [rL, rE] = readouts(box, ["Momento angular (laranja)", "Energia (azul)"])
+  const msg = note(box)
+  let y = [1, 0, 0, 0.4]
+  let tr: [number, number][] = []
+  let hL: number[] = [], hE: number[] = []
+  const eps = () => Number(se.input.value) / 100
+  const f = ([x, yy, vx, vy]: number[]) => {
+    const e = eps()
+    return [vx, vy, -x * (1 + 2 * e), -yy * (1 - 2 * e) ]
+  }
+  const energy = ([x, yy, vx, vy]: number[]) => 0.5 * (vx * vx + vy * vy) + 0.5 * (x * x * (1 + 2 * eps()) + yy * yy * (1 - 2 * eps()))
+  const ang = ([x, yy, vx, vy]: number[]) => x * vy - yy * vx
+  const reset = () => { y = [1, 0, 0, 0.4]; tr = []; hL = []; hE = [] }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--gray"); ctx.beginPath(); ctx.arc(C, C, 4, 0, 2 * Math.PI); ctx.fill()
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.globalAlpha = 0.4; ctx.lineWidth = 1
+    ctx.beginPath(); tr.forEach(([x, yy], i) => (i ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy))); ctx.stroke()
+    ctx.globalAlpha = 1
+    ctx.fillStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.arc(C + y[0] * S, C - y[1] * S, 6, 0, 2 * Math.PI); ctx.fill()
+    const Yp = (v: number) => 55 - (v / 1.2) * 45
+    lL.setAttribute("points", pts(hL.map((v, i) => [10 + i, Yp(v)])))
+    lE.setAttribute("points", pts(hE.map((v, i) => [10 + i, Yp(v)])))
+    rL.textContent = fmt(ang(y), 3)
+    rE.textContent = fmt(energy(y), 3)
+  }
+  const render = () => {
+    se.out.textContent = fmt(eps(), 2)
+    msg.textContent =
+      eps() === 0
+        ? "Potencial igual em todas as direções (simetria de rotação): o momento angular fica constante, e a órbita é uma elipse fixa. É o teorema de Noether."
+        : "Simetria de rotação quebrada: o momento angular passa a variar. A energia continua constante, porque a lei não muda com o tempo: outra simetria, outra conservação."
+  }
+  const l = loop(box, () => {
+    for (let k = 0; k < 4; k++) y = rk4(f, y, 1 / 120)
+    tr.push([C + y[0] * S, C - y[1] * S]); if (tr.length > 700) tr.shift()
+    hL.push(ang(y)); hE.push(energy(y)); if (hL.length > 500) { hL.shift(); hE.shift() }
+    draw()
+  })
+  se.input.addEventListener("input", () => (reset(), render(), draw()))
+  playBtn(box, l)
+  reset(); render(); draw()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -2288,6 +2755,14 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   venturi: ["Laboratório: água num cano que afina", venturi],
   impulse: ["Laboratório: parando uma bola", impulse],
   "vector-add": ["Laboratório: somando vetores", vectorAdd],
+  "euler-steps": ["Laboratório: resolvendo passo a passo", eulerSteps],
+  spring: ["Laboratório: massa e mola", springLab],
+  "pendulum-lab": ["Laboratório: o pêndulo de verdade", pendulumLab],
+  "double-pendulum": ["Laboratório: o pêndulo duplo", doublePendulum],
+  action: ["Laboratório: o caminho de menor ação", actionLab],
+  "spring-pendulum": ["Laboratório: o pêndulo de mola", springPendulum],
+  phase: ["Laboratório: o espaço de fase", phaseSpace],
+  noether: ["Laboratório: simetria e conservação", noetherLab],
 }
 
 function mountLabs() {
