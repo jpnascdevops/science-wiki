@@ -16,16 +16,18 @@ equations:
   - tex: \delta_{\text{obs}} = \delta_{\text{real}}\,\frac{F_{\text{ecl}}}{F_{\text{ecl}} + F_{\text{outros}}}
     spoken: "delta observado é igual a delta real vezes F da fonte eclipsada sobre, F da fonte eclipsada mais F das outras fontes"
 claims:
-  - text: "Binárias eclipsantes, inclusive misturadas com a luz de outra estrela (blended) ou rasantes (grazing), são uma fonte importante de falsos positivos"
+  - id: claim-001
+    text: "Binárias eclipsantes, inclusive misturadas com a luz de outra estrela (blended) ou rasantes (grazing), são uma fonte importante de falsos positivos"
     type: conceptual
     check: source
     sources: [https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets]
-    status: verified
-  - text: "Santerne et al. (2012) estimaram 34,8 ± 6,5% de falsos positivos numa amostra de candidatos gigantes do Kepler com período menor que 25 dias, profundidade maior que 0,4% e magnitude Kepler menor que 14,7"
+    status: pending
+  - id: claim-002
+    text: "Santerne et al. (2012) estimaram 34,8 ± 6,5% de falsos positivos numa amostra de candidatos gigantes do Kepler com período menor que 25 dias, profundidade maior que 0,4% e magnitude Kepler menor que 14,7"
     type: number
     check: source
     sources: [https://arxiv.org/abs/1206.0601]
-    status: verified
+    status: pending
     note: "A taxa depende da seleção; não se aplica a todos os candidatos únicos do Kepler."
 resources:
   - kind: read

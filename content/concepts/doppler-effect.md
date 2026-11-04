@@ -17,13 +17,14 @@ equations:
   - tex: \frac{\Delta\lambda}{\lambda} \approx \frac{v_r}{c}
     spoken: "delta lambda sobre lambda é aproximadamente v r sobre c"
 claims:
-  - text: "Uma velocidade de 12,5 m/s desloca as linhas espectrais em cerca de 4 partes em 100 milhões"
+  - id: claim-001
+    text: "Uma velocidade de 12,5 m/s desloca as linhas espectrais em cerca de 4 partes em 100 milhões"
     type: number
     check: compute
     formula: doppler_shift_12_5_m_s
     expected: 4.17e-8
     tolerance: 0.01
-    status: verified
+    status: calculated
 resources:
   - kind: read
     title: "Planetary Society: How We Detect Exoplanets, The Radial-Velocity Method"

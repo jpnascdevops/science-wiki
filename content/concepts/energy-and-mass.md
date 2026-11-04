@@ -19,14 +19,15 @@ equations:
   - tex: E_c = \frac{1}{2} m v^2
     spoken: "E c é igual a um meio m v ao quadrado"
 claims:
-  - text: "Um grama de massa equivale a cerca de 9 × 10^13 joules"
+  - id: claim-001
+    text: "Um grama de massa equivale a cerca de 9 × 10^13 joules"
     type: number
     check: compute
     formula: energy_one_gram_joule
     expected: 9.0e13
     unit: J
     tolerance: 0.01
-    status: verified
+    status: calculated
 resources:
   - kind: read
     title: "Wikipedia: Relatividade restrita"

@@ -19,24 +19,27 @@ equations:
   - tex: \lim_{T \to 0} S = S_0
     spoken: "o limite de S quando T tende a zero é S zero"
 claims:
-  - text: "Reduzindo a temperatura à metade a cada etapa, são necessárias 39 etapas para ir de 300 K a menos de 1 nK"
+  - id: claim-001
+    text: "Reduzindo a temperatura à metade a cada etapa, são necessárias 39 etapas para ir de 300 K a menos de 1 nK"
     type: number
     check: compute
     formula: halvings_300k_to_1nk
     expected: 39
     unit: etapas
     tolerance: 0.001
-    status: verified
-  - text: "Walther Nernst formulou o teorema do calor (terceira lei) em 1906 e recebeu o Nobel de Química de 1920 por seus trabalhos em termoquímica, que incluem o teorema"
+    status: calculated
+  - id: claim-002
+    text: "Walther Nernst formulou o teorema do calor (terceira lei) em 1906 e recebeu o Nobel de Química de 1920 por seus trabalhos em termoquímica, que incluem o teorema"
     type: date
     check: source
     sources: ["https://www.britannica.com/biography/Walther-Nernst", "https://www.britannica.com/science/third-law-of-thermodynamics"]
-    status: verified
-  - text: "As menores temperaturas já obtidas em laboratório estão na faixa dos picokelvin (38 pK em 2021), bem abaixo de um bilionésimo de kelvin"
+    status: pending
+  - id: claim-003
+    text: "As menores temperaturas já obtidas em laboratório estão na faixa dos picokelvin (38 pK em 2021), bem abaixo de um bilionésimo de kelvin"
     type: number
     check: source
     sources: ["https://phys.org/news/2021-10-coldest-temperature38-picokelvins.html", "https://www.britannica.com/science/absolute-zero"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Third law of thermodynamics (Britannica)"

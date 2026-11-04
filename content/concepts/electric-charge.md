@@ -29,35 +29,39 @@ equations:
 - tex: Q = n\,e
   spoken: Q é igual a n vezes e
 claims:
-- text: Um coulomb equivale à carga de cerca de 6,24 × 10¹⁸ elétrons
+- id: claim-001
+  text: Um coulomb equivale à carga de cerca de 6,24 × 10¹⁸ elétrons
   type: number
   check: compute
   formula: electrons_per_coulomb
   expected: 6.2415e+18
   unit: elétrons
   tolerance: 0.001
-  status: verified
-- text: 'Desde a redefinição do SI em 2019, a carga elementar é exata por definição: e = 1,602176634 × 10⁻¹⁹ C'
+  status: calculated
+- id: claim-002
+  text: 'Desde a redefinição do SI em 2019, a carga elementar é exata por definição: e = 1,602176634 × 10⁻¹⁹ C'
   type: definition
   check: source
   sources:
   - https://physics.nist.gov/cuu/Constants/Value/e.html
-  status: verified
-- text: Por tradição, atribui-se a Tales de Mileto (c. 600 a.C.) a observação de que o âmbar atritado atrai objetos leves; em De Magnete (1600), William Gilbert usou o latim electricus, do grego élektron (âmbar), para os corpos que se comportam assim
+  status: pending
+- id: claim-003
+  text: Por tradição, atribui-se a Tales de Mileto (c. 600 a.C.) a observação de que o âmbar atritado atrai objetos leves; em De Magnete (1600), William Gilbert usou o latim electricus, do grego élektron (âmbar), para os corpos que se comportam assim
   type: date
   check: source
   sources:
   - https://en.wikisource.org/wiki/1911_Encyclop%C3%A6dia_Britannica/Electricity
   - https://en.wikipedia.org/wiki/William_Gilbert_(physicist)
   - https://query.libretexts.org/Idioma_Portugues/Fisica_Universitaria_II_-_Termodinamica_Eletricidade_e_Magnetismo_(OpenStax)/05%3A_Cargas_eletricas_e_campos/5.02%3A_Carga_el%C3%A9trica
-  status: verified
-- text: Benjamin Franklin introduziu os nomes positivo e negativo para a eletricidade por volta de 1747
+  status: pending
+- id: claim-004
+  text: Benjamin Franklin introduziu os nomes positivo e negativo para a eletricidade por volta de 1747
   type: date
   check: source
   sources:
   - https://homepages.uc.edu/~jensenwb/reprints/125.%20Positive%20&%20Negative.pdf
   - https://www.britannica.com:443/science/electromagnetism/Invention-of-the-Leyden-jar
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Electric Charge: Crash Course Physics #25'

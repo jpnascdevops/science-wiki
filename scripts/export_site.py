@@ -10,7 +10,7 @@ from wiki import ROOT, ancestors, children, load_all, load_map, load_yaml, topo_
 OUT = ROOT / "site" / "content"
 LEVEL_PT = {"zero": "do zero", "intermediate": "intermediário", "technical": "técnico"}
 KIND_PT = {"watch": "Assistir", "read": "Ler", "study": "Estudar"}
-STATUS_PT = {"pending": "pendente", "verified": "verificado", "disputed": "contestado", "wrong": "errado"}
+STATUS_PT = {"calculated": "cálculo conferido", "reference_checked": "referência identificada", "pending": "pendente", "verified": "verificado", "disputed": "contestado", "wrong": "errado"}
 SYMBOL_DISPLAY = {
     "\\sqrt": "\\sqrt{x}",
     "\\frac": "\\frac{a}{b}",
@@ -22,7 +22,7 @@ SYMBOL_DISPLAY = {
     "\\partial": "\\partial I",
     "\\lim": "\\lim_{n\\to 1}",
 }
-REVIEW_LABEL = {"draft": "rascunho", "auto_checked": "checado", "human_reviewed": "revisado"}
+REVIEW_LABEL = {"draft": "rascunho", "auto_checked": "checagem automática", "human_reviewed": "revisado"}
 CONSENSUS_PT = {
     "established": "estabelecido",
     "broad": "consenso amplo",
@@ -97,6 +97,12 @@ def claims(meta):
         srcs = " ".join(f"[fonte]({s})" for s in c.get("sources", []))
         how = c["check"] + (f" `{c['formula']}`" if c.get("formula") else "") + (f" arXiv:{c['arxiv']}" if c.get("arxiv") else "")
         text = c["text"].replace("|", "\\|") + (f" {srcs}" if srcs else "")
+        evidence = c.get("evidence", {})
+        if evidence:
+            detail = f"Revisão: {c.get('reviewed_by', '')}, {evidence.get('checked_at', '')}. {evidence.get('locator', '')}: {evidence.get('support', '')}"
+            text += "<br>" + detail.replace("|", "\\|").replace("\n", " ")
+        if c.get("assumptions"):
+            text += "<br>Hipóteses: " + c["assumptions"].replace("|", "\\|").replace("\n", " ")
         lines.append(f"| {text} | {c['type']} | {how} | {STATUS_PT[c['status']]} |")
     return "\n".join(lines) + "\n"
 

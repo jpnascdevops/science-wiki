@@ -29,21 +29,23 @@ equations:
 - tex: r = \frac{m v}{q B}
   spoken: r é igual a m v sobre q B
 claims:
-- text: Um elétron a 10⁶ m/s num campo de 1 mT anda num círculo de cerca de 5,7 mm de raio
+- id: claim-001
+  text: Um elétron a 10⁶ m/s num campo de 1 mT anda num círculo de cerca de 5,7 mm de raio
   type: number
   check: compute
   formula: electron_radius_1e6_1mt
   expected: 0.00569
   unit: m
   tolerance: 0.002
-  status: verified
-- text: A forma completa da força de Lorentz, F = q(E + v × B), é atribuída a Hendrik Lorentz em 1895; Maxwell e Heaviside já tinham chegado a formas relacionadas
+  status: calculated
+- id: claim-002
+  text: A forma completa da força de Lorentz, F = q(E + v × B), é atribuída a Hendrik Lorentz em 1895; Maxwell e Heaviside já tinham chegado a formas relacionadas
   type: date
   check: source
   sources:
   - https://en.wikipedia.org/wiki/Lorentz_force
   - https://britannica.com/science/magnetism/Magnetic-forces
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Magnetism: Crash Course Physics #32'

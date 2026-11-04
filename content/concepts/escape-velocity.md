@@ -21,7 +21,8 @@ equations:
   - tex: r_s = \frac{2\,G\,M}{c^2}
     spoken: "r s é igual a dois G M sobre c ao quadrado"
 claims:
-  - text: "A velocidade de escape da Terra é cerca de 11,2 km/s"
+  - id: claim-001
+    text: "A velocidade de escape da Terra é cerca de 11,2 km/s"
     type: number
     check: compute
     formula: escape_velocity_earth_km_s
@@ -29,26 +30,29 @@ claims:
     unit: km/s
     tolerance: 0.01
     sources: [https://pt.wikipedia.org/wiki/Velocidade_de_escape]
-    status: verified
-  - text: "A velocidade de escape na superfície do Sol é cerca de 618 km/s"
+    status: calculated
+  - id: claim-002
+    text: "A velocidade de escape na superfície do Sol é cerca de 618 km/s"
     type: number
     check: compute
     formula: escape_velocity_sun_km_s
     expected: 618
     unit: km/s
     tolerance: 0.01
-    status: verified
-  - text: "John Michell descreveu estrelas escuras numa carta a Henry Cavendish datada de 27 de novembro de 1783, publicada pela Royal Society em 1784"
+    status: calculated
+  - id: claim-003
+    text: "John Michell descreveu estrelas escuras numa carta a Henry Cavendish datada de 27 de novembro de 1783, publicada pela Royal Society em 1784"
     type: date
     check: source
     sources: [https://aps.org/publications/apsnews/200911/physicshistory.cfm, https://en.wikipedia.org/wiki/Dark_star_(Newtonian_mechanics)]
-    status: verified
+    status: pending
     note: "A Wikipedia em português data a ideia de 1784 (ano da publicação); 1783 é a data da carta."
-  - text: "Laplace divulgou a mesma ideia em 1796"
+  - id: claim-004
+    text: "Laplace divulgou a mesma ideia em 1796"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Dark_star_(Newtonian_mechanics)]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Velocidade de escape"

@@ -23,19 +23,21 @@ equations:
   - tex: T = 2\pi\sqrt{\frac{m}{k}}
     spoken: "T é igual a dois pi vezes a raiz quadrada de m sobre k"
 claims:
-  - text: "Uma massa de 0,5 kg numa mola de 20 N/m oscila com período de cerca de 0,99 s"
+  - id: claim-001
+    text: "Uma massa de 0,5 kg numa mola de 20 N/m oscila com período de cerca de 0,99 s"
     type: number
     check: compute
     formula: spring_period_05kg_20nm
     expected: 0.993
     unit: s
     tolerance: 0.002
-    status: verified
-  - text: "Robert Hooke publicou a lei da elasticidade como o anagrama ceiiinosssttuv em 1676 e a solução ut tensio, sic vis em 1678"
+    status: calculated
+  - id: claim-002
+    text: "Robert Hooke publicou a lei da elasticidade como o anagrama ceiiinosssttuv em 1676 e a solução ut tensio, sic vis em 1678"
     type: date
     check: source
     sources: ["https://www.aip.org/library/ex-libris-universum/introducing-laws-of-physics", "https://en.wikipedia.org/wiki/Hooke%27s_law"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "MIT OCW 8.03SC Lecture 1 - Periodic Oscillations, Harmonic Oscillators (Yen-Jie Lee; Lecture 2 covers damping)"

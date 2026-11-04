@@ -19,24 +19,27 @@ equations:
   - tex: \sum \vec{F} = 0 \;\Rightarrow\; \vec{v} = \text{constante}
     spoken: "se a soma das forças é zero, logo o vetor velocidade é constante"
 claims:
-  - text: "Um carro a 72 km/h anda 20 m por segundo; é com essa velocidade que um passageiro sem cinto segue em frente numa freada"
+  - id: claim-001
+    text: "Um carro a 72 km/h anda 20 m por segundo; é com essa velocidade que um passageiro sem cinto segue em frente numa freada"
     type: number
     check: compute
     formula: kmh_72_to_m_s
     expected: 20
     unit: m/s
     tolerance: 0.001
-    status: verified
-  - text: "Aristóteles defendia que um corpo em movimento precisa de um motor contínuo; Jean Buridan, no século XIV, desenvolveu e deu nome à teoria do ímpeto, que já tinha precursores como João Filopono"
+    status: calculated
+  - id: claim-002
+    text: "Aristóteles defendia que um corpo em movimento precisa de um motor contínuo; Jean Buridan, no século XIV, desenvolveu e deu nome à teoria do ímpeto, que já tinha precursores como João Filopono"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Jean_Buridan]
-    status: verified
-  - text: "As três leis de Newton foram publicadas nos Principia, em 1687"
+    status: pending
+  - id: claim-003
+    text: "As três leis de Newton foram publicadas nos Principia, em 1687"
     type: date
     check: source
     sources: [https://www.britannica.com/topic/Principia]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "5.3: Primeira Lei de Newton (Física Universitária I, OpenStax)"

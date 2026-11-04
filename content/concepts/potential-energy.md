@@ -23,19 +23,21 @@ equations:
   - tex: E_p = -\frac{G M m}{r}
     spoken: "E p é igual a menos G M m sobre r"
 claims:
-  - text: "Uma pessoa de 60 kg que sobe um andar de 3 m ganha cerca de 1,8 kJ de energia potencial"
+  - id: claim-001
+    text: "Uma pessoa de 60 kg que sobe um andar de 3 m ganha cerca de 1,8 kJ de energia potencial"
     type: number
     check: compute
     formula: pe_60kg_3m
     expected: 1765
     unit: J
     tolerance: 0.002
-    status: verified
-  - text: "O termo energia potencial foi cunhado por William Rankine em 1853"
+    status: calculated
+  - id: claim-002
+    text: "O termo energia potencial foi cunhado por William Rankine em 1853"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/W._J._M._Rankine, https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/scientific-and-technical-understanding-energy]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "8.2: Energia potencial de um sistema (Física Universitária I, OpenStax)"

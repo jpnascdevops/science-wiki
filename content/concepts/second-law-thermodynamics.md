@@ -21,24 +21,27 @@ equations:
   - tex: \Delta S = \frac{Q}{T}
     spoken: "delta S é igual a Q sobre T"
 claims:
-  - text: "A chance de 100 partículas independentes estarem todas na metade esquerda é 2⁻¹⁰⁰, cerca de 8 × 10⁻³¹"
+  - id: claim-001
+    text: "A chance de 100 partículas independentes estarem todas na metade esquerda é 2⁻¹⁰⁰, cerca de 8 × 10⁻³¹"
     type: number
     check: compute
     formula: all_100_left_probability
     expected: 7.89e-31
     unit: ""
     tolerance: 0.002
-    status: verified
-  - text: "Clausius enunciou a segunda lei em 1850, e Kelvin deu sua versão em 1851"
+    status: calculated
+  - id: claim-002
+    text: "Clausius enunciou a segunda lei em 1850, e Kelvin deu sua versão em 1851"
     type: date
     check: source
     sources: ["https://www.britannica.com:443/print/article/120559", "https://mathshistory.st-andrews.ac.uk/SH/thomson_sh.pdf"]
-    status: verified
-  - text: "Clausius introduziu a palavra entropia em 1865"
+    status: pending
+  - id: claim-003
+    text: "Clausius introduziu a palavra entropia em 1865"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/Biographies/Clausius/"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "4.7: Entropia (Física Universitária II, OpenStax/LibreTexts)"

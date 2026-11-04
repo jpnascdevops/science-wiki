@@ -28,22 +28,24 @@ equations:
 - tex: \oint \vec{B}\cdot\mathrm{d}\vec{\ell} = \mu_0 I
   spoken: a integral fechada de B escalar d ele é igual a mi zero vezes I
 claims:
-- text: Um fio com 10 A produz, a 1 cm, um campo de cerca de 200 µT, várias vezes o da Terra
+- id: claim-001
+  text: Um fio com 10 A produz, a 1 cm, um campo de cerca de 200 µT, várias vezes o da Terra
   type: number
   check: compute
   formula: wire_field_10a_1cm_ut
   expected: 200.0
   unit: µT
   tolerance: 0.001
-  status: verified
-- text: Em abril de 1820, Hans Christian Ørsted viu uma corrente elétrica desviar a agulha de uma bússola; no fim de setembro do mesmo ano, André-Marie Ampère já demonstrava forças entre correntes
+  status: calculated
+- id: claim-002
+  text: Em abril de 1820, Hans Christian Ørsted viu uma corrente elétrica desviar a agulha de uma bússola; no fim de setembro do mesmo ano, André-Marie Ampère já demonstrava forças entre correntes
   type: date
   check: source
   sources:
   - https://britannica.com/biography/Hans-Christian-Orsted
   - https://aps.org/apsnews/2008/07/1820-oersted-electromagnetism
   - https://www.ebsco.com/research-starters/history/andre-marie-ampere-and-electromagnetism
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Ampère''s Law: Crash Course Physics #33'

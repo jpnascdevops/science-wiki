@@ -21,22 +21,24 @@ equations:
   - tex: v_f = \frac{m_1 v_1 + m_2 v_2}{m_1 + m_2}
     spoken: "v f é igual a m um v um mais m dois v dois, sobre m um mais m dois"
 claims:
-  - text: "Um carro de 1000 kg a 20 m/s que bate e gruda num carro igual parado: os dois seguem a 10 m/s"
+  - id: claim-001
+    text: "Um carro de 1000 kg a 20 m/s que bate e gruda num carro igual parado: os dois seguem a 10 m/s"
     type: number
     check: compute
     formula: inelastic_final_speed
     expected: 10
     unit: m/s
     tolerance: 0.001
-    status: verified
-  - text: "Nessa batida, metade da energia cinética vira deformação, calor e som"
+    status: calculated
+  - id: claim-002
+    text: "Nessa batida, metade da energia cinética vira deformação, calor e som"
     type: number
     check: compute
     formula: inelastic_ke_fraction_lost
     expected: 0.5
     unit: ""
     tolerance: 0.001
-    status: verified
+    status: calculated
 resources:
   - kind: study
     title: "9.7: Tipos de colisões (Física Universitária I, OpenStax)"

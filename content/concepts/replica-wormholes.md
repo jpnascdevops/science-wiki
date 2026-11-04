@@ -26,40 +26,45 @@ equations:
   - tex: S(R) \approx \min\left(S_{\text{Hawking}}, S_{\text{ilha}}\right)
     spoken: "S de R é aproximadamente o mínimo entre S Hawking e S ilha"
 claims:
-  - text: "Almheiri, Hartman, Maldacena, Shaghoulian e Tajdini: Replica Wormholes and the Entropy of Hawking Radiation (2019)"
+  - id: claim-001
+    text: "Almheiri, Hartman, Maldacena, Shaghoulian e Tajdini: Replica Wormholes and the Entropy of Hawking Radiation (2019)"
     type: reference
     check: arxiv
     arxiv: "1911.12333"
     expected_title: "Replica Wormholes and the Entropy of Hawking Radiation"
     sources: [https://arxiv.org/pdf/1911.12333]
-    status: verified
+    status: reference_checked
     note: "Título, autores e ano reconferidos na página do arXiv em 2026-11-02; a checagem da API no CI é independente."
-  - text: "Penington, Shenker, Stanford e Yang: Replica wormholes and the black hole interior (2019)"
+  - id: claim-002
+    text: "Penington, Shenker, Stanford e Yang: Replica wormholes and the black hole interior (2019)"
     type: reference
     check: arxiv
     arxiv: "1911.11977"
     expected_title: "Replica wormholes and the black hole interior"
     sources: [https://arxiv.org/abs/1911.11977]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Almheiri et al.: The entropy of Hawking radiation (revisão, 2020)"
+  - id: claim-003
+    text: "Almheiri et al.: The entropy of Hawking radiation (revisão, 2020)"
     type: reference
     check: arxiv
     arxiv: "2006.06872"
     expected_title: "The entropy of Hawking radiation"
     sources: [https://arxiv.org/abs/2006.06872]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Edwards e Anderson aplicaram o método de réplicas a vidros de spin em 1975; Parisi recebeu metade do Nobel de Física de 2021 por suas contribuições à compreensão de sistemas desordenados"
+  - id: claim-004
+    text: "Edwards e Anderson aplicaram o método de réplicas a vidros de spin em 1975; Parisi recebeu metade do Nobel de Física de 2021 por suas contribuições à compreensão de sistemas desordenados"
     type: attribution
     check: source
     sources: [https://garfield.library.upenn.edu/classics1985/A1985APZ5700001.pdf, https://www.nobelprize.org/prizes/physics/2021/summary/]
-    status: verified
-  - text: "No limite n → 1, extremizar sobre a posição dos pontos fixos da réplica conectada dá a superfície extremal quântica, que é a borda da ilha"
+    status: pending
+  - id: claim-005
+    text: "No limite n → 1, extremizar sobre a posição dos pontos fixos da réplica conectada dá a superfície extremal quântica, que é a borda da ilha"
     type: conceptual
     check: verifier
     sources: [https://ar5iv.arxiv.org/html/1911.12333]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Quanta Magazine: The Most Famous Paradox in Physics Nears Its End (George Musser, 2020)"

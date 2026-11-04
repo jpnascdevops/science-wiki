@@ -1,4 +1,5 @@
 import sqlite3
+import json
 import sys
 
 from wiki import ROOT, depth, load_all, load_map, load_yaml
@@ -20,7 +21,8 @@ create table events (id text primary key, title text, era text references eras(i
 create table event_concepts (event text references events(id), concept text references concepts(id));
 create table superseded (id text primary key, title text, era text references eras(id), superseded_by text references concepts(id));
 create table concept_people (concept text references concepts(id), person text references people(id));
-create table claims (concept text references concepts(id), text text, type text, check_method text, status text, reviewed_by text);
+create table claims (concept text references concepts(id), text text, type text, check_method text, status text, reviewed_by text,
+  claim_id text, metadata_json text, primary key (concept, claim_id));
 create table claim_sources (concept text, claim_text text, url text);
 create table resources (concept text references concepts(id), kind text, title text, url text, level text, lang text, checked_at text);
 create table equations (concept text references concepts(id), tex text, spoken text);
@@ -65,7 +67,8 @@ def main() -> int:
         m = c.meta
         con.executemany("insert into concept_people values (?,?)", [(cid, p) for p in m["tags"].get("people", [])])
         for cl in m.get("claims", []):
-            con.execute("insert into claims values (?,?,?,?,?,?)", (cid, cl["text"], cl["type"], cl["check"], cl["status"], cl.get("reviewed_by")))
+            con.execute("insert into claims values (?,?,?,?,?,?,?,?)", (cid, cl["text"], cl["type"], cl["check"], cl["status"], cl.get("reviewed_by"),
+                        cl["id"], json.dumps(cl, ensure_ascii=False)))
             con.executemany("insert into claim_sources values (?,?,?)", [(cid, cl["text"], u) for u in cl.get("sources", [])])
         for r in m.get("resources", []):
             con.execute("insert into resources values (?,?,?,?,?,?,?)", (cid, r["kind"], r["title"], r.get("url"), r["level"], r["lang"], r.get("checked_at")))

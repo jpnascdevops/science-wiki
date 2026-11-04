@@ -23,35 +23,39 @@ equations:
   - tex: v = \sqrt{2\,g\,h}
     spoken: "v é igual à raiz quadrada de dois g h"
 claims:
-  - text: "Água a 2 m/s num cano que termina num bico com um quarto da área sai a 8 m/s"
+  - id: claim-001
+    text: "Água a 2 m/s num cano que termina num bico com um quarto da área sai a 8 m/s"
     type: number
     check: compute
     formula: hose_speed_quarter_area
     expected: 8
     unit: m/s
     tolerance: 0.001
-    status: verified
-  - text: "Nessa aceleração de 2 para 8 m/s, em escoamento ideal à mesma altura, a pressão da água cai 30 kPa"
+    status: calculated
+  - id: claim-002
+    text: "Nessa aceleração de 2 para 8 m/s, em escoamento ideal à mesma altura, a pressão da água cai 30 kPa"
     type: number
     check: compute
     formula: bernoulli_dp_kpa
     expected: 30
     unit: kPa
     tolerance: 0.001
-    status: verified
-  - text: "Água saindo de um furo 5 m abaixo da superfície sai a cerca de 9,9 m/s"
+    status: calculated
+  - id: claim-003
+    text: "Água saindo de um furo 5 m abaixo da superfície sai a cerca de 9,9 m/s"
     type: number
     check: compute
     formula: torricelli_5m
     expected: 9.9
     unit: m/s
     tolerance: 0.002
-    status: verified
-  - text: "Daniel Bernoulli publicou a Hydrodynamica em 1738; Euler escreveu as equações do escoamento de fluido ideal em 1757"
+    status: calculated
+  - id: claim-004
+    text: "Daniel Bernoulli publicou a Hydrodynamica em 1738; Euler escreveu as equações do escoamento de fluido ideal em 1757"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Hydrodynamica, https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "14.7: Dinâmica de fluidos - equação da continuidade (Física Universitária I, OpenStax)"

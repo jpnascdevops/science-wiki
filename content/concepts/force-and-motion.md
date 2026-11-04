@@ -21,19 +21,21 @@ equations:
   - tex: F = m\,a
     spoken: "F é igual a m vezes a"
 claims:
-  - text: "Empurrar 10 kg com aceleração de 2 m/s² exige 20 N"
+  - id: claim-001
+    text: "Empurrar 10 kg com aceleração de 2 m/s² exige 20 N"
     type: number
     check: compute
     formula: cart_force_newton
     expected: 20
     unit: N
     tolerance: 0.001
-    status: verified
-  - text: "A segunda lei de Newton relaciona força, massa e aceleração"
+    status: calculated
+  - id: claim-002
+    text: "A segunda lei de Newton relaciona força, massa e aceleração"
     type: definition
     check: source
     sources: [https://pt.wikipedia.org/wiki/For%C3%A7a]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Força"

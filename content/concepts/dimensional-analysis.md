@@ -21,40 +21,45 @@ equations:
   - tex: T = 2\pi\sqrt{\frac{L}{g}}
     spoken: "T é igual a dois pi vezes a raiz quadrada de L sobre g"
 claims:
-  - text: "Um pêndulo de 1 m tem período de cerca de 2,0 s"
+  - id: claim-001
+    text: "Um pêndulo de 1 m tem período de cerca de 2,0 s"
     type: number
     check: compute
     formula: pendulum_period_1m
     expected: 2.006
     unit: s
     tolerance: 0.002
-    status: verified
-  - text: "Só por análise dimensional, a estimativa √(L/g) para 1 m dá cerca de 0,32 s; falta o fator 2π"
+    status: calculated
+  - id: claim-002
+    text: "Só por análise dimensional, a estimativa √(L/g) para 1 m dá cerca de 0,32 s; falta o fator 2π"
     type: number
     check: compute
     formula: pendulum_dimensional_1m
     expected: 0.319
     unit: s
     tolerance: 0.003
-    status: verified
-  - text: "Com 70 batidas por minuto, um coração bate cerca de 3 bilhões de vezes em 80 anos"
+    status: calculated
+  - id: claim-003
+    text: "Com 70 batidas por minuto, um coração bate cerca de 3 bilhões de vezes em 80 anos"
     type: number
     check: compute
     formula: heartbeats_80_years
     expected: 2.94e9
     unit: ""
     tolerance: 0.005
-    status: verified
-  - text: "Fourier enunciou a homogeneidade dimensional na Teoria Analítica do Calor (1822); o teorema pi, provado antes por Bertrand (1878), ficou conhecido pela formulação de Buckingham (1914)"
+    status: calculated
+  - id: claim-004
+    text: "Fourier enunciou a homogeneidade dimensional na Teoria Analítica do Calor (1822); o teorema pi, provado antes por Bertrand (1878), ficou conhecido pela formulação de Buckingham (1914)"
     type: date
     check: source
     sources: ["https://en.wikipedia.org/wiki/Dimensional_analysis", "https://en.wikipedia.org/wiki/Buckingham_pi_theorem"]
-    status: verified
-  - text: "As estimativas de ordem de grandeza levam o nome de Enrico Fermi; um exemplo clássico é estimar quantos afinadores de piano há em Chicago"
+    status: pending
+  - id: claim-005
+    text: "As estimativas de ordem de grandeza levam o nome de Enrico Fermi; um exemplo clássico é estimar quantos afinadores de piano há em Chicago"
     type: attribution
     check: source
     sources: ["https://en.wikipedia.org/wiki/Fermi_problem"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "1.5: Análise dimensional (Física Universitária I, OpenStax/LibreTexts)"

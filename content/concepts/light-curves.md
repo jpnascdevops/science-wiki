@@ -18,11 +18,12 @@ equations:
   - tex: \sigma_{\text{bin}} \approx \frac{\sigma}{\sqrt{N}}
     spoken: "sigma do bin é aproximadamente sigma sobre a raiz de N"
 claims:
-  - text: "A média de N medidas independentes, com a mesma variância finita, tem desvio padrão igual ao de uma medida dividido por raiz de N"
+  - id: claim-001
+    text: "A média de N medidas independentes, com a mesma variância finita, tem desvio padrão igual ao de uma medida dividido por raiz de N"
     type: definition
     check: source
     sources: [https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-d1-terminology]
-    status: verified
+    status: pending
     note: "Conferido em 2026-11-02; para a média aritmética de erros independentes de variância sigma², Var(média) = sigma²/N."
 resources:
   - kind: read

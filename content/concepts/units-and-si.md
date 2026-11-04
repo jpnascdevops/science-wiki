@@ -21,37 +21,42 @@ equations:
   - tex: 1{,}5 \times 10^{11}
     spoken: "um vírgula cinco vezes dez elevado a onze"
 claims:
-  - text: "72 km/h equivalem a 20 m/s"
+  - id: claim-001
+    text: "72 km/h equivalem a 20 m/s"
     type: number
     check: compute
     formula: kmh_72_to_m_s
     expected: 20
     unit: m/s
     tolerance: 0.001
-    status: verified
-  - text: "A luz do Sol leva cerca de 8,3 minutos para chegar à Terra"
+    status: calculated
+  - id: claim-002
+    text: "A luz do Sol leva cerca de 8,3 minutos para chegar à Terra"
     type: number
     check: compute
     formula: sunlight_travel_minutes
     expected: 8.32
     unit: min
     tolerance: 0.005
-    status: verified
-  - text: "O SI foi estabelecido em 1960 pela 11ª Conferência Geral de Pesos e Medidas"
+    status: calculated
+  - id: claim-003
+    text: "O SI foi estabelecido em 1960 pela 11ª Conferência Geral de Pesos e Medidas"
     type: date
     check: source
     sources: [https://www.bipm.org/en/-/resolution-cgpm-11-12, https://www.britannica.com/summary/International-System-of-Units]
-    status: verified
-  - text: "Desde 20 de maio de 2019, todas as unidades de base do SI são definidas fixando valores de constantes"
+    status: pending
+  - id: claim-004
+    text: "Desde 20 de maio de 2019, todas as unidades de base do SI são definidas fixando valores de constantes"
     type: date
     check: source
     sources: [https://www.bipm.org/en/-/resolution-cgpm-26-1, https://en.wikipedia.org/wiki/2019_revision_of_the_SI]
-    status: verified
-  - text: "O metro foi definido na França, nos anos 1790, como a décima milionésima parte da distância do polo norte ao equador, medida ao longo do meridiano de Paris"
+    status: pending
+  - id: claim-005
+    text: "O metro foi definido na França, nos anos 1790, como a décima milionésima parte da distância do polo norte ao equador, medida ao longo do meridiano de Paris"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/History_of_the_metre]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "1.3: Unidades e padrões (Física Universitária I, OpenStax)"

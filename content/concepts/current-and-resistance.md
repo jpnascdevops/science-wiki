@@ -31,36 +31,40 @@ equations:
 - tex: P = V\,I
   spoken: P é igual a V vezes I
 claims:
-- text: Um chuveiro de 5500 W ligado em 220 V puxa 25 A
+- id: claim-001
+  text: Um chuveiro de 5500 W ligado em 220 V puxa 25 A
   type: number
   check: compute
   formula: shower_current_5500w_220v
   expected: 25.0
   unit: A
   tolerance: 0.001
-  status: verified
-- text: A resistência desse chuveiro é cerca de 8,8 Ω
+  status: calculated
+- id: claim-002
+  text: A resistência desse chuveiro é cerca de 8,8 Ω
   type: number
   check: compute
   formula: shower_resistance_5500w_220v
   expected: 8.8
   unit: Ω
   tolerance: 0.001
-  status: verified
-- text: Com 1 A num fio de cobre de 1 mm², os elétrons derivam a cerca de 0,07 mm/s
+  status: calculated
+- id: claim-003
+  text: Com 1 A num fio de cobre de 1 mm², os elétrons derivam a cerca de 0,07 mm/s
   type: number
   check: compute
   formula: drift_speed_copper_1a_1mm2
   expected: 7.35e-05
   unit: m/s
   tolerance: 0.01
-  status: verified
-- text: Georg Simon Ohm publicou em 1827 Die galvanische Kette, mathematisch bearbeitet, onde formulou a lei que leva seu nome
+  status: calculated
+- id: claim-004
+  text: Georg Simon Ohm publicou em 1827 Die galvanische Kette, mathematisch bearbeitet, onde formulou a lei que leva seu nome
   type: date
   check: source
   sources:
   - https://britannica.com/topic/The-Galvanic-Circuit-Investigated-Mathematically
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Electric Current: Crash Course Physics #28'

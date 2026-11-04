@@ -21,24 +21,27 @@ equations:
   - tex: \text{quadrada}(t) = \frac{4}{\pi}\left(\sin\omega t + \frac{\sin 3\omega t}{3} + \frac{\sin 5\omega t}{5} + \cdots\right)
     spoken: "a onda quadrada é igual a quatro sobre pi vezes, seno de ômega t, mais seno de três ômega t sobre três, mais seno de cinco ômega t sobre cinco, e assim por diante"
 claims:
-  - text: "Na onda quadrada, as somas parciais passam do salto em cerca de 9% da altura do salto (fenômeno de Gibbs)"
+  - id: claim-001
+    text: "Na onda quadrada, as somas parciais passam do salto em cerca de 9% da altura do salto (fenômeno de Gibbs)"
     type: number
     check: compute
     formula: gibbs_overshoot_percent
     expected: 8.95
     unit: "%"
     tolerance: 0.005
-    status: verified
-  - text: "Fourier apresentou à Academia de Paris, em 1807, seu trabalho sobre o calor usando séries trigonométricas, e publicou a Teoria Analítica do Calor em 1822"
+    status: calculated
+  - id: claim-002
+    text: "Fourier apresentou à Academia de Paris, em 1807, seu trabalho sobre o calor usando séries trigonométricas, e publicou a Teoria Analítica do Calor em 1822"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/Biographies/Fourier/", "https://www.britannica.com/technology/Fourier-analysis"]
-    status: verified
-  - text: "O fenômeno de Gibbs foi notado primeiro por Henry Wilbraham (1848), descrito por Gibbs (1899) e analisado por completo por Bôcher (1906), que lhe deu o nome"
+    status: pending
+  - id: claim-003
+    text: "O fenômeno de Gibbs foi notado primeiro por Henry Wilbraham (1848), descrito por Gibbs (1899) e analisado por completo por Bôcher (1906), que lhe deu o nome"
     type: attribution
     check: source
     sources: ["https://en.wikipedia.org/wiki/Gibbs_phenomenon", "https://encyclopediaofmath.org/wiki/Gibbs_phenomenon"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Fourier: Construindo Ondas (simulação PhET)"

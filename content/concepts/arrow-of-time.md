@@ -19,24 +19,27 @@ equations:
   - tex: S = k_B \ln W
     spoken: "S é igual a k B vezes logaritmo natural de W"
 claims:
-  - text: "Misturar 100 partículas meio a meio entre dois lados dá cerca de 96 bits de entropia de mistura"
+  - id: claim-001
+    text: "Misturar 100 partículas meio a meio entre dois lados dá cerca de 96 bits de entropia de mistura"
     type: number
     check: compute
     formula: mixing_100_bits
     expected: 96.35
     unit: bits
     tolerance: 0.001
-    status: verified
-  - text: "Eddington cunhou a expressão time's arrow (seta do tempo) nas Gifford Lectures de 1927, publicadas em The Nature of the Physical World (1928)"
+    status: calculated
+  - id: claim-002
+    text: "Eddington cunhou a expressão time's arrow (seta do tempo) nas Gifford Lectures de 1927, publicadas em The Nature of the Physical World (1928)"
     type: attribution
     check: source
     sources: ["https://todayinsci.com/E/Eddington_Arthur/EddingtonArthur-Entropy-Quotations.htm", "https://mathshistory.st-andrews.ac.uk/Extras/Eddington_Gifford/"]
-    status: verified
-  - text: "A fórmula S = k log W está gravada no túmulo de Boltzmann, em Viena"
+    status: pending
+  - id: claim-003
+    text: "A fórmula S = k log W está gravada no túmulo de Boltzmann, em Viena"
     type: attribution
     check: source
     sources: ["https://WWW.ATLASOBSCURA.COM/places/boltzmanns-grave"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Thermodynamic Asymmetry in Time (Stanford Encyclopedia of Philosophy)"

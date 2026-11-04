@@ -19,13 +19,14 @@ equations:
   - tex: \frac{a}{b}
     spoken: "a sobre b"
 claims:
-  - text: "3 × 10^8 é igual a 300.000.000"
+  - id: claim-001
+    text: "3 × 10^8 é igual a 300.000.000"
     type: definition
     check: compute
     formula: three_times_ten_to_eight
     expected: 300000000
     tolerance: 0.0
-    status: verified
+    status: calculated
 resources:
   - kind: study
     title: "Khan Academy: Biblioteca de Física"

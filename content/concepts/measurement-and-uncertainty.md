@@ -21,32 +21,36 @@ equations:
   - tex: \sigma_{\bar{x}} = \frac{\sigma}{\sqrt{N}}
     spoken: "sigma de x barra é igual a sigma sobre raiz de N"
 claims:
-  - text: "Com desvio padrão de 0,08 s por medida, a média de 100 medidas tem incerteza de 0,008 s"
+  - id: claim-001
+    text: "Com desvio padrão de 0,08 s por medida, a média de 100 medidas tem incerteza de 0,008 s"
     type: number
     check: compute
     formula: mean_uncertainty_100
     expected: 0.008
     unit: s
     tolerance: 0.001
-    status: verified
-  - text: "Com um ângulo de 7,2° e 5000 estádios entre as cidades, a circunferência da Terra dá 250 000 estádios"
+    status: calculated
+  - id: claim-002
+    text: "Com um ângulo de 7,2° e 5000 estádios entre as cidades, a circunferência da Terra dá 250 000 estádios"
     type: number
     check: compute
     formula: eratosthenes_stadia
     expected: 250000
     unit: estádios
     tolerance: 0.001
-    status: verified
-  - text: "Eratóstenes estimou a circunferência da Terra por volta de 240 a.C. comparando a sombra do Sol em Siene (atual Assuã) e em Alexandria"
+    status: calculated
+  - id: claim-003
+    text: "Eratóstenes estimou a circunferência da Terra por volta de 240 a.C. comparando a sombra do Sol em Siene (atual Assuã) e em Alexandria"
     type: date
     check: source
     sources: ["https://perimeterinstitute.ca/news/how-measure-earths-circumference", "https://kids.britannica.com/students/article/Eratosthenes/322583"]
-    status: verified
-  - text: "Legendre publicou o método dos mínimos quadrados em 1805, e Gauss publicou sua versão em 1809, ligando-o à distribuição normal"
+    status: pending
+  - id: claim-004
+    text: "Legendre publicou o método dos mínimos quadrados em 1805, e Gauss publicou sua versão em 1809, ligando-o à distribuição normal"
     type: date
     check: source
     sources: ["https://encyclopediaofmath.org/wiki/Legendre,_Adrien-Marie", "https://www.britannica.com/topic/normal-distribution"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "1.7: Números significativos (precisão, exatidão, incerteza; Física Universitária I, OpenStax/LibreTexts)"

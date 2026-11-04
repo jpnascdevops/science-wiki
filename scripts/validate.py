@@ -2,6 +2,7 @@ import json
 import sys
 
 from jsonschema import Draft202012Validator
+from evidence import evidence_errors, valid_url
 
 from wiki import ROOT, load_all, load_map, load_yaml, topo_order
 
@@ -65,9 +66,12 @@ def main() -> int:
             errors.append(f"{where}: concept is not in data/map.yaml")
         elif nodes[cid].title != c.meta.get("title"):
             errors.append(f"{where}: title differs from data/map.yaml ('{nodes[cid].title}')")
-        for err in validator.iter_errors(c.meta):
+        schema_errors = list(validator.iter_errors(c.meta))
+        for err in schema_errors:
             path = "/".join(str(p) for p in err.absolute_path)
             errors.append(f"{where}: {path or '<root>'}: {err.message}")
+        if schema_errors:
+            continue
         tags = c.meta.get("tags", {})
         if tags.get("area") not in vocab["areas"]:
             errors.append(f"{where}: area '{tags.get('area')}' not in data/tags.yaml")
@@ -93,7 +97,26 @@ def main() -> int:
             errors.append(f"{where}: reviewer '{reviewer}' not in data/reviewers.yaml")
         if c.meta.get("review", {}).get("status") == "human_reviewed" and not reviewer:
             errors.append(f"{where}: human_reviewed needs a reviewer")
+        claim_ids = set()
         for claim in c.meta.get("claims", []):
+            claim_id = claim.get("id")
+            if claim_id in claim_ids:
+                errors.append(f"{where}: duplicate claim id {claim_id}")
+            claim_ids.add(claim_id)
+            for source in claim.get("sources", []):
+                if not valid_url(source):
+                    errors.append(f"{where}: invalid source URL: {source}")
+            if claim.get("status") == "verified":
+                for problem in evidence_errors(claim, c):
+                    errors.append(f"{where}/{claim_id}: {problem}")
+            if claim.get("status") == "calculated" and claim.get("check") != "compute":
+                errors.append(f"{where}/{claim_id}: calculated requires compute")
+            if claim.get("status") == "reference_checked" and claim.get("check") != "arxiv":
+                errors.append(f"{where}/{claim_id}: reference_checked requires arxiv")
+            if claim.get("check") == "compute" and "expected" not in claim:
+                errors.append(f"{where}/{claim_id}: compute needs expected")
+            if claim.get("check") == "arxiv" and not claim.get("expected_title"):
+                errors.append(f"{where}/{claim_id}: arxiv needs expected_title")
             if claim.get("reviewed_by") and claim["reviewed_by"] not in reviewers:
                 errors.append(f"{where}: claim reviewer '{claim['reviewed_by']}' not in data/reviewers.yaml")
             if claim["status"] == "verified" and claim["check"] in ("source", "verifier", "human") and not claim.get("sources"):
@@ -104,6 +127,13 @@ def main() -> int:
                 errors.append(f"{where}: arxiv claim without id: {claim['text'][:60]}")
         if "technical" in c.meta.get("levels", []) and "## Nível técnico" not in c.body:
             errors.append(f"{where}: level 'technical' declared but no '## Nível técnico' section")
+        if c.meta.get("review", {}).get("status") == "human_reviewed":
+            covered = set()
+            for claim in c.meta.get("claims", []):
+                if claim.get("status") == "verified" and not evidence_errors(claim, c):
+                    covered.update(claim.get("covers", []))
+            if not {"definition", "equation", "recap"} <= covered:
+                errors.append(f"{where}: human_reviewed requires evidence covering definition, equation and recap")
 
     for e in errors:
         print(f"ERROR {e}")

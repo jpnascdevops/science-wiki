@@ -21,19 +21,21 @@ equations:
   - tex: \Delta x = v\,\Delta t
     spoken: "delta x é igual a v vezes delta t"
 claims:
-  - text: "Com v = g t, a área sob a curva de 0 a 2 s dá cerca de 19,6 m"
+  - id: claim-001
+    text: "Com v = g t, a área sob a curva de 0 a 2 s dá cerca de 19,6 m"
     type: number
     check: compute
     formula: area_under_v_2s
     expected: 19.6
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "Arquimedes mostrou, pelo método da exaustão, que a área de um segmento de parábola é 4/3 da área do triângulo inscrito"
+    status: calculated
+  - id: claim-002
+    text: "Arquimedes mostrou, pelo método da exaustão, que a área de um segmento de parábola é 4/3 da área do triângulo inscrito"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Method_of_exhaustion]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "5.1: Aproximando áreas (Cálculo, OpenStax)"

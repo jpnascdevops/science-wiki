@@ -18,7 +18,8 @@ equations:
   - tex: E = m c^2
     spoken: "E é igual a m c ao quadrado"
 claims:
-  - text: "Afirmação"
+  - id: claim-001
+    text: "Afirmação"
     type: number
     check: compute
     formula: nome_da_formula

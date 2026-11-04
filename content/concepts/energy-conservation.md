@@ -21,27 +21,30 @@ equations:
   - tex: \frac{1}{2}\,m\,v^2 = m\,g\,h \;\Rightarrow\; v = \sqrt{2\,g\,h}
     spoken: "um meio de m v ao quadrado é igual a m g h, logo v é igual à raiz quadrada de dois g h"
 claims:
-  - text: "Sem resistência do ar, uma pedra solta de 20 m chega ao chão a cerca de 19,8 m/s"
+  - id: claim-001
+    text: "Sem resistência do ar, uma pedra solta de 20 m chega ao chão a cerca de 19,8 m/s"
     type: number
     check: compute
     formula: drop_20m_speed
     expected: 19.8
     unit: m/s
     tolerance: 0.002
-    status: verified
-  - text: "Um pêndulo solto de 0,5 m de altura passa pelo ponto mais baixo a cerca de 3,1 m/s"
+    status: calculated
+  - id: claim-002
+    text: "Um pêndulo solto de 0,5 m de altura passa pelo ponto mais baixo a cerca de 3,1 m/s"
     type: number
     check: compute
     formula: pendulum_0_5m_speed
     expected: 3.13
     unit: m/s
     tolerance: 0.002
-    status: verified
-  - text: "Mayer (1842), Joule (anos 1840) e Helmholtz (1847, Sobre a conservação da força) são creditados pelo princípio da conservação da energia"
+    status: calculated
+  - id: claim-003
+    text: "Mayer (1842), Joule (anos 1840) e Helmholtz (1847, Sobre a conservação da força) são creditados pelo princípio da conservação da energia"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Julius_von_Mayer]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "8.4: Conservação de energia (Física Universitária I, OpenStax)"

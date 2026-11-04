@@ -23,32 +23,36 @@ equations:
   - tex: \sin x \approx x
     spoken: "seno de x é aproximadamente x"
 claims:
-  - text: "A 10°, a aproximação sen x ≈ x erra cerca de 0,5%"
+  - id: claim-001
+    text: "A 10°, a aproximação sen x ≈ x erra cerca de 0,5%"
     type: number
     check: compute
     formula: small_angle_error_10deg_percent
     expected: 0.51
     unit: "%"
     tolerance: 0.01
-    status: verified
-  - text: "Somando os 11 primeiros termos da série de e, o resultado já acerta 7 casas decimais (2,7182818)"
+    status: calculated
+  - id: claim-002
+    text: "Somando os 11 primeiros termos da série de e, o resultado já acerta 7 casas decimais (2,7182818)"
     type: number
     check: compute
     formula: e_series_10_terms
     expected: 2.7182818
     unit: ""
     tolerance: 0.0000001
-    status: verified
-  - text: "Brook Taylor publicou a série em Methodus Incrementorum Directa et Inversa (1715); o Tratado das Fluxões de Maclaurin (1742) popularizou o caso em torno de zero"
+    status: calculated
+  - id: claim-003
+    text: "Brook Taylor publicou a série em Methodus Incrementorum Directa et Inversa (1715); o Tratado das Fluxões de Maclaurin (1742) popularizou o caso em torno de zero"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/Biographies/Taylor/", "https://www.britannica.com/biography/Colin-Maclaurin"]
-    status: verified
-  - text: "Madhava de Sangamagrama (escola de Kerala, século XIV) encontrou séries infinitas para seno, cosseno e arco tangente"
+    status: pending
+  - id: claim-004
+    text: "Madhava de Sangamagrama (escola de Kerala, século XIV) encontrou séries infinitas para seno, cosseno e arco tangente"
     type: attribution
     check: source
     sources: ["https://en.wikipedia.org/wiki/Madhava_of_Sangamagrama"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "10.3: Série Taylor e Maclaurin (Cálculo, OpenStax/LibreTexts)"

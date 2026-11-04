@@ -19,30 +19,33 @@ equations:
   - tex: \vec{F}_{A\to B} = -\vec{F}_{B\to A}
     spoken: "a força de A sobre B é igual a menos a força de B sobre A"
 claims:
-  - text: "Dois patinadores de 60 kg e 40 kg se empurram com 120 N: o de 60 kg acelera 2 m/s²"
+  - id: claim-001
+    text: "Dois patinadores de 60 kg e 40 kg se empurram com 120 N: o de 60 kg acelera 2 m/s²"
     type: number
     check: compute
     formula: skater_accel_60kg
     expected: 2
     unit: m/s²
     tolerance: 0.001
-    status: verified
-  - text: "No mesmo empurrão, o de 40 kg acelera 3 m/s²"
+    status: calculated
+  - id: claim-002
+    text: "No mesmo empurrão, o de 40 kg acelera 3 m/s²"
     type: number
     check: compute
     formula: skater_accel_40kg
     expected: 3
     unit: m/s²
     tolerance: 0.001
-    status: verified
-  - text: "A Terra também é puxada por uma pessoa de 60 kg em queda, mas acelera só cerca de 10⁻²² m/s²"
+    status: calculated
+  - id: claim-003
+    text: "A Terra também é puxada por uma pessoa de 60 kg em queda, mas acelera só cerca de 10⁻²² m/s²"
     type: number
     check: compute
     formula: earth_accel_from_60kg_person
     expected: 9.85e-23
     unit: m/s²
     tolerance: 0.005
-    status: verified
+    status: calculated
 resources:
   - kind: study
     title: "5.6: Terceira Lei de Newton (Física Universitária I, OpenStax)"

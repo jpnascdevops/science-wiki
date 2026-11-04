@@ -20,29 +20,33 @@ equations:
   - tex: \vec F = -\frac{G M m}{r^2}\hat r
     spoken: "F vetor é igual a menos G M m sobre r ao quadrado, na direção r chapéu"
 claims:
-  - text: "Uma pessoa de 60 kg na superfície da Terra sofre uma força de cerca de 589 N"
+  - id: claim-001
+    text: "Uma pessoa de 60 kg na superfície da Terra sofre uma força de cerca de 589 N"
     type: number
     check: compute
     formula: weight_60kg_newton
     expected: 589
     unit: N
     tolerance: 0.01
-    status: verified
-  - text: "Newton publicou a gravitação universal nos Principia, em 1687"
+    status: calculated
+  - id: claim-002
+    text: "Newton publicou a gravitação universal nos Principia, em 1687"
     type: date
     check: source
     sources: [https://pt.wikipedia.org/wiki/Lei_da_gravita%C3%A7%C3%A3o_universal]
-    status: verified
-  - text: "Galle encontrou Netuno em 23 de setembro de 1846, a partir dos cálculos de Le Verrier"
+    status: pending
+  - id: claim-003
+    text: "Galle encontrou Netuno em 23 de setembro de 1846, a partir dos cálculos de Le Verrier"
     type: attribution
     check: source
     sources: [https://www.britannica.com/place/Neptune-planet/Neptunes-discovery]
-    status: verified
-  - text: "Le Verrier estimou em 1859 um avanço anômalo do periélio de Mercúrio de cerca de 38 segundos de arco por século; o valor posteriormente refinado é cerca de 43"
+    status: pending
+  - id: claim-004
+    text: "Le Verrier estimou em 1859 um avanço anômalo do periélio de Mercúrio de cerca de 38 segundos de arco por século; o valor posteriormente refinado é cerca de 43"
     type: attribution
     check: source
     sources: [https://mathshistory.st-andrews.ac.uk/Biographies/Le_Verrier/]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "Khan Academy: Introdução à lei da gravitação de Newton"

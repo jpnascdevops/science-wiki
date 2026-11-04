@@ -116,7 +116,8 @@
           "text",
           "type",
           "check",
-          "status"
+          "status",
+          "id"
         ],
         "additionalProperties": false,
         "properties": {
@@ -147,7 +148,9 @@
               "pending",
               "verified",
               "disputed",
-              "wrong"
+              "wrong",
+              "calculated",
+              "reference_checked"
             ]
           },
           "sources": {
@@ -166,7 +169,9 @@
             "type": "string"
           },
           "tolerance": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.1
           },
           "arxiv": {
             "type": "string"
@@ -188,6 +193,67 @@
               "speculative",
               "superseded"
             ]
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "absolute_tolerance": {
+            "type": "number",
+            "minimum": 0
+          },
+          "covers": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "definition",
+                "equation",
+                "recap"
+              ]
+            }
+          },
+          "assumptions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source",
+              "locator",
+              "support",
+              "checked_at",
+              "claim_hash",
+              "content_hash"
+            ],
+            "properties": {
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "support": {
+                "type": "string",
+                "minLength": 1
+              },
+              "checked_at": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claim_hash": {
+                "type": "string",
+                "minLength": 1
+              },
+              "content_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
           }
         }
       }

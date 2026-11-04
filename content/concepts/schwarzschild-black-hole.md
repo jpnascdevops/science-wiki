@@ -20,7 +20,8 @@ equations:
   - tex: r_s = \frac{2 G M}{c^2}
     spoken: "r s é igual a dois G M sobre c ao quadrado"
 claims:
-  - text: "O raio de Schwarzschild do Sol é cerca de 3 km"
+  - id: claim-001
+    text: "O raio de Schwarzschild do Sol é cerca de 3 km"
     type: number
     check: compute
     formula: schwarzschild_radius_sun_km
@@ -28,8 +29,9 @@ claims:
     unit: km
     tolerance: 0.01
     sources: [https://pt.wikipedia.org/wiki/Raio_de_Schwarzschild]
-    status: verified
-  - text: "O raio de Schwarzschild da Terra é cerca de 9 mm"
+    status: calculated
+  - id: claim-002
+    text: "O raio de Schwarzschild da Terra é cerca de 9 mm"
     type: number
     check: compute
     formula: schwarzschild_radius_earth_mm
@@ -37,27 +39,31 @@ claims:
     unit: mm
     tolerance: 0.01
     sources: [https://pt.wikipedia.org/wiki/Raio_de_Schwarzschild]
-    status: verified
-  - text: "Schwarzschild encontrou a solução em 1916"
+    status: calculated
+  - id: claim-003
+    text: "Schwarzschild encontrou a solução em 1916"
     type: date
     check: source
     sources: [https://pt.wikipedia.org/wiki/Raio_de_Schwarzschild]
-    status: verified
-  - text: "Em 1939, Einstein argumentou nos Annals of Mathematics que as singularidades de Schwarzschild não existem na realidade física"
+    status: pending
+  - id: claim-004
+    text: "Em 1939, Einstein argumentou nos Annals of Mathematics que as singularidades de Schwarzschild não existem na realidade física"
     type: attribution
     check: source
     sources: [https://spark.iop.org/einstein-black-holes]
-    status: verified
-  - text: "Oppenheimer e Snyder publicaram 'On Continued Gravitational Contraction' na Physical Review em setembro de 1939"
+    status: pending
+  - id: claim-005
+    text: "Oppenheimer e Snyder publicaram 'On Continued Gravitational Contraction' na Physical Review em setembro de 1939"
     type: attribution
     check: source
     sources: [https://ui.adsabs.harvard.edu/abs/1939PhRv...56..455O/abstract]
-    status: verified
-  - text: "Na relatividade geral em quatro dimensões, sob as hipóteses usuais de unicidade em eletrovácuo assintoticamente plano, um buraco negro estacionário é caracterizado por massa, carga e momento angular"
+    status: pending
+  - id: claim-006
+    text: "Na relatividade geral em quatro dimensões, sob as hipóteses usuais de unicidade em eletrovácuo assintoticamente plano, um buraco negro estacionário é caracterizado por massa, carga e momento angular"
     type: definition
     check: source
     sources: [https://pt.wikipedia.org/wiki/Teorema_da_calv%C3%ADcie]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "NOVA (PBS): Black Hole Information Paradox, série What the Physics?!"

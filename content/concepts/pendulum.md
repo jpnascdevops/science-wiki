@@ -21,45 +21,51 @@ equations:
   - tex: \ddot{\theta} = -\frac{g}{L}\sin\theta
     spoken: "teta dois pontos é igual a menos g sobre L vezes seno de teta"
 claims:
-  - text: "Um pêndulo de 1 m na Terra tem período de cerca de 2,0 s para balanços pequenos"
+  - id: claim-001
+    text: "Um pêndulo de 1 m na Terra tem período de cerca de 2,0 s para balanços pequenos"
     type: number
     check: compute
     formula: pendulum_period_1m
     expected: 2.006
     unit: s
     tolerance: 0.002
-    status: verified
-  - text: "Com amplitude de 90°, o período fica cerca de 18% maior"
+    status: calculated
+  - id: claim-002
+    text: "Com amplitude de 90°, o período fica cerca de 18% maior"
     type: number
     check: compute
     formula: pendulum_90deg_ratio
     expected: 1.18
     unit: ""
     tolerance: 0.002
-    status: verified
-  - text: "Em Paris, o plano do pêndulo de Foucault dá uma volta completa em cerca de 32 horas"
+    status: calculated
+  - id: claim-003
+    text: "Em Paris, o plano do pêndulo de Foucault dá uma volta completa em cerca de 32 horas"
     type: number
     check: compute
     formula: foucault_paris_hours
     expected: 31.8
     unit: h
     tolerance: 0.005
-    status: verified
-  - text: "Galileu notou que o período do pêndulo é aproximadamente independente da amplitude (válido só para pequenas oscilações). A história da lâmpada da catedral de Pisa (data tradicional 1583) vem do Racconto istorico de Viviani (1654) e é considerada possivelmente lendária; Galileu escreveu sobre o isocronismo em 1602."
+    status: calculated
+  - id: claim-004
+    text: "Galileu notou que o período do pêndulo é aproximadamente independente da amplitude (válido só para pequenas oscilações). A história da lâmpada da catedral de Pisa (data tradicional 1583) vem do Racconto istorico de Viviani (1654) e é considerada possivelmente lendária; Galileu escreveu sobre o isocronismo em 1602."
     type: attribution
     check: source
     sources: ["https://brunelleschi.imss.fi.it/pencil/eng/html/Time/02 PrimeRicerche.htm", "https://brunelleschi.imss.fi.it/itineraries/place/CathedralOfSantaMaria.html"]
-    status: verified
-  - text: "Christiaan Huygens inventou o relógio de pêndulo em 1656 (patente em junho de 1657) e publicou o Horologium Oscillatorium em 1673, mostrando que o pêndulo cicloidal é verdadeiramente isócrono."
+    status: pending
+  - id: claim-005
+    text: "Christiaan Huygens inventou o relógio de pêndulo em 1656 (patente em junho de 1657) e publicou o Horologium Oscillatorium em 1673, mostrando que o pêndulo cicloidal é verdadeiramente isócrono."
     type: date
     check: source
     sources: ["https://www.lindahall.org/about/news/scientist-of-the-day/christian-huygens/", "https://mathshistory.st-andrews.ac.uk/SH/huygens_2_sh.pdf"]
-    status: verified
-  - text: "Léon Foucault demonstrou a rotação da Terra com um pêndulo em 1851, em Paris"
+    status: pending
+  - id: claim-006
+    text: "Léon Foucault demonstrou a rotação da Terra com um pêndulo em 1851, em Paris"
     type: date
     check: source
     sources: ["https://britannica.com/science/Foucault-pendulum"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "Walter Lewin, MIT 8.01 Lecture 10 - Hooke's Law and Simple Harmonic Motion (spring and pendulum, small-angle approx.)"

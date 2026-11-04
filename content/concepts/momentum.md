@@ -23,40 +23,45 @@ equations:
   - tex: \sum \vec{p}_{\text{antes}} = \sum \vec{p}_{\text{depois}}
     spoken: "a soma dos momentos antes é igual à soma dos momentos depois"
 claims:
-  - text: "Um carro de 1000 kg a 20 m/s tem momento de 20 000 kg·m/s"
+  - id: claim-001
+    text: "Um carro de 1000 kg a 20 m/s tem momento de 20 000 kg·m/s"
     type: number
     check: compute
     formula: momentum_car_20ms
     expected: 20000
     unit: kg·m/s
     tolerance: 0.001
-    status: verified
-  - text: "Parar uma bola de 0,4 kg a 10 m/s em 0,1 s exige força média de 40 N"
+    status: calculated
+  - id: claim-002
+    text: "Parar uma bola de 0,4 kg a 10 m/s em 0,1 s exige força média de 40 N"
     type: number
     check: compute
     formula: impulse_force_0_1s
     expected: 40
     unit: N
     tolerance: 0.001
-    status: verified
-  - text: "Parar a mesma bola em 0,01 s exige 400 N"
+    status: calculated
+  - id: claim-003
+    text: "Parar a mesma bola em 0,01 s exige 400 N"
     type: number
     check: compute
     formula: impulse_force_0_01s
     expected: 400
     unit: N
     tolerance: 0.001
-    status: verified
-  - text: "Descartes definiu a quantidade de movimento (tamanho do corpo vezes rapidez) como conservada nos Princípios da Filosofia, de 1644, sem levar em conta a direção"
+    status: calculated
+  - id: claim-004
+    text: "Descartes definiu a quantidade de movimento (tamanho do corpo vezes rapidez) como conservada nos Princípios da Filosofia, de 1644, sem levar em conta a direção"
     type: attribution
     check: source
     sources: [https://cambridge.org/core/books/cambridge-descartes-lexicon/conservation-of-motion-principle-of/D22AE869A50822C84050300FEF144B3C]
-    status: verified
-  - text: "Entre 1668 e 1669, Wallis, Wren e Huygens apresentaram à Royal Society regras para as colisões"
+    status: pending
+  - id: claim-005
+    text: "Entre 1668 e 1669, Wallis, Wren e Huygens apresentaram à Royal Society regras para as colisões"
     type: date
     check: source
     sources: [https://pictures.royalsociety.org/image-rs-15415, https://mathshistory.st-andrews.ac.uk/Biographies/Huygens.html]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Cap. 9: Momento linear e colisões (Física Universitária I, OpenStax)"

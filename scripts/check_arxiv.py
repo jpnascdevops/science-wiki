@@ -1,3 +1,4 @@
+from evidence import result_row, save_results, snapshot_hash
 import re
 import sys
 import time
@@ -6,7 +7,7 @@ import xml.etree.ElementTree as ET
 
 from wiki import load_all
 
-API = "http://export.arxiv.org/api/query?id_list={}"
+API = "https://export.arxiv.org/api/query?id_list={}"
 ATOM = "{http://www.w3.org/2005/Atom}"
 
 
@@ -27,8 +28,8 @@ def fetch_title(arxiv_id: str) -> str | None:
 
 
 def main() -> int:
-    failures = 0
-    unreachable = 0
+    snapshot = snapshot_hash()
+    rows = []
     seen = {}
     for cid, c in load_all().items():
         for claim in c.meta.get("claims", []):
@@ -36,24 +37,24 @@ def main() -> int:
                 continue
             aid = claim["arxiv"]
             if aid not in seen:
-                try:
-                    seen[aid] = fetch_title(aid)
-                    time.sleep(3)
-                except Exception as e:
-                    print(f"SKIP {cid}: {aid} unreachable ({e.__class__.__name__})")
-                    unreachable += 1
-                    seen[aid] = "__unreachable__"
-                    continue
+                for attempt in range(3):
+                    try:
+                        seen[aid] = fetch_title(aid)
+                        time.sleep(3)
+                        break
+                    except Exception as exc:
+                        seen[aid] = "__unreachable__"
+                        time.sleep(3 * (attempt + 1))
             title = seen[aid]
             if title == "__unreachable__":
-                continue
-            expected = claim.get("expected_title", "")
-            ok = title is not None and normalize(expected) == normalize(title)
-            if not ok:
-                failures += 1
-            print(f"{'ok  ' if ok else 'FAIL'} {cid}: {aid} -> {title!r}")
-    print(f"{len(seen)} arXiv ids, {failures} failures, {unreachable} unreachable")
-    return 1 if failures else 0
+                outcome = "inconclusive"
+            else:
+                outcome = "passed" if title and normalize(claim.get("expected_title", "")) == normalize(title) else "failed"
+            detail = f"{aid}: {title!r}; title matching only, not scientific support"
+            rows.append(result_row(cid, claim, outcome, detail))
+            print(f"{outcome}: {cid}: {detail}")
+    save_results("arxiv", rows, snapshot)
+    return int(any(row["outcome"] != "passed" for row in rows))
 
 
 if __name__ == "__main__":

@@ -21,19 +21,21 @@ equations:
   - tex: \dot{q} = \frac{\partial \mathcal{H}}{\partial p}, \qquad \dot{p} = -\frac{\partial \mathcal{H}}{\partial q}
     spoken: "q ponto é igual à derivada parcial de H em relação a p; p ponto é igual a menos a derivada parcial de H em relação a q"
 claims:
-  - text: "Para um pêndulo de 1 kg e 1 m, a energia que separa balançar de dar voltas é cerca de 19,6 J (2 m g L)"
+  - id: claim-001
+    text: "Para um pêndulo de 1 kg e 1 m, a energia que separa balançar de dar voltas é cerca de 19,6 J (2 m g L)"
     type: number
     check: compute
     formula: pendulum_separatrix_energy
     expected: 19.61
     unit: J
     tolerance: 0.001
-    status: verified
-  - text: "Hamilton publicou sua reformulação da mecânica em On a General Method in Dynamics (1834, 1835)"
+    status: calculated
+  - id: claim-002
+    text: "Hamilton publicou sua reformulação da mecânica em On a General Method in Dynamics (1834, 1835)"
     type: date
     check: source
     sources: ["https://www.maths.tcd.ie/pub/HistMath/People/Hamilton/Dynamics/"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "Leonard Susskind, The Theoretical Minimum Lecture 6 - Hamilton's Equations (phase space, harmonic oscillator)"

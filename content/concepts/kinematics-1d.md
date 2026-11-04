@@ -23,27 +23,30 @@ equations:
   - tex: v^2 = v_0^2 + 2\,a\,\Delta x
     spoken: "v ao quadrado é igual a v zero ao quadrado mais dois a delta x"
 claims:
-  - text: "Ir de 0 a 100 km/h em 10 s corresponde a uma aceleração de cerca de 2,78 m/s²"
+  - id: claim-001
+    text: "Ir de 0 a 100 km/h em 10 s corresponde a uma aceleração de cerca de 2,78 m/s²"
     type: number
     check: compute
     formula: accel_0_100_kmh_10s
     expected: 2.78
     unit: m/s²
     tolerance: 0.002
-    status: verified
-  - text: "Nessa arrancada, supondo aceleração constante, o carro percorre cerca de 139 m"
+    status: calculated
+  - id: claim-002
+    text: "Nessa arrancada, supondo aceleração constante, o carro percorre cerca de 139 m"
     type: number
     check: compute
     formula: distance_0_100_kmh_10s
     expected: 138.9
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "Os calculadores de Merton (Oxford, século XIV) enunciaram o teorema da velocidade média, e Nicole Oresme deu uma prova geométrica"
+    status: calculated
+  - id: claim-003
+    text: "Os calculadores de Merton (Oxford, século XIV) enunciaram o teorema da velocidade média, e Nicole Oresme deu uma prova geométrica"
     type: attribution
     check: source
     sources: [https://www.britannica.com/topic/Merton-theorem, https://en.wikipedia.org/wiki/Mean_speed_theorem]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Cap. 3: Movimento ao longo de uma linha reta (Física Universitária I, OpenStax)"

@@ -17,11 +17,12 @@ equations:
   - tex: P = \sigma A T^4
     spoken: "P é igual a sigma A T à quarta"
 claims:
-  - text: "A potência irradiada por unidade de área de um corpo negro ideal cresce com a quarta potência da temperatura (lei de Stefan-Boltzmann)"
+  - id: claim-001
+    text: "A potência irradiada por unidade de área de um corpo negro ideal cresce com a quarta potência da temperatura (lei de Stefan-Boltzmann)"
     type: definition
     check: human
     sources: [https://www.britannica.com/science/Stefan-Boltzmann-law]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Termodinâmica do buraco negro"

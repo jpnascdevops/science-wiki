@@ -21,24 +21,47 @@ equations:
   - tex: \delta S = 0
     spoken: "delta S é igual a zero"
 claims:
-  - text: "Para uma bola de 1 kg jogada para cima que volta em 2 s, entortar o caminho com uma corcova de 0,5 m aumenta a ação em cerca de 0,31 J·s"
+  - id: claim-001
+    text: "Para uma bola de 1 kg jogada para cima que volta em 2 s, entortar o caminho com uma corcova de 0,5 m aumenta a ação em cerca de 0,31 J·s"
     type: number
     check: compute
     formula: action_delta_a05
     expected: 0.308
     unit: J·s
     tolerance: 0.003
-    status: verified
-  - text: "Pierre de Fermat formulou o princípio do tempo mínimo para a luz por volta de 1657 e publicou a dedução da lei da refração a partir dele em 1662."
+    status: calculated
+  - id: claim-002
+    text: "Pierre de Fermat formulou o princípio do tempo mínimo para a luz por volta de 1657 e publicou a dedução da lei da refração a partir dele em 1662."
     type: date
     check: source
     sources: ["https://arxiv.org/pdf/2402.19400"]
-    status: verified
-  - text: "Maupertuis enunciou um princípio de mínima ação em 1744 (Académie des Sciences) e o ampliou em 1746; Euler publicou no mesmo ano de 1744 uma formulação (apêndice do Methodus inveniendi) e voltou ao tema em 1753; Hamilton deu o princípio de Hamilton em 1834–1835."
+    status: pending
+  - id: claim-003
+    text: "Maupertuis enunciou um princípio de mínima ação em 1744 e o ampliou em 1746."
     type: date
     check: source
     sources: ["https://ccrma.stanford.edu/~jos/Lagrangians/History_Least_Action_Principle.html", "https://www.britannica.com/topic/principle-of-least-action"]
-    status: verified
+    status: pending
+  - id: claim-004
+    text: "Euler publicou uma formulação no apêndice do Methodus inveniendi em 1744 e voltou ao tema em 1753."
+    type: date
+    check: source
+    sources: ["https://ccrma.stanford.edu/~jos/Lagrangians/History_Least_Action_Principle.html"]
+    status: pending
+  - id: claim-005
+    text: "Hamilton deu o princípio de Hamilton em 1834–1835."
+    type: date
+    check: source
+    sources: ["https://ccrma.stanford.edu/~jos/Lagrangians/History_Least_Action_Principle.html"]
+    status: pending
+  - id: claim-006
+    text: "O caminho real deixa a ação estacionária para variações com extremos fixos."
+    type: conceptual
+    check: source
+    covers: [definition, equation, recap]
+    assumptions: "Formulação lagrangiana apresentada na página; extremos e tempos fixos."
+    sources: ["https://feynmanlectures.caltech.edu/II_19.html"]
+    status: pending
 resources:
   - kind: watch
     title: "Veritasium - The Closest We've Come to a Theory of Everything (principle of least action, Fermat to Hamilton)"

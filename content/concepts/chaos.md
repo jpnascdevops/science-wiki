@@ -19,24 +19,27 @@ equations:
   - tex: '|\delta(t)| \approx |\delta_0|\,e^{\lambda t}'
     spoken: "o módulo de delta de t é aproximadamente o módulo de delta zero vezes e elevado a lambda t"
 claims:
-  - text: "Se a diferença dobra a cada passo, são precisas cerca de 20 duplicações para um milionésimo virar 1"
+  - id: claim-001
+    text: "Se a diferença dobra a cada passo, são precisas cerca de 20 duplicações para um milionésimo virar 1"
     type: number
     check: compute
     formula: doublings_1e6
     expected: 19.93
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "Henri Poincaré descobriu o comportamento caótico no problema dos três corpos em sua memória premiada no concurso do rei Oscar II (prêmio em 1889, versão corrigida publicada na Acta Mathematica em 1890); foi ao corrigir um erro que ele encontrou as órbitas homoclínicas."
+    status: calculated
+  - id: claim-002
+    text: "Henri Poincaré descobriu o comportamento caótico no problema dos três corpos em sua memória premiada no concurso do rei Oscar II (prêmio em 1889, versão corrigida publicada na Acta Mathematica em 1890); foi ao corrigir um erro que ele encontrou as órbitas homoclínicas."
     type: date
     check: source
     sources: ["https://ui.adsabs.harvard.edu/abs/1994AHES...48..107B/abstract", "https://www.britannica.com/science/analysis-mathematics/Dynamical-systems-theory-and-chaos"]
-    status: verified
-  - text: "Edward Lorenz publicou Deterministic Nonperiodic Flow em 1963; a expressão efeito borboleta vem da palestra dele de 1972 sobre o bater de asas de uma borboleta no Brasil"
+    status: pending
+  - id: claim-003
+    text: "Edward Lorenz publicou Deterministic Nonperiodic Flow em 1963; a expressão efeito borboleta vem da palestra dele de 1972 sobre o bater de asas de uma borboleta no Brasil"
     type: date
     check: source
     sources: ["https://www.sciencenews.org/article/born-half-century-ago-chaos-theory-languished-years", "https://britannica.com/science/butterfly-effect"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "Veritasium - Chaos: The Science of the Butterfly Effect (2019; Lorenz, double pendulum) [index page; YouTube id fDek6cYijxI]"

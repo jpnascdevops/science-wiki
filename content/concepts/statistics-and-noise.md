@@ -21,40 +21,45 @@ equations:
   - tex: P(|x - \mu| < \sigma) \approx 68\%
     spoken: "a probabilidade de x estar a menos de um sigma de mi é aproximadamente sessenta e oito por cento"
 claims:
-  - text: "Numa distribuição normal, cerca de 68,3% dos valores ficam a até 1 desvio padrão da média"
+  - id: claim-001
+    text: "Numa distribuição normal, cerca de 68,3% dos valores ficam a até 1 desvio padrão da média"
     type: number
     check: compute
     formula: within_one_sigma_percent
     expected: 68.27
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "E cerca de 95,4% ficam a até 2 desvios padrão"
+    status: calculated
+  - id: claim-002
+    text: "E cerca de 95,4% ficam a até 2 desvios padrão"
     type: number
     check: compute
     formula: within_two_sigma_percent
     expected: 95.45
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "Uma queda de 0,4% com ruído de 0,6% por ponto, em média sobre 30 pontos, tem sinal/ruído de cerca de 3,7"
+    status: calculated
+  - id: claim-003
+    text: "Uma queda de 0,4% com ruído de 0,6% por ponto, em média sobre 30 pontos, tem sinal/ruído de cerca de 3,7"
     type: number
     check: compute
     formula: transit_snr_30_points
     expected: 3.65
     unit: ""
     tolerance: 0.003
-    status: verified
-  - text: "De Moivre encontrou a aproximação normal da binomial em 1733, e Laplace a generalizou (teorema central do limite) por volta de 1810"
+    status: calculated
+  - id: claim-004
+    text: "De Moivre encontrou a aproximação normal da binomial em 1733, e Laplace a generalizou (teorema central do limite) por volta de 1810"
     type: date
     check: source
     sources: ["https://jhanley.biostat.mcgill.ca/bios601/GaussianModel/HistoryCentralLimitTheorem.pdf", "https://www.johndcook.com/blog/2010/01/05/how-the-central-limit-theorem-began"]
-    status: verified
-  - text: "William Sealy Gosset publicou a distribuição t em 1908, com o pseudônimo Student, quando trabalhava na cervejaria Guinness"
+    status: pending
+  - id: claim-005
+    text: "William Sealy Gosset publicou a distribuição t em 1908, com o pseudônimo Student, quando trabalhava na cervejaria Guinness"
     type: attribution
     check: source
     sources: ["https://encyclopediaofmath.org/wiki/Gosset,_William_Sealy"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "2: Estatísticas descritivas (média, desvio padrão; Estatísticas introdutórias, OpenStax/LibreTexts)"

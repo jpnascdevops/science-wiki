@@ -21,27 +21,30 @@ equations:
   - tex: F_1\,d_1 = F_2\,d_2
     spoken: "F um vezes d um é igual a F dois vezes d dois"
 claims:
-  - text: "Uma criança de 30 kg a 2 m do eixo de uma gangorra faz um torque de cerca de 588 N·m"
+  - id: claim-001
+    text: "Uma criança de 30 kg a 2 m do eixo de uma gangorra faz um torque de cerca de 588 N·m"
     type: number
     check: compute
     formula: torque_30kg_2m
     expected: 588.4
     unit: N·m
     tolerance: 0.001
-    status: verified
-  - text: "Alguém de 40 kg a 1,5 m faz o mesmo torque e a gangorra fica em equilíbrio"
+    status: calculated
+  - id: claim-002
+    text: "Alguém de 40 kg a 1,5 m faz o mesmo torque e a gangorra fica em equilíbrio"
     type: number
     check: compute
     formula: torque_40kg_1_5m
     expected: 588.4
     unit: N·m
     tolerance: 0.001
-    status: verified
-  - text: "Arquimedes enunciou a lei da alavanca em Sobre o equilíbrio dos planos"
+    status: calculated
+  - id: claim-003
+    text: "Arquimedes enunciou a lei da alavanca em Sobre o equilíbrio dos planos"
     type: attribution
     check: source
     sources: [https://mathshistory.st-andrews.ac.uk/Extras/Archimedes_on_statics/]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "10.7: Torque (Física Universitária I, OpenStax)"

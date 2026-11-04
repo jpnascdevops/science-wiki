@@ -24,45 +24,51 @@ equations:
   - tex: t_{evap} \approx \frac{5120\,\pi\, G^2 M_0^3}{\hbar c^4}
     spoken: "t evap é aproximadamente cinco mil cento e vinte pi G ao quadrado M zero ao cubo, sobre agá cortado c à quarta"
 claims:
-  - text: "Um buraco negro com a massa do Sol tem temperatura de cerca de 6,2 × 10^-8 K"
+  - id: claim-001
+    text: "Um buraco negro com a massa do Sol tem temperatura de cerca de 6,2 × 10^-8 K"
     type: number
     check: compute
     formula: hawking_temperature_sun_kelvin
     expected: 6.17e-8
     unit: K
     tolerance: 0.01
-    status: verified
-  - text: "A entropia de um buraco negro solar é cerca de 10^77 vezes k_B"
+    status: calculated
+  - id: claim-002
+    text: "A entropia de um buraco negro solar é cerca de 10^77 vezes k_B"
     type: number
     check: compute
     formula: bh_entropy_sun_kb
     expected: 1.05e77
     tolerance: 0.02
-    status: verified
-  - text: "Na aproximação de corpo negro ideal com área do horizonte, sem absorção externa, um buraco negro solar levaria cerca de 2 × 10^67 anos para evaporar"
+    status: calculated
+  - id: claim-003
+    text: "Na aproximação de corpo negro ideal com área do horizonte, sem absorção externa, um buraco negro solar levaria cerca de 2 × 10^67 anos para evaporar"
     type: number
     check: compute
     formula: evaporation_time_sun_years
     expected: 2.1e67
     unit: anos
     tolerance: 0.02
-    status: verified
+    status: calculated
     note: "Verificação aritmética da aproximação de Stefan–Boltzmann; não inclui fatores greybody, outras espécies de partículas nem absorção externa."
-  - text: "Hawking fixou a constante de proporcionalidade da entropia em 1/4"
+  - id: claim-004
+    text: "Hawking fixou a constante de proporcionalidade da entropia em 1/4"
     type: attribution
     check: source
     sources: [https://pt.wikipedia.org/wiki/Termodin%C3%A2mica_do_buraco_negro]
-    status: verified
-  - text: "Bekenstein propôs em 1972 (Lett. Nuovo Cimento 4) que buracos negros têm entropia proporcional à área, a menos de um fator de ordem 1; o fator 1/4 veio do trabalho de Hawking"
+    status: pending
+  - id: claim-005
+    text: "Bekenstein propôs em 1972 (Lett. Nuovo Cimento 4) que buracos negros têm entropia proporcional à área, a menos de um fator de ordem 1; o fator 1/4 veio do trabalho de Hawking"
     type: date
     check: source
     sources: [https://arxiv.org/pdf/1810.01880, https://en.wikipedia.org/wiki/Jacob_Bekenstein]
-    status: verified
-  - text: "Hawking publicou a radiação térmica de buracos negros na Nature em 1974 ('Black hole explosions?') e na Commun. Math. Phys. em 1975"
+    status: pending
+  - id: claim-006
+    text: "Hawking publicou a radiação térmica de buracos negros na Nature em 1974 ('Black hole explosions?') e na Commun. Math. Phys. em 1975"
     type: date
     check: source
     sources: [https://link.springer.com/article/10.1038/248030a0, https://authors.library.caltech.edu/records/2wsvj-qrt68]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Termodinâmica do buraco negro"

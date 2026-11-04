@@ -22,30 +22,33 @@ equations:
   - tex: S_{BH}(\tau) \propto (1-\tau)^{2/3}
     spoken: "S B H de tau é proporcional a um menos tau, elevado a dois terços"
 claims:
-  - text: "Em quatro dimensões, com fótons e grávitons, o tempo de Page é cerca de 54% do tempo de evaporação"
+  - id: claim-001
+    text: "Em quatro dimensões, com fótons e grávitons, o tempo de Page é cerca de 54% do tempo de evaporação"
     type: number
     check: compute
     formula: page_time_fraction_4d
     expected: 0.538
     tolerance: 0.005
     sources: [https://ar5iv.arxiv.org/html/1301.4995]
-    status: verified
+    status: calculated
     note: "Razão dS_rad/|dS_BH| ≈ 1,4847 (Page): buraco negro sem rotação em 4D emitindo só fótons e grávitons; é a entropia térmica (grosseira) da radiação."
-  - text: "Don Page publicou 'Information in black hole radiation' em 1993"
+  - id: claim-002
+    text: "Don Page publicou 'Information in black hole radiation' em 1993"
     type: reference
     check: arxiv
     arxiv: hep-th/9306083
     expected_title: "Information in black hole radiation"
     sources: [https://arxiv.org/abs/hep-th/9306083]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Don Page publicou 'Average entropy of a subsystem' em 1993"
+  - id: claim-003
+    text: "Don Page publicou 'Average entropy of a subsystem' em 1993"
     type: reference
     check: arxiv
     arxiv: gr-qc/9305007
     expected_title: "Average entropy of a subsystem"
     sources: [https://arxiv.org/abs/gr-qc/9305007]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: read

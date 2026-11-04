@@ -16,26 +16,30 @@ tags:
   arxiv_category: astro-ph.EP
 equations: []
 claims:
-  - text: "Wolszczan e Frail anunciaram em 1992 planetas em volta do pulsar PSR B1257+12, os primeiros exoplanetas confirmados"
+  - id: claim-001
+    text: "Wolszczan e Frail anunciaram em 1992 planetas em volta do pulsar PSR B1257+12, os primeiros exoplanetas confirmados"
     type: attribution
     check: source
     sources: [https://pure.psu.edu/en/publications/a-planetary-system-around-the-millisecond-pulsar-psr1257-12/]
-    status: verified
-  - text: "Mayor e Queloz anunciaram 51 Pegasi b em 6 de outubro de 1995, o primeiro exoplaneta em volta de uma estrela como o Sol, pelo método de velocidade radial"
+    status: pending
+  - id: claim-002
+    text: "Mayor e Queloz anunciaram 51 Pegasi b em 6 de outubro de 1995, o primeiro exoplaneta em volta de uma estrela como o Sol, pelo método de velocidade radial"
     type: attribution
     check: source
     sources: [https://science.nasa.gov/universe/exoplanets/will-the-real-first-exoplanet-please-stand-up/]
-    status: verified
-  - text: "Mayor e Queloz dividiram metade do Nobel de Física de 2019; a outra metade foi para James Peebles"
+    status: pending
+  - id: claim-003
+    text: "Mayor e Queloz dividiram metade do Nobel de Física de 2019; a outra metade foi para James Peebles"
     type: attribution
     check: source
     sources: [https://www.kva.se/en/news/nobelpriset-i-fysik-2019-2/]
-    status: verified
-  - text: "A página de contagem do NASA Exoplanet Archive consultada em 2 de novembro de 2026 listava 6.451 exoplanetas confirmados"
+    status: pending
+  - id: claim-004
+    text: "A página de contagem do NASA Exoplanet Archive consultada em 2 de novembro de 2026 listava 6.451 exoplanetas confirmados"
     type: number
     check: source
     sources: [https://exoplanetarchive.ipac.caltech.edu/docs/counts_detail.html, https://exoplanet.ipac.caltech.edu/docs/exonews_archive.html]
-    status: verified
+    status: pending
     note: "Total reconferido na página de contagem em 2026-11-02; é uma fotografia datada de um catálogo que muda."
 resources:
   - kind: read

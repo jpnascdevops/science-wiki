@@ -45,14 +45,33 @@ O corpo segue sempre as mesmas seções: Intuição, Equação, Variáveis, Exem
 | `build_db.py` | gera `build/wiki.sqlite` com tudo (conceitos, mapa, história, afirmações, materiais) |
 | `coverage.py` | cobertura por módulo e por trilha, e quais conceitos já podem ser escritos |
 
-Uma afirmação só fica `verified` se a checagem rodou de fato.
+`verified` significa revisão com evidência registrada, não apenas um link ou cálculo correto.
+`calculated` identifica um cálculo conferido; `reference_checked` identifica uma referência
+conferida por título. Nenhum desses dois estados certifica a explicação científica.
+Resultados de cada execução ficam em `build/checks/`, com data, impressão digital do
+conteúdo e resultados `passed`, `failed` ou `inconclusive`. Resultados antigos (mais de
+24 horas) ou de outro conteúdo não são apresentados como atuais no relatório.
+
+A migração de novembro de 2026 preserva fontes, mas devolve para `pending` as afirmações
+sem evidência de revisão estruturada. Isso não significa que sejam falsas.
 
 ## Revisão
 
 1. Cada revisor entra em `data/reviewers.yaml` com id, nome, usuário do GitHub e áreas.
-2. Quem revisa uma afirmação preenche `reviewed_by` nela.
-3. Uma página só fica `human_reviewed` com o id do revisor em `review.reviewer`.
-4. Revisões entram por PR; o CI valida antes do merge.
+2. Cada afirmação tem um `id` estável; não renumere ids existentes. Separe afirmações
+   compostas quando as evidências sustentarem partes diferentes.
+3. Quem revisa preenche `reviewed_by` e `evidence`: `source` (presente em `sources`),
+   `locator` (página/seção), `support` (como a fonte sustenta a afirmação e suas ressalvas),
+   `checked_at` (AAAA-MM-DD), `claim_hash` e `content_hash`. Não invente evidência para
+   satisfazer o validador. Após a leitura, obtenha os hashes com
+   `python scripts/review_fingerprint.py <conceito> <claim-id>`.
+   Edits na afirmação, pressupostos, resumo, equações ou corpo invalidam a revisão.
+4. Use `covers: [definition, equation, recap]` somente para os aspectos realmente
+   sustentados pela evidência. Uma página `human_reviewed` exige revisor e cobertura
+   verificada dos três aspectos. O relatório mostra lacunas nos rascunhos.
+5. Registre hipóteses em `assumptions`. Evidência sobre um exemplo numérico ou uma data
+   histórica não substitui a revisão da explicação principal.
+6. Revisões entram por PR; o CI valida antes do merge.
 
 ## Rodando
 
@@ -65,11 +84,30 @@ python scripts/export_site.py
 bash site/setup_quartz.sh
 ```
 
+No Windows, use o ambiente local para evitar os aliases da Microsoft Store:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/validate.py
+.\.venv\Scripts\python.exe scripts/check_numbers.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests
+node --test tests/labs.test.cjs
+```
+
+Os testes de laboratório exercitam o relógio em diferentes taxas de atualização,
+o integrador RK4 e o exemplo da ação contra soluções analíticas. Isso é cobertura
+parcial: os demais laboratórios ainda precisam de casos de referência e testes físicos.
+
 O site sai em `site/public`. O Quartz fica fixado na versão v4.5.2.
 
 ## Publicação
 
-No GitHub, ative Pages com a fonte "GitHub Actions" (Settings > Pages). A cada push na `main`, o `pages.yml` valida, gera e publica o site. O `checks.yml` roda as checagens em todo PR e toda segunda-feira, e coloca o relatório e a cobertura no resumo da execução.
+No GitHub, ative Pages com a fonte "GitHub Actions" (Settings > Pages). O `pages.yml`
+executa o workflow reutilizável `checks.yml` no mesmo commit antes de gerar e publicar.
+Falhas ou resultados inconclusivos de rede bloqueiam publicação; tente novamente após
+falhas temporárias. As verificações incluem URLs de fontes e materiais, com tentativas
+adicionais para indisponibilidade temporária. Relatórios e resultados são preservados
+mesmo quando uma checagem falha. Rascunhos com revisão pendente continuam publicáveis,
+explicitamente identificados, enquanto conteúdo que se declara revisado deve comprovar isso.
 
 ## Novo conceito
 

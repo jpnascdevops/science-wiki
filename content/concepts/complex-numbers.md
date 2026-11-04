@@ -23,37 +23,42 @@ equations:
   - tex: e^{i\pi} + 1 = 0
     spoken: "e elevado a i pi, mais um, é igual a zero"
 claims:
-  - text: "e^(iπ) tem parte real −1, ou seja, e^(iπ) + 1 = 0"
+  - id: claim-001
+    text: "e^(iπ) tem parte real −1, ou seja, e^(iπ) + 1 = 0"
     type: number
     check: compute
     formula: euler_identity_real
     expected: -1
     unit: ""
     tolerance: 0.000001
-    status: verified
-  - text: "(1 + i)² = 2i: o ângulo dobra de 45° para 90° e o tamanho vai de √2 para 2"
+    status: calculated
+  - id: claim-002
+    text: "(1 + i)² = 2i: o ângulo dobra de 45° para 90° e o tamanho vai de √2 para 2"
     type: number
     check: compute
     formula: one_plus_i_squared_imag
     expected: 2
     unit: ""
     tolerance: 0.000001
-    status: verified
-  - text: "Cardano, na Ars Magna (1545), esbarrou em raízes quadradas de números negativos; Bombelli (1572) deu regras para calcular com elas"
+    status: calculated
+  - id: claim-003
+    text: "Cardano, na Ars Magna (1545), esbarrou em raízes quadradas de números negativos; Bombelli (1572) deu regras para calcular com elas"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/Biographies/Bombelli/"]
-    status: verified
-  - text: "A fórmula e^(ix) = cos x + i sen x aparece na Introductio in analysin infinitorum de Euler (1748)"
+    status: pending
+  - id: claim-004
+    text: "A fórmula e^(ix) = cos x + i sen x aparece na Introductio in analysin infinitorum de Euler (1748)"
     type: date
     check: source
     sources: ["https://en.wikipedia.org/wiki/Euler%27s_formula"]
-    status: verified
-  - text: "Wessel (trabalho apresentado em 1797 e publicado em 1799) e Argand (1806) deram, de forma independente, a representação geométrica dos complexos no plano"
+    status: pending
+  - id: claim-005
+    text: "Wessel (trabalho apresentado em 1797 e publicado em 1799) e Argand (1806) deram, de forma independente, a representação geométrica dos complexos no plano"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/Biographies/Wessel/", "https://mathshistory.st-andrews.ac.uk/Biographies/Argand/"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "3.1: Números complexos (Pré-cálculo, OpenStax/LibreTexts)"

@@ -22,16 +22,18 @@ equations:
   - tex: S(A) = 1\ \text{bit}, \quad S(AB) = 0
     spoken: "S de A é igual a um bit; S de A B é igual a zero"
 claims:
-  - text: "Para um estado puro global de A e B, a entropia de von Neumann de A é igual à de B; para estados mistos isso não vale em geral"
+  - id: claim-001
+    text: "Para um estado puro global de A e B, a entropia de von Neumann de A é igual à de B; para estados mistos isso não vale em geral"
     type: conceptual
     check: human
     sources: [https://ar5iv.arxiv.org/html/2006.06872]
-    status: verified
-  - text: "Emaranhamento não permite enviar mensagens mais rápido que a luz"
+    status: pending
+  - id: claim-002
+    text: "Emaranhamento não permite enviar mensagens mais rápido que a luz"
     type: conceptual
     check: human
     sources: [https://en.wikipedia.org/wiki/No-communication_theorem]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Entrelaçamento quântico"

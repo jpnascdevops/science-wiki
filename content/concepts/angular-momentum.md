@@ -23,27 +23,30 @@ equations:
   - tex: I_1\,\omega_1 = I_2\,\omega_2
     spoken: "I um vezes ômega um é igual a I dois vezes ômega dois"
 claims:
-  - text: "Uma patinadora girando a 1 volta por segundo que reduz o momento de inércia a um terço passa a 3 voltas por segundo"
+  - id: claim-001
+    text: "Uma patinadora girando a 1 volta por segundo que reduz o momento de inércia a um terço passa a 3 voltas por segundo"
     type: number
     check: compute
     formula: skater_spin_rev_s
     expected: 3
     unit: voltas/s
     tolerance: 0.001
-    status: verified
-  - text: "A Terra anda cerca de 3,4% mais rápido no periélio do que no afélio"
+    status: calculated
+  - id: claim-002
+    text: "A Terra anda cerca de 3,4% mais rápido no periélio do que no afélio"
     type: number
     check: compute
     formula: earth_perihelion_aphelion_speed_ratio
     expected: 1.034
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "A segunda lei de Kepler (áreas iguais em tempos iguais) equivale à conservação do momento angular sob uma força central"
+    status: calculated
+  - id: claim-003
+    text: "A segunda lei de Kepler (áreas iguais em tempos iguais) equivale à conservação do momento angular sob uma força central"
     type: conceptual
     check: source
     sources: [https://theory.physics.manchester.ac.uk/~mikeb/lecture/pc167/gravity/central.html]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "11.4: Conservação do momento angular (Física Universitária I, OpenStax)"

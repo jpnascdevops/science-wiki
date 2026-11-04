@@ -21,19 +21,21 @@ equations:
   - tex: v = \frac{\mathrm{d}x}{\mathrm{d}t} = \lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t}
     spoken: "v é igual a d x d t, que é o limite de delta x sobre delta t quando delta t tende a zero"
 claims:
-  - text: "Para x(t) = g t²/2, a velocidade em t = 2 s é cerca de 19,6 m/s"
+  - id: claim-001
+    text: "Para x(t) = g t²/2, a velocidade em t = 2 s é cerca de 19,6 m/s"
     type: number
     check: compute
     formula: derivative_free_fall_2s
     expected: 19.6
     unit: m/s
     tolerance: 0.002
-    status: verified
-  - text: "Newton e Leibniz desenvolveram o cálculo de forma independente; Leibniz publicou primeiro, em 1684"
+    status: calculated
+  - id: claim-002
+    text: "Newton e Leibniz desenvolveram o cálculo de forma independente; Leibniz publicou primeiro, em 1684"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Leibniz%E2%80%93Newton_calculus_controversy]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "12.4: Derivativos (Pré-cálculo, OpenStax)"

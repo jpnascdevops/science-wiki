@@ -19,19 +19,21 @@ equations:
   - tex: \Delta\delta \approx \frac{2 R_p H}{R_\star^2}
     spoken: "delta delta é aproximadamente dois R p H sobre R estrela ao quadrado"
 claims:
-  - text: "A temperatura de equilíbrio da Terra, com albedo 0,3, é cerca de 255 K"
+  - id: claim-001
+    text: "A temperatura de equilíbrio da Terra, com albedo 0,3, é cerca de 255 K"
     type: number
     check: compute
     formula: earth_equilibrium_temperature_k
     expected: 255
     unit: K
     tolerance: 0.01
-    status: verified
-  - text: "O JWST fez a primeira detecção clara de dióxido de carbono numa atmosfera de exoplaneta, em WASP-39 b, em 2022"
+    status: calculated
+  - id: claim-002
+    text: "O JWST fez a primeira detecção clara de dióxido de carbono numa atmosfera de exoplaneta, em WASP-39 b, em 2022"
     type: attribution
     check: source
     sources: [https://www.ox.ac.uk/news/2022-08-26-first-definitive-detection-carbon-dioxide-exoplanet-atmosphere, https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-nirspec-transmission-spectrum]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "IAU OAE, glossário: Zona habitável"

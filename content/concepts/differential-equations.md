@@ -21,35 +21,39 @@ equations:
   - tex: y_{n+1} = y_n + h\,f(y_n)
     spoken: "y n mais um é igual a y n mais h vezes f de y n"
 claims:
-  - text: "Para dN/dt = −N com N(0) = 1, o valor exato em t = 1 é cerca de 0,368"
+  - id: claim-001
+    text: "Para dN/dt = −N com N(0) = 1, o valor exato em t = 1 é cerca de 0,368"
     type: number
     check: compute
     formula: exact_decay_at_1
     expected: 0.3679
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "Com o método de Euler e passo 0,5, sai 0,25 em t = 1"
+    status: calculated
+  - id: claim-002
+    text: "Com o método de Euler e passo 0,5, sai 0,25 em t = 1"
     type: number
     check: compute
     formula: euler_h05_at_1
     expected: 0.25
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "Com passo 0,1, o método de Euler dá cerca de 0,349"
+    status: calculated
+  - id: claim-003
+    text: "Com passo 0,1, o método de Euler dá cerca de 0,349"
     type: number
     check: compute
     formula: euler_h01_at_1
     expected: 0.3487
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "Euler descreveu o método numérico que leva seu nome em Institutiones calculi integralis (1768 a 1770)"
+    status: calculated
+  - id: claim-004
+    text: "Euler descreveu o método numérico que leva seu nome em Institutiones calculi integralis (1768 a 1770)"
     type: date
     check: source
     sources: ["https://en.wikipedia.org/wiki/Euler_method", "https://www.britannica.com/topic/Institutiones-calculi-integralis"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "3Blue1Brown - Differential equations, studying the unsolvable (DE1: pendulum equation, basic numerical methods)"

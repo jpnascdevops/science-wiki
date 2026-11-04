@@ -21,19 +21,21 @@ equations:
   - tex: \eta_{\text{Carnot}} = 1 - \frac{T_f}{T_q}
     spoken: "eta de Carnot é igual a um menos T f sobre T q"
 claims:
-  - text: "Entre uma fonte a 800 K e outra a 300 K, a eficiência máxima é 62,5%"
+  - id: claim-001
+    text: "Entre uma fonte a 800 K e outra a 300 K, a eficiência máxima é 62,5%"
     type: number
     check: compute
     formula: carnot_800_300_percent
     expected: 62.5
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "Sadi Carnot publicou as Reflexões sobre a potência motriz do fogo em 1824"
+    status: calculated
+  - id: claim-002
+    text: "Sadi Carnot publicou as Reflexões sobre a potência motriz do fogo em 1824"
     type: date
     check: source
     sources: ["https://www.britannica.com/biography/Sadi-Carnot-French-scientist"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "4.6: O ciclo de Carnot (Física Universitária II, OpenStax/LibreTexts)"

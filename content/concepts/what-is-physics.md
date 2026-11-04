@@ -19,29 +19,33 @@ equations:
   - tex: t = \sqrt{\frac{2h}{g}}
     spoken: "t é igual à raiz quadrada de dois h sobre g"
 claims:
-  - text: "Pela lei de queda livre, um objeto solto de 5 m leva cerca de 1,01 s para chegar ao chão"
+  - id: claim-001
+    text: "Pela lei de queda livre, um objeto solto de 5 m leva cerca de 1,01 s para chegar ao chão"
     type: number
     check: compute
     formula: fall_time_5m
     expected: 1.01
     unit: s
     tolerance: 0.002
-    status: verified
-  - text: "Ibn al-Haytham, no Livro da Óptica (escrito por volta de 1011 a 1021), defendeu testar ideias sobre a luz e a visão com experimentos controlados"
+    status: calculated
+  - id: claim-002
+    text: "Ibn al-Haytham, no Livro da Óptica (escrito por volta de 1011 a 1021), defendeu testar ideias sobre a luz e a visão com experimentos controlados"
     type: attribution
     check: source
     sources: ["https://en.wikipedia.org/wiki/Book_of_Optics", "https://www.historyofinformation.com/detail.php?id=2047"]
-    status: verified
-  - text: "Francis Bacon publicou o Novum Organum em 1620, defendendo um método indutivo baseado em experimentos"
+    status: pending
+  - id: claim-003
+    text: "Francis Bacon publicou o Novum Organum em 1620, defendendo um método indutivo baseado em experimentos"
     type: date
     check: source
     sources: ["https://www.Britannica.Com/biography/Francis-Bacon-Viscount-Saint-Alban/Thought-and-writings"]
-    status: verified
-  - text: "Karl Popper propôs a falseabilidade como critério de ciência em A Lógica da Pesquisa Científica (original alemão de 1934, com data de impressão de 1935; edição inglesa de 1959)"
+    status: pending
+  - id: claim-004
+    text: "Karl Popper propôs a falseabilidade como critério de ciência em A Lógica da Pesquisa Científica (original alemão de 1934, com data de impressão de 1935; edição inglesa de 1959)"
     type: date
     check: source
     sources: ["https://en.wikipedia.org/wiki/The_Logic_of_Scientific_Discovery"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "1.2: O escopo e a escala da física (Física Universitária I, OpenStax/LibreTexts)"

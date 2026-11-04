@@ -18,19 +18,21 @@ equations:
   - tex: L = 4\pi R^2 \sigma T^4
     spoken: "L é igual a quatro pi R ao quadrado, sigma, T à quarta"
 claims:
-  - text: "O fluxo do Sol na distância da Terra (constante solar) é cerca de 1.361 W/m²"
+  - id: claim-001
+    text: "O fluxo do Sol na distância da Terra (constante solar) é cerca de 1.361 W/m²"
     type: number
     check: compute
     formula: solar_constant_w_m2
     expected: 1361
     unit: W/m²
     tolerance: 0.005
-    status: verified
-  - text: "O brilho aparente cai com o inverso do quadrado da distância"
+    status: calculated
+  - id: claim-002
+    text: "O brilho aparente cai com o inverso do quadrado da distância"
     type: definition
     check: source
     sources: [https://astronomynotes.com/starprop/s3.htm]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "LibreTexts: Stellar and Celestial Object Brightness"

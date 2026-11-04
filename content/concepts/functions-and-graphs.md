@@ -21,19 +21,21 @@ equations:
   - tex: x(t) = x_0 + v\,t
     spoken: "x de t é igual a x zero mais v vezes t"
 claims:
-  - text: "Um carro que parte de 10 m a 20 m/s está em 70 m depois de 3 s"
+  - id: claim-001
+    text: "Um carro que parte de 10 m a 20 m/s está em 70 m depois de 3 s"
     type: number
     check: compute
     formula: position_linear_3s
     expected: 70
     unit: m
     tolerance: 0.001
-    status: verified
-  - text: "Descartes publicou A Geometria em 1637, origem das coordenadas cartesianas; Fermat chegou a ideias parecidas de forma independente"
+    status: calculated
+  - id: claim-002
+    text: "Descartes publicou A Geometria em 1637, origem das coordenadas cartesianas; Fermat chegou a ideias parecidas de forma independente"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Analytic_geometry]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "1.1: Funções e notação de funções (Pré-cálculo, OpenStax)"

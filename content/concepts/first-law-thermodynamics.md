@@ -21,24 +21,27 @@ equations:
   - tex: W = n R T \ln\frac{V_2}{V_1}
     spoken: "W é igual a n R T vezes logaritmo natural de V dois sobre V um"
 claims:
-  - text: "Um mol de gás ideal a 300 K que dobra de volume a temperatura constante realiza cerca de 1,73 kJ de trabalho"
+  - id: claim-001
+    text: "Um mol de gás ideal a 300 K que dobra de volume a temperatura constante realiza cerca de 1,73 kJ de trabalho"
     type: number
     check: compute
     formula: isothermal_doubling_work_300k
     expected: 1729
     unit: J
     tolerance: 0.002
-    status: verified
-  - text: "Joule mediu o equivalente mecânico do calor a partir de 1843; o experimento das pás girando na água, apresentado em 1845, foi refinado nas décadas seguintes"
+    status: calculated
+  - id: claim-002
+    text: "Joule mediu o equivalente mecânico do calor a partir de 1843; o experimento das pás girando na água, apresentado em 1845, foi refinado nas décadas seguintes"
     type: attribution
     check: source
     sources: ["https://www.chemteam.info/Chem-History/Joule-Heat-1845.html", "https://www.britannica.com/biography/James-Prescott-Joule"]
-    status: verified
-  - text: "Julius Robert Mayer publicou em 1842 o enunciado da conservação da energia incluindo o calor"
+    status: pending
+  - id: claim-003
+    text: "Julius Robert Mayer publicou em 1842 o enunciado da conservação da energia incluindo o calor"
     type: date
     check: source
     sources: ["https://encyclopedia.com/science/dictionaries-thesauruses-pictures-and-press-releases/mayer-julius-robert", "https://galileo.phys.virginia.edu/classes/152.mf1i.spring02/MayerJoule.htm"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "3.4: Primeira Lei da Termodinâmica (Física Universitária II, OpenStax/LibreTexts)"

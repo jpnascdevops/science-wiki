@@ -28,22 +28,24 @@ equations:
 - tex: \frac{1}{R_{\text{paralelo}}} = \frac{1}{R_1} + \frac{1}{R_2}
   spoken: um sobre R paralelo é igual a um sobre R um mais um sobre R dois
 claims:
-- text: Resistores de 100 Ω e 200 Ω em série numa bateria de 9 V conduzem 30 mA
+- id: claim-001
+  text: Resistores de 100 Ω e 200 Ω em série numa bateria de 9 V conduzem 30 mA
   type: number
   check: compute
   formula: series_100_200_9v_ma
   expected: 30.0
   unit: mA
   tolerance: 0.001
-  status: verified
-- text: Os mesmos dois em paralelo equivalem a cerca de 66,7 Ω
+  status: calculated
+- id: claim-002
+  text: Os mesmos dois em paralelo equivalem a cerca de 66,7 Ω
   type: number
   check: compute
   formula: parallel_100_200
   expected: 66.67
   unit: Ω
   tolerance: 0.001
-  status: verified
+  status: calculated
 resources:
 - kind: watch
   title: 'Resistors & Batteries: Crash Course Physics #29'

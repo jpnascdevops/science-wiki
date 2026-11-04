@@ -23,45 +23,51 @@ equations:
   - tex: \log_2 8 = 3 \iff 2^3 = 8
     spoken: "logaritmo de oito na base dois é três, se e somente se dois ao cubo é oito"
 claims:
-  - text: "Depois de duas meias-vidas, sobram 25% da amostra"
+  - id: claim-001
+    text: "Depois de duas meias-vidas, sobram 25% da amostra"
     type: number
     check: compute
     formula: c14_fraction_two_half_lives_percent
     expected: 25
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "Dobrar 30 vezes multiplica por cerca de um bilhão (2³⁰ ≈ 1,07 × 10⁹)"
+    status: calculated
+  - id: claim-002
+    text: "Dobrar 30 vezes multiplica por cerca de um bilhão (2³⁰ ≈ 1,07 × 10⁹)"
     type: number
     check: compute
     formula: doubling_30_times
     expected: 1073741824
     unit: ""
     tolerance: 0.001
-    status: verified
-  - text: "Crescendo 7% ao ano, algo dobra em cerca de 10 anos"
+    status: calculated
+  - id: claim-003
+    text: "Crescendo 7% ao ano, algo dobra em cerca de 10 anos"
     type: number
     check: compute
     formula: doubling_time_7_percent_years
     expected: 10.24
     unit: anos
     tolerance: 0.002
-    status: verified
-  - text: "A meia-vida do carbono-14 é de cerca de 5730 anos; por convenção, as datações por radiocarbono ainda são relatadas com o valor de Libby, 5568 anos"
+    status: calculated
+  - id: claim-004
+    text: "A meia-vida do carbono-14 é de cerca de 5730 anos; por convenção, as datações por radiocarbono ainda são relatadas com o valor de Libby, 5568 anos"
     type: number
     check: source
     sources: ["https://www.chemeurope.com/en/encyclopedia/Carbon_dating.html", "https://pmc.ncbi.nlm.nih.gov/articles/PMC9805314"]
-    status: verified
-  - text: "John Napier publicou a invenção dos logaritmos em 1614"
+    status: pending
+  - id: claim-005
+    text: "John Napier publicou a invenção dos logaritmos em 1614"
     type: date
     check: source
     sources: ["https://britannica.com/topic/Description-of-the-Marvelous-Canon-of-Logarithms"]
-    status: verified
-  - text: "A letra e para a constante 2,718... foi introduzida por Euler: primeiro num manuscrito de cerca de 1727 a 1728 e depois numa carta a Goldbach de 1731"
+    status: pending
+  - id: claim-006
+    text: "A letra e para a constante 2,718... foi introduzida por Euler: primeiro num manuscrito de cerca de 1727 a 1728 e depois numa carta a Goldbach de 1731"
     type: attribution
     check: source
     sources: ["https://scholarlycommons.pacific.edu/euler-works/853/", "https://mathshistory.st-andrews.ac.uk/HistTopics/e/"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "4: Funções exponenciais e logarítmicas (Pré-cálculo, OpenStax/LibreTexts)"

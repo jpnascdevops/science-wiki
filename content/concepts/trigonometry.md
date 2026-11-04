@@ -25,19 +25,21 @@ equations:
   - tex: \sin^2\theta + \cos^2\theta = 1
     spoken: "seno ao quadrado de teta mais cosseno ao quadrado de teta é igual a um"
 claims:
-  - text: "Uma rampa de 10 m inclinada 30° sobe 5 m"
+  - id: claim-001
+    text: "Uma rampa de 10 m inclinada 30° sobe 5 m"
     type: number
     check: compute
     formula: ramp_rise_30deg_10m
     expected: 5
     unit: m
     tolerance: 0.001
-    status: verified
-  - text: "A primeira tabela trigonométrica conhecida, uma tabela de cordas, é atribuída a Hiparco, no século II a.C."
+    status: calculated
+  - id: claim-002
+    text: "A primeira tabela trigonométrica conhecida, uma tabela de cordas, é atribuída a Hiparco, no século II a.C."
     type: attribution
     check: source
     sources: [https://math.clarku.edu/~djoyce/ma105/trighist.html, https://mathshistory.st-andrews.ac.uk/SH/hipparchus_sh.pdf]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "5.4: Trigonometria do triângulo reto (Pré-cálculo, OpenStax)"

@@ -21,19 +21,21 @@ equations:
   - tex: \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial \mathcal{L}}{\partial \dot{q}} - \frac{\partial \mathcal{L}}{\partial q} = 0
     spoken: "d d t da derivada parcial de L em relação a q ponto, menos a derivada parcial de L em relação a q, é igual a zero"
 claims:
-  - text: "Para o pêndulo de 1 m, a lagrangiana dá a mesma equação de Newton e o mesmo período de cerca de 2,0 s para balanços pequenos"
+  - id: claim-001
+    text: "Para o pêndulo de 1 m, a lagrangiana dá a mesma equação de Newton e o mesmo período de cerca de 2,0 s para balanços pequenos"
     type: number
     check: compute
     formula: pendulum_period_1m
     expected: 2.006
     unit: s
     tolerance: 0.002
-    status: verified
-  - text: "Lagrange publicou a Mecânica Analítica em 1788, sem nenhuma figura"
+    status: calculated
+  - id: claim-002
+    text: "Lagrange publicou a Mecânica Analítica em 1788, sem nenhuma figura"
     type: date
     check: source
     sources: ["https://www.britannica.com/biography/Joseph-Louis-Lagrange-comte-de-lEmpire", "https://mathshistory.st-andrews.ac.uk/Biographies/Lagrange/quotations"]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "Leonard Susskind, The Theoretical Minimum (Stanford) Lecture 3 - Lagrangian, Least Action & Euler-Lagrange Equations"

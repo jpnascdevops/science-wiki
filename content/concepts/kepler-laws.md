@@ -19,19 +19,21 @@ equations:
   - tex: P_{\text{anos}}^2 = a_{\text{UA}}^3
     spoken: "P em anos ao quadrado é igual a a em unidades astronômicas ao cubo"
 claims:
-  - text: "Com a = 1 UA e a massa do Sol, a terceira lei dá um período de cerca de 365,25 dias"
+  - id: claim-001
+    text: "Com a = 1 UA e a massa do Sol, a terceira lei dá um período de cerca de 365,25 dias"
     type: number
     check: compute
     formula: earth_orbital_period_days
     expected: 365.25
     unit: dias
     tolerance: 0.001
-    status: verified
-  - text: "Kepler publicou as duas primeiras leis na Astronomia Nova (1609) e a terceira na Harmonice Mundi (1619)"
+    status: calculated
+  - id: claim-002
+    text: "Kepler publicou as duas primeiras leis na Astronomia Nova (1609) e a terceira na Harmonice Mundi (1619)"
     type: date
     check: source
     sources: [https://kepler.badw.de/en/on-johannes-kepler/the-planetary-laws.html]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "IAU OAE, glossário: Leis de Kepler"

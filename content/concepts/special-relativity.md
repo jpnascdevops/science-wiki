@@ -19,25 +19,28 @@ equations:
   - tex: \Delta t = \gamma\,\Delta t_0
     spoken: "delta t é igual a gama vezes delta t zero"
 claims:
-  - text: "A 10% da velocidade da luz, o fator de Lorentz é cerca de 1,005"
+  - id: claim-001
+    text: "A 10% da velocidade da luz, o fator de Lorentz é cerca de 1,005"
     type: number
     check: compute
     formula: gamma_at_0_1c
     expected: 1.005
     tolerance: 0.001
-    status: verified
-  - text: "A 90% da velocidade da luz, o fator de Lorentz é cerca de 2,29"
+    status: calculated
+  - id: claim-002
+    text: "A 90% da velocidade da luz, o fator de Lorentz é cerca de 2,29"
     type: number
     check: compute
     formula: gamma_at_0_9c
     expected: 2.29
     tolerance: 0.005
-    status: verified
-  - text: "Einstein publicou a relatividade restrita em 1905"
+    status: calculated
+  - id: claim-003
+    text: "Einstein publicou a relatividade restrita em 1905"
     type: date
     check: source
     sources: [https://pt.wikipedia.org/wiki/Relatividade_restrita]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Relatividade restrita"

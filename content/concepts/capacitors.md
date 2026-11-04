@@ -31,29 +31,32 @@ equations:
 - tex: V(t) = V_0\left(1 - e^{-t/RC}\right)
   spoken: V de t é igual a V zero vezes, um menos e elevado a menos t sobre R C
 claims:
-- text: Duas placas de 1 m² separadas por 1 mm de ar formam um capacitor de cerca de 8,85 nF
+- id: claim-001
+  text: Duas placas de 1 m² separadas por 1 mm de ar formam um capacitor de cerca de 8,85 nF
   type: number
   check: compute
   formula: plate_capacitor_1m2_1mm_nf
   expected: 8.854
   unit: nF
   tolerance: 0.002
-  status: verified
-- text: Depois de um tempo RC, um capacitor carregando chega a cerca de 63% da voltagem final
+  status: calculated
+- id: claim-002
+  text: Depois de um tempo RC, um capacitor carregando chega a cerca de 63% da voltagem final
   type: number
   check: compute
   formula: rc_charge_one_tau_percent
   expected: 63.2
   unit: '%'
   tolerance: 0.001
-  status: verified
-- text: A garrafa de Leiden, um capacitor primitivo, foi inventada de forma independente por Ewald von Kleist (1745) e Pieter van Musschenbroek (1745–1746)
+  status: calculated
+- id: claim-003
+  text: A garrafa de Leiden, um capacitor primitivo, foi inventada de forma independente por Ewald von Kleist (1745) e Pieter van Musschenbroek (1745–1746)
   type: date
   check: source
   sources:
   - https://www.britannica.com/technology/Leyden-jar
   - https://www.britannica.com:443/science/electromagnetism/Invention-of-the-Leyden-jar
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Voltage & Capacitors: Crash Course Physics #27'

@@ -2,11 +2,10 @@ name: Fact checking
 
 on:
   pull_request:
-  push:
-    branches: [main]
   schedule:
     - cron: "0 9 * * 1"
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   checks:
@@ -17,22 +16,34 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verification regression tests
+        run: |
+          python -m unittest discover -s tests
+          node --test tests/labs.test.cjs
       - name: Validate schema, tags and roadmap
         run: python scripts/validate.py
       - name: Recompute numeric claims
         run: python scripts/check_numbers.py
       - name: Check arXiv references
+        if: ${{ !cancelled() }}
         run: python scripts/check_arxiv.py
       - name: Check resource links
+        if: ${{ !cancelled() }}
         run: python scripts/check_links.py
-        continue-on-error: true
       - name: Fact-check report
+        if: ${{ !cancelled() }}
         run: python scripts/report.py | tee report.md >> "$GITHUB_STEP_SUMMARY"
       - name: Coverage
+        if: ${{ !cancelled() }}
         run: python scripts/coverage.py | tee coverage.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
-          name: fact-check-report
+          name: fact-check-report-${{ github.workflow }}
           path: |
             report.md
             coverage.md
+            build/checks/

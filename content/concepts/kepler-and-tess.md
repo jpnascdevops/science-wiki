@@ -15,16 +15,18 @@ tags:
   arxiv_category: astro-ph.EP
 equations: []
 claims:
-  - text: "O telescópio Kepler foi lançado em março de 2009 (6 de março no horário local, 7 de março em UTC) e aposentado em 30 de outubro de 2018"
+  - id: claim-001
+    text: "O telescópio Kepler foi lançado em março de 2009 (6 de março no horário local, 7 de março em UTC) e aposentado em 30 de outubro de 2018"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Kepler_space_telescope, https://www.jpl.nasa.gov/news/nasas-kepler-mission-celebrates-one-year-in-space/]
-    status: verified
-  - text: "O TESS foi lançado em 18 de abril de 2018 e começou as operações científicas em 25 de julho de 2018"
+    status: pending
+  - id: claim-002
+    text: "O TESS foi lançado em 18 de abril de 2018 e começou as operações científicas em 25 de julho de 2018"
     type: date
     check: source
     sources: [https://tess.mit.edu/news/tess-launches/, https://heasarc.gsfc.nasa.gov/docs/tess/what-is-tess.html]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "NASA TESS Science Support Center: What Is TESS?"

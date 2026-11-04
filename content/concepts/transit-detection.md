@@ -20,20 +20,22 @@ equations:
   - tex: \text{SNR} \approx \frac{\delta}{\sigma}\sqrt{N_{\text{in}}}
     spoken: "S N R é aproximadamente delta sobre sigma, vezes a raiz de N dentro"
 claims:
-  - text: "Um trânsito de 84 ppm, com ruído de 300 ppm por medida e 1.000 medidas dentro dos trânsitos, dá SNR de cerca de 9"
+  - id: claim-001
+    text: "Um trânsito de 84 ppm, com ruído de 300 ppm por medida e 1.000 medidas dentro dos trânsitos, dá SNR de cerca de 9"
     type: number
     check: compute
     formula: snr_example_84ppm
     expected: 8.85
     tolerance: 0.01
-    status: verified
-  - text: "O algoritmo BLS foi publicado por Kovács, Zucker e Mazeh em 2002 (A&A 391, 369)"
+    status: calculated
+  - id: claim-002
+    text: "O algoritmo BLS foi publicado por Kovács, Zucker e Mazeh em 2002 (A&A 391, 369)"
     type: reference
     check: arxiv
     arxiv: astro-ph/0206099
     expected_title: "A box-fitting algorithm in the search for periodic transits"
     sources: [https://www.aanda.org/articles/aa/full/2002/31/aa2422/aa2422.right.html]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: study

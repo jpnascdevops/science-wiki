@@ -28,36 +28,40 @@ equations:
 - tex: k = \frac{1}{4\pi\varepsilon_0} \approx 8{,}99 \times 10^{9}\ \mathrm{N\,m^2/C^2}
   spoken: k é igual a um sobre quatro pi épsilon zero, aproximadamente oito vírgula noventa e nove vezes dez à nona newton metro quadrado por coulomb ao quadrado
 claims:
-- text: A constante de Coulomb vale cerca de 8,99 × 10⁹ N·m²/C²
+- id: claim-001
+  text: A constante de Coulomb vale cerca de 8,99 × 10⁹ N·m²/C²
   type: number
   check: compute
   formula: coulomb_constant
   expected: 8988000000.0
   unit: N·m²/C²
   tolerance: 0.001
-  status: verified
-- text: Duas cargas de 1 µC a 10 cm uma da outra se empurram com cerca de 0,9 N
+  status: calculated
+- id: claim-002
+  text: Duas cargas de 1 µC a 10 cm uma da outra se empurram com cerca de 0,9 N
   type: number
   check: compute
   formula: coulomb_two_1uc_10cm
   expected: 0.899
   unit: N
   tolerance: 0.002
-  status: verified
-- text: Entre um próton e um elétron, a força elétrica é cerca de 2,3 × 10³⁹ vezes maior que a gravitacional
+  status: calculated
+- id: claim-003
+  text: Entre um próton e um elétron, a força elétrica é cerca de 2,3 × 10³⁹ vezes maior que a gravitacional
   type: number
   check: compute
   formula: electric_over_gravity_pe
   expected: 2.27e+39
   unit: ''
   tolerance: 0.005
-  status: verified
-- text: Charles-Augustin de Coulomb publicou a lei do inverso do quadrado da força elétrica a partir de 1785, medindo-a com uma balança de torção
+  status: calculated
+- id: claim-004
+  text: Charles-Augustin de Coulomb publicou a lei do inverso do quadrado da força elétrica a partir de 1785, medindo-a com uma balança de torção
   type: date
   check: source
   sources:
   - https://www.britannica.com/EBchecked/topic/140071/Charles-Augustin-de-Coulomb
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Electric Charge: Crash Course Physics #25 (ends with Coulomb''s law)'

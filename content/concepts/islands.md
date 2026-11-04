@@ -20,35 +20,39 @@ equations:
   - tex: t_{scr} \sim \frac{\beta}{2\pi}\log S_{BH}
     spoken: "t scrambling é da ordem de beta sobre dois pi, vezes log de S B H"
 claims:
-  - text: "Penington: Entanglement wedge reconstruction and the information paradox (2019)"
+  - id: claim-001
+    text: "Penington: Entanglement wedge reconstruction and the information paradox (2019)"
     type: reference
     check: arxiv
     arxiv: "1905.08255"
     expected_title: "Entanglement Wedge Reconstruction and the Information Paradox"
     sources: [https://arxiv.org/abs/1905.08255]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Almheiri, Engelhardt, Marolf e Maxfield: The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole (2019)"
+  - id: claim-002
+    text: "Almheiri, Engelhardt, Marolf e Maxfield: The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole (2019)"
     type: reference
     check: arxiv
     arxiv: "1905.08762"
     expected_title: "The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole"
     sources: [https://arxiv.org/abs/1905.08762]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Almheiri, Mahajan, Maldacena e Zhao: The Page curve of Hawking radiation from semiclassical geometry (2019)"
+  - id: claim-003
+    text: "Almheiri, Mahajan, Maldacena e Zhao: The Page curve of Hawking radiation from semiclassical geometry (2019)"
     type: reference
     check: arxiv
     arxiv: "1908.10996"
     expected_title: "The Page curve of Hawking radiation from semiclassical geometry"
     sources: [https://arxiv.org/abs/1908.10996]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Nos modelos holográficos de evaporação estudados, a ilha fica na cunha de emaranhamento da radiação depois do tempo de Page"
+  - id: claim-004
+    text: "Nos modelos holográficos de evaporação estudados, a ilha fica na cunha de emaranhamento da radiação depois do tempo de Page"
     type: conceptual
     check: verifier
     sources: [https://ar5iv.arxiv.org/html/2006.06872]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Quanta Magazine: The Most Famous Paradox in Physics Nears Its End (George Musser, 2020)"

@@ -22,18 +22,20 @@ equations:
   - tex: \rho \to U \rho\, U^\dagger
     spoken: "rô vai em U rô U adaga"
 claims:
-  - text: "Um estado com amplitudes 1/√2 tem 50% de chance para cada resultado"
+  - id: claim-001
+    text: "Um estado com amplitudes 1/√2 tem 50% de chance para cada resultado"
     type: number
     check: compute
     formula: pair_amplitude_probability
     expected: 0.5
     tolerance: 0.0001
-    status: verified
-  - text: "A evolução quântica de um sistema isolado é unitária e preserva informação"
+    status: calculated
+  - id: claim-002
+    text: "A evolução quântica de um sistema isolado é unitária e preserva informação"
     type: conceptual
     check: human
     sources: [https://ar5iv.arxiv.org/html/2006.06872]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Mecânica quântica"

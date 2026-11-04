@@ -18,7 +18,8 @@ equations:
   - tex: K = \left(\frac{2\pi G}{P}\right)^{1/3}\frac{M_p \sin i}{(M_\star + M_p)^{2/3}}\frac{1}{\sqrt{1-e^2}}
     spoken: "K é igual a, dois pi G sobre P, elevado a um terço, vezes M p seno de i sobre, M estrela mais M p, elevado a dois terços, vezes um sobre a raiz de um menos e ao quadrado"
 claims:
-  - text: "Júpiter faz o Sol balançar com cerca de 12,5 m/s"
+  - id: claim-001
+    text: "Júpiter faz o Sol balançar com cerca de 12,5 m/s"
     type: number
     check: compute
     formula: rv_sun_from_jupiter_m_s
@@ -26,8 +27,9 @@ claims:
     unit: m/s
     tolerance: 0.01
     sources: [https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets]
-    status: verified
-  - text: "A Terra faz o Sol balançar com cerca de 9 cm/s"
+    status: calculated
+  - id: claim-002
+    text: "A Terra faz o Sol balançar com cerca de 9 cm/s"
     type: number
     check: compute
     formula: rv_sun_from_earth_cm_s
@@ -35,12 +37,13 @@ claims:
     unit: cm/s
     tolerance: 0.01
     sources: [https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets]
-    status: verified
-  - text: "51 Pegasi b foi descoberto por velocidade radial com o espectrógrafo ELODIE, no Observatório da Alta Provença"
+    status: calculated
+  - id: claim-003
+    text: "51 Pegasi b foi descoberto por velocidade radial com o espectrógrafo ELODIE, no Observatório da Alta Provença"
     type: attribution
     check: source
     sources: [https://www.space.com/astronomy/exoplanets/the-exoplanet-revolution-at-30-1st-alien-world-was-found-around-a-sun-like-star-three-decades-ago]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "NASA Science: Radial Velocity"

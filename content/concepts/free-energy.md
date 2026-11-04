@@ -21,27 +21,30 @@ equations:
   - tex: \Delta G = \Delta H - T\,\Delta S
     spoken: "delta G é igual a delta H menos T delta S"
 claims:
-  - text: "Com 6,01 kJ/mol de calor de fusão a 273,15 K, a entropia de fusão do gelo é cerca de 22 J/(mol·K)"
+  - id: claim-001
+    text: "Com 6,01 kJ/mol de calor de fusão a 273,15 K, a entropia de fusão do gelo é cerca de 22 J/(mol·K)"
     type: number
     check: compute
     formula: ice_fusion_entropy
     expected: 22.0
     unit: J/(mol·K)
     tolerance: 0.002
-    status: verified
-  - text: "A −10 °C, derreter gelo custaria cerca de +220 J/mol de energia livre, por isso o gelo é estável"
+    status: calculated
+  - id: claim-002
+    text: "A −10 °C, derreter gelo custaria cerca de +220 J/mol de energia livre, por isso o gelo é estável"
     type: number
     check: compute
     formula: ice_dg_minus_10c
     expected: 220
     unit: J/mol
     tolerance: 0.003
-    status: verified
-  - text: "Gibbs desenvolveu a termodinâmica química e a energia livre em Sobre o equilíbrio das substâncias heterogêneas (1875 a 1878); Helmholtz introduziu F = U − TS por volta de 1882"
+    status: calculated
+  - id: claim-003
+    text: "Gibbs desenvolveu a termodinâmica química e a energia livre em Sobre o equilíbrio das substâncias heterogêneas (1875 a 1878); Helmholtz introduziu F = U − TS por volta de 1882"
     type: date
     check: source
     sources: ["https://www.britannica.com/topic/On-the-Equilibrium-of-Heterogeneous-Substances", "https://en.wikipedia.org/wiki/Helmholtz_free_energy"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "16.5: Energia livre (Química 2e, OpenStax/LibreTexts)"

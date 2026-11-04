@@ -23,32 +23,36 @@ equations:
   - tex: \det A = a d - b c
     spoken: "o determinante de A é igual a a d menos b c"
 claims:
-  - text: "A matriz [2 1; 1 2] tem autovalores 3 e 1"
+  - id: claim-001
+    text: "A matriz [2 1; 1 2] tem autovalores 3 e 1"
     type: number
     check: compute
     formula: eigen_2112_largest
     expected: 3
     unit: ""
     tolerance: 0.000001
-    status: verified
-  - text: "O menor autovalor de [2 1; 1 2] é 1"
+    status: calculated
+  - id: claim-002
+    text: "O menor autovalor de [2 1; 1 2] é 1"
     type: number
     check: compute
     formula: eigen_2112_smallest
     expected: 1
     unit: ""
     tolerance: 0.000001
-    status: verified
-  - text: "Sylvester cunhou o termo matriz em 1850; Cayley publicou a álgebra das matrizes em 1858"
+    status: calculated
+  - id: claim-003
+    text: "Sylvester cunhou o termo matriz em 1850; Cayley publicou a álgebra das matrizes em 1858"
     type: date
     check: source
     sources: ["https://eprints.maths.manchester.ac.uk/863/1/cay_syl_07.pdf"]
-    status: verified
-  - text: "Entre 1925 e 1926, Heisenberg, Born e Jordan formularam a mecânica quântica em termos de matrizes"
+    status: pending
+  - id: claim-004
+    text: "Entre 1925 e 1926, Heisenberg, Born e Jordan formularam a mecânica quântica em termos de matrizes"
     type: date
     check: source
     sources: ["https://www.theorie.physik.uni-goettingen.de/aktuell/archiv/75qm.en.html", "https://arxiv.org/pdf/0806.4515"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "9.5: Matrizes e operações matriciais (Pré-cálculo, OpenStax/LibreTexts)"

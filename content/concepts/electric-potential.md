@@ -27,20 +27,22 @@ equations:
 - tex: V = k\,\frac{Q}{r}
   spoken: V é igual a k vezes Q sobre r
 claims:
-- text: Um elétron acelerado por 100 V, partindo do repouso, chega a cerca de 5,9 × 10⁶ m/s
+- id: claim-001
+  text: Um elétron acelerado por 100 V, partindo do repouso, chega a cerca de 5,9 × 10⁶ m/s
   type: number
   check: compute
   formula: electron_speed_100v
   expected: 5930000.0
   unit: m/s
   tolerance: 0.002
-  status: verified
-- text: Alessandro Volta construiu por volta de 1800 a pilha voltaica, a primeira bateria elétrica
+  status: calculated
+- id: claim-002
+  text: Alessandro Volta construiu por volta de 1800 a pilha voltaica, a primeira bateria elétrica
   type: date
   check: source
   sources:
   - https://www.britannica.com/technology/battery-electronics/Development-of-batteries
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Voltage & Capacitors: Crash Course Physics #27'

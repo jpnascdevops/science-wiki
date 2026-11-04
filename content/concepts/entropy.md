@@ -23,23 +23,26 @@ equations:
   - tex: S(\rho) = -\operatorname{Tr}\,\rho \log \rho
     spoken: "S de rô é igual a menos o traço de rô log rô"
 claims:
-  - text: "Com 8 moedas há 256 arranjos possíveis"
+  - id: claim-001
+    text: "Com 8 moedas há 256 arranjos possíveis"
     type: number
     check: compute
     formula: coins_8_arrangements
     expected: 256
     tolerance: 0.0
-    status: verified
-  - text: "A fórmula S = k log W (log natural) está gravada no túmulo de Boltzmann, no Zentralfriedhof de Viena"
+    status: calculated
+  - id: claim-002
+    text: "A fórmula S = k log W (log natural) está gravada no túmulo de Boltzmann, no Zentralfriedhof de Viena"
     type: attribution
     check: source
     sources: [https://WWW.ATLASOBSCURA.COM/places/boltzmanns-grave]
-    status: verified
-  - text: "A segunda lei da termodinâmica diz que a entropia de um sistema isolado não diminui"
+    status: pending
+  - id: claim-003
+    text: "A segunda lei da termodinâmica diz que a entropia de um sistema isolado não diminui"
     type: definition
     check: human
     sources: [https://britannica.com/science/thermodynamics/Entropy]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Wikipedia: Termodinâmica do buraco negro"

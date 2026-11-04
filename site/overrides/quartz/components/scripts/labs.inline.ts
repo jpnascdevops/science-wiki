@@ -1054,9 +1054,19 @@ function canvas(box: HTMLElement, W: number, H: number, label: string) {
 
 function loop(box: HTMLElement, step: () => void) {
   let running = !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  const tick = () => {
+  let previous: number | undefined
+  let accumulated = 0
+  const tick = (now: number) => {
     if (!box.isConnected) return
-    if (running) step()
+    const elapsed = previous === undefined ? 0 : Math.min(100, Math.max(0, now - previous))
+    previous = now
+    if (running) {
+      accumulated += elapsed
+      while (accumulated >= 1000 / 60) {
+        step()
+        accumulated -= 1000 / 60
+      }
+    } else accumulated = 0
     requestAnimationFrame(tick)
   }
   requestAnimationFrame(tick)
@@ -1066,6 +1076,8 @@ function loop(box: HTMLElement, step: () => void) {
     },
     set running(v: boolean) {
       running = v
+      previous = undefined
+      accumulated = 0
     },
   }
 }

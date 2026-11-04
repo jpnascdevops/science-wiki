@@ -1,8 +1,14 @@
 import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
+
+# Preserve Portuguese text and scientific symbols in Windows terminals and pipes.
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8")
 
 class WikiLoader(yaml.SafeLoader):
     pass

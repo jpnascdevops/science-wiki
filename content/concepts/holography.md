@@ -20,34 +20,38 @@ equations:
   - tex: S(A) = \min_{\chi}\, \operatorname{ext}_{\chi}\left[\frac{\operatorname{Area}(\chi)}{4G_N} + S_{\text{bulk}}(\Sigma_\chi)\right]
     spoken: "S de A é igual ao mínimo sobre qui do extremo sobre qui de: área de qui sobre quatro G N, mais S bulk de sigma qui"
 claims:
-  - text: "Ryu e Takayanagi propuseram a fórmula holográfica da entropia de emaranhamento em 2006"
+  - id: claim-001
+    text: "Ryu e Takayanagi propuseram a fórmula holográfica da entropia de emaranhamento em 2006"
     type: date
     check: source
     sources: [https://pt.wikipedia.org/wiki/Conjectura_de_Ryu-Takayanagi]
-    status: verified
-  - text: "Ryu-Takayanagi: Holographic derivation of entanglement entropy from AdS/CFT"
+    status: pending
+  - id: claim-002
+    text: "Ryu-Takayanagi: Holographic derivation of entanglement entropy from AdS/CFT"
     type: reference
     check: arxiv
     arxiv: hep-th/0603001
     expected_title: "Holographic Derivation of Entanglement Entropy from AdS/CFT"
     sources: [https://arxiv.org/abs/hep-th/0603001]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Maldacena: The large N limit of superconformal field theories and supergravity (1997)"
+  - id: claim-003
+    text: "Maldacena: The large N limit of superconformal field theories and supergravity (1997)"
     type: reference
     check: arxiv
     arxiv: hep-th/9711200
     expected_title: "The Large N Limit of Superconformal Field Theories and Supergravity"
     sources: [https://arxiv.org/abs/hep-th/9711200]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
-  - text: "Engelhardt e Wall: Quantum extremal surfaces (2014)"
+  - id: claim-004
+    text: "Engelhardt e Wall: Quantum extremal surfaces (2014)"
     type: reference
     check: arxiv
     arxiv: "1408.3203"
     expected_title: "Quantum Extremal Surfaces: Holographic Entanglement Entropy beyond the Classical Regime"
     sources: [https://arxiv.org/abs/1408.3203]
-    status: verified
+    status: reference_checked
     note: "Título, autoria e ano conferidos no arXiv em 2026-11-02."
 resources:
   - kind: read

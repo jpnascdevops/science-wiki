@@ -21,27 +21,30 @@ equations:
   - tex: '|\vec{v}| = \sqrt{v_x^2 + v_y^2}'
     spoken: "o módulo do vetor v é igual à raiz quadrada de v x ao quadrado mais v y ao quadrado"
 claims:
-  - text: "3 km para leste e 4 km para norte somam 5 km, numa direção de cerca de 53° acima do leste"
+  - id: claim-001
+    text: "3 km para leste e 4 km para norte somam 5 km, numa direção de cerca de 53° acima do leste"
     type: number
     check: compute
     formula: vector_3_4_magnitude
     expected: 5
     unit: km
     tolerance: 0.001
-    status: verified
-  - text: "O ângulo do vetor (3, 4) com o eixo x é cerca de 53,13°"
+    status: calculated
+  - id: claim-002
+    text: "O ângulo do vetor (3, 4) com o eixo x é cerca de 53,13°"
     type: number
     check: compute
     formula: vector_3_4_angle_deg
     expected: 53.13
     unit: graus
     tolerance: 0.001
-    status: verified
-  - text: "A análise vetorial moderna foi desenvolvida de forma independente por Gibbs e Heaviside nos anos 1880"
+    status: calculated
+  - id: claim-003
+    text: "A análise vetorial moderna foi desenvolvida de forma independente por Gibbs e Heaviside nos anos 1880"
     type: attribution
     check: source
     sources: [https://arxiv.org/pdf/2010.09679, https://en.wikipedia.org/wiki/Vector_Analysis]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Cap. 2: Vetores (Física Universitária I, OpenStax)"

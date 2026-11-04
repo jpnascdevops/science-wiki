@@ -21,50 +21,57 @@ equations:
   - tex: d = \frac{1}{2}\,g\,t^2
     spoken: "d é igual a um meio de g vezes t ao quadrado"
 claims:
-  - text: "Depois de 2 s de queda livre, a velocidade é cerca de 19,6 m/s"
+  - id: claim-001
+    text: "Depois de 2 s de queda livre, a velocidade é cerca de 19,6 m/s"
     type: number
     check: compute
     formula: free_fall_speed_2s
     expected: 19.6
     unit: m/s
     tolerance: 0.002
-    status: verified
-  - text: "Em 2 s de queda livre, o corpo cai cerca de 19,6 m"
+    status: calculated
+  - id: claim-002
+    text: "Em 2 s de queda livre, o corpo cai cerca de 19,6 m"
     type: number
     check: compute
     formula: free_fall_distance_2s
     expected: 19.6
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "Na superfície da Lua, g é cerca de 1,62 m/s²"
+    status: calculated
+  - id: claim-003
+    text: "Na superfície da Lua, g é cerca de 1,62 m/s²"
     type: number
     check: compute
     formula: moon_surface_gravity
     expected: 1.62
     unit: m/s²
     tolerance: 0.005
-    status: verified
-  - text: "A gravidade padrão g₀ é definida como exatamente 9,80665 m/s²"
+    status: calculated
+  - id: claim-004
+    text: "A gravidade padrão g₀ é definida como exatamente 9,80665 m/s²"
     type: definition
     check: source
     sources: [https://en.wikipedia.org/wiki/Standard_gravity]
-    status: verified
-  - text: "Galileu publicou as Duas Novas Ciências em 1638, mostrando que a distância de queda cresce com o quadrado do tempo"
+    status: pending
+  - id: claim-005
+    text: "Galileu publicou as Duas Novas Ciências em 1638, mostrando que a distância de queda cresce com o quadrado do tempo"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Two_New_Sciences]
-    status: verified
-  - text: "A história de Galileu soltando bolas da Torre de Pisa vem de seu aluno Viviani e é considerada duvidosa pelos historiadores"
+    status: pending
+  - id: claim-006
+    text: "A história de Galileu soltando bolas da Torre de Pisa vem de seu aluno Viviani e é considerada duvidosa pelos historiadores"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Galileo%27s_Leaning_Tower_of_Pisa_experiment]
-    status: verified
-  - text: "Em 1971, na Apollo 15, David Scott soltou um martelo e uma pena na Lua e os dois chegaram juntos ao chão"
+    status: pending
+  - id: claim-007
+    text: "Em 1971, na Apollo 15, David Scott soltou um martelo e uma pena na Lua e os dois chegaram juntos ao chão"
     type: date
     check: source
     sources: [https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html, https://en.wikipedia.org/wiki/Apollo_15]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "3.7: Queda livre (Física Universitária I, OpenStax)"

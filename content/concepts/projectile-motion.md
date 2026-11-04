@@ -23,35 +23,39 @@ equations:
   - tex: R = \frac{v_0^2 \sin 2\theta}{g}
     spoken: "R é igual a v zero ao quadrado vezes seno de dois teta, sobre g"
 claims:
-  - text: "Lançado a 20 m/s e 45°, sem ar, um objeto alcança cerca de 40,8 m"
+  - id: claim-001
+    text: "Lançado a 20 m/s e 45°, sem ar, um objeto alcança cerca de 40,8 m"
     type: number
     check: compute
     formula: projectile_range_20ms_45deg
     expected: 40.8
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "A 20 m/s, os ângulos de 30° e 60° dão o mesmo alcance, cerca de 35,3 m"
+    status: calculated
+  - id: claim-002
+    text: "A 20 m/s, os ângulos de 30° e 60° dão o mesmo alcance, cerca de 35,3 m"
     type: number
     check: compute
     formula: projectile_range_20ms_30deg
     expected: 35.3
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "A 20 m/s e 45°, a altura máxima é cerca de 10,2 m"
+    status: calculated
+  - id: claim-003
+    text: "A 20 m/s e 45°, a altura máxima é cerca de 10,2 m"
     type: number
     check: compute
     formula: projectile_max_height_20ms_45deg
     expected: 10.2
     unit: m
     tolerance: 0.002
-    status: verified
-  - text: "Galileu mostrou nas Duas Novas Ciências que a trajetória de um projétil, sem o ar, é uma parábola"
+    status: calculated
+  - id: claim-004
+    text: "Galileu mostrou nas Duas Novas Ciências que a trajetória de um projétil, sem o ar, é uma parábola"
     type: attribution
     check: source
     sources: [https://galileoandeinstein.phys.virginia.edu/tns244.htm, https://en.wikipedia.org/wiki/Two_New_Sciences]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "4.4: Movimento do projétil (Física Universitária I, OpenStax)"

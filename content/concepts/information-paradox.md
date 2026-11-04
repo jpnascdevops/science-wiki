@@ -20,26 +20,30 @@ equations:
   - tex: '|\psi\rangle\langle\psi| \to \rho_{\text{térmico}}'
     spoken: "ket psi bra psi vai em rô térmico"
 claims:
-  - text: "Em 1997, Thorne e Hawking apostaram contra Preskill que a informação se perde em buracos negros"
+  - id: claim-001
+    text: "Em 1997, Thorne e Hawking apostaram contra Preskill que a informação se perde em buracos negros"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Thorne%E2%80%93Hawking%E2%80%93Preskill_bet]
-    status: verified
-  - text: "Hawking admitiu a derrota em 2004, na 17ª Conferência Internacional de Relatividade Geral e Gravitação, em Dublin, e deu a Preskill uma enciclopédia de beisebol"
+    status: pending
+  - id: claim-002
+    text: "Hawking admitiu a derrota em 2004, na 17ª Conferência Internacional de Relatividade Geral e Gravitação, em Dublin, e deu a Preskill uma enciclopédia de beisebol"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Thorne%E2%80%93Hawking%E2%80%93Preskill_bet]
-    status: verified
-  - text: "Kip Thorne não acompanhou a concessão de Hawking em 2004"
+    status: pending
+  - id: claim-003
+    text: "Kip Thorne não acompanhou a concessão de Hawking em 2004"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Thorne%E2%80%93Hawking%E2%80%93Preskill_bet]
-    status: verified
-  - text: "Hawking formulou o paradoxo no artigo 'Breakdown of predictability in gravitational collapse', Phys. Rev. D 14, 2460 (1976)"
+    status: pending
+  - id: claim-004
+    text: "Hawking formulou o paradoxo no artigo 'Breakdown of predictability in gravitational collapse', Phys. Rev. D 14, 2460 (1976)"
     type: date
     check: source
     sources: [https://scilit.com/publications/9d5cd45bb73750a51b259d3177ead4ff]
-    status: verified
+    status: pending
 resources:
   - kind: watch
     title: "NOVA (PBS): Black Hole Information Paradox, série What the Physics?!"

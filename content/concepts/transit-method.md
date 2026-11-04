@@ -22,43 +22,48 @@ equations:
   - tex: p_{\text{trânsito}} \approx \frac{R_\star}{a}
     spoken: "a probabilidade de trânsito é aproximadamente R estrela sobre a"
 claims:
-  - text: "Um planeta do tamanho de Júpiter numa estrela como o Sol produz uma queda de cerca de 1%"
+  - id: claim-001
+    text: "Um planeta do tamanho de Júpiter numa estrela como o Sol produz uma queda de cerca de 1%"
     type: number
     check: compute
     formula: transit_depth_jupiter_sun_percent
     expected: 1.06
     unit: "%"
     tolerance: 0.01
-    status: verified
-  - text: "Um planeta do tamanho da Terra numa estrela como o Sol produz uma queda de cerca de 84 ppm"
+    status: calculated
+  - id: claim-002
+    text: "Um planeta do tamanho da Terra numa estrela como o Sol produz uma queda de cerca de 84 ppm"
     type: number
     check: compute
     formula: transit_depth_earth_sun_ppm
     expected: 84
     unit: ppm
     tolerance: 0.01
-    status: verified
-  - text: "Um trânsito central da Terra diante do Sol, numa órbita aproximadamente circular, duraria cerca de 13 horas"
+    status: calculated
+  - id: claim-003
+    text: "Um trânsito central da Terra diante do Sol, numa órbita aproximadamente circular, duraria cerca de 13 horas"
     type: number
     check: compute
     formula: transit_duration_earth_hours
     expected: 13
     unit: h
     tolerance: 0.01
-    status: verified
-  - text: "Só cerca de 0,5% dos sistemas como Terra e Sol estão alinhados de forma a mostrar trânsito"
+    status: calculated
+  - id: claim-004
+    text: "Só cerca de 0,5% dos sistemas como Terra e Sol estão alinhados de forma a mostrar trânsito"
     type: number
     check: compute
     formula: transit_probability_earth_percent
     expected: 0.465
     unit: "%"
     tolerance: 0.01
-    status: verified
-  - text: "HD 209458 b foi o primeiro exoplaneta observado em trânsito, em 1999 (equipes de Charbonneau e de Henry, publicado em 2000)"
+    status: calculated
+  - id: claim-005
+    text: "HD 209458 b foi o primeiro exoplaneta observado em trânsito, em 1999 (equipes de Charbonneau e de Henry, publicado em 2000)"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/HD_209458_b]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "NASA Science: What's a transit?"

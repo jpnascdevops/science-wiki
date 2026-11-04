@@ -23,50 +23,57 @@ equations:
   - tex: E = \rho_{\text{fluido}}\,V\,g
     spoken: "E é igual a rô do fluido vezes V vezes g"
 claims:
-  - text: "A 10 m de profundidade na água, a pressão da coluna de água é cerca de 98 kPa"
+  - id: claim-001
+    text: "A 10 m de profundidade na água, a pressão da coluna de água é cerca de 98 kPa"
     type: number
     check: compute
     formula: water_pressure_10m_kpa
     expected: 98.07
     unit: kPa
     tolerance: 0.001
-    status: verified
-  - text: "Isso é cerca de 0,97 atmosfera"
+    status: calculated
+  - id: claim-002
+    text: "Isso é cerca de 0,97 atmosfera"
     type: number
     check: compute
     formula: water_10m_in_atm
     expected: 0.968
     unit: atm
     tolerance: 0.002
-    status: verified
-  - text: "Um bloco de gelo flutua no mar com cerca de 90% do volume submerso"
+    status: calculated
+  - id: claim-003
+    text: "Um bloco de gelo flutua no mar com cerca de 90% do volume submerso"
     type: number
     check: compute
     formula: ice_submerged_fraction_seawater
     expected: 0.895
     unit: ""
     tolerance: 0.01
-    status: verified
-  - text: "A atmosfera padrão é definida como 101 325 Pa"
+    status: calculated
+  - id: claim-004
+    text: "A atmosfera padrão é definida como 101 325 Pa"
     type: definition
     check: source
     sources: [https://en.wikipedia.org/wiki/Standard_atmosphere_(unit)]
-    status: verified
-  - text: "O princípio do empuxo de Arquimedes aparece em sua obra Sobre os corpos flutuantes"
+    status: pending
+  - id: claim-005
+    text: "O princípio do empuxo de Arquimedes aparece em sua obra Sobre os corpos flutuantes"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/On_Floating_Bodies, https://britannica.com/science/Archimedes-principle]
-    status: verified
-  - text: "Torricelli construiu o barômetro de mercúrio em 1643 (algumas fontes dão 1643–44)"
+    status: pending
+  - id: claim-006
+    text: "Torricelli construiu o barômetro de mercúrio em 1643 (algumas fontes dão 1643–44)"
     type: date
     check: source
     sources: [https://www.britannica.com/technology/mercury-barometer, https://www.britannica.com/biography/Evangelista-Torricelli]
-    status: verified
-  - text: "Pascal propôs o experimento do Puy de Dôme, feito por Florin Périer em 1648, que mostrou que a pressão do ar diminui com a altitude"
+    status: pending
+  - id: claim-007
+    text: "Pascal propôs o experimento do Puy de Dôme, feito por Florin Périer em 1648, que mostrou que a pressão do ar diminui com a altitude"
     type: date
     check: source
     sources: [https://www.britannica.com/print/article/445445, https://www.irishtimes.com/news/mercury-on-a-mountain-1.194816]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "14.6: Princípio e flutuabilidade de Arquimedes (Física Universitária I, OpenStax)"

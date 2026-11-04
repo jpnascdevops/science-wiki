@@ -23,40 +23,45 @@ equations:
   - tex: F_c = m\,\frac{v^2}{r}
     spoken: "F c é igual a m vezes v ao quadrado sobre r"
 claims:
-  - text: "Um carro a 20 m/s numa curva de 50 m de raio tem aceleração centrípeta de 8 m/s²"
+  - id: claim-001
+    text: "Um carro a 20 m/s numa curva de 50 m de raio tem aceleração centrípeta de 8 m/s²"
     type: number
     check: compute
     formula: curve_accel_20ms_50m
     expected: 8
     unit: m/s²
     tolerance: 0.001
-    status: verified
-  - text: "A aceleração centrípeta da Lua é cerca de 0,00272 m/s²"
+    status: calculated
+  - id: claim-002
+    text: "A aceleração centrípeta da Lua é cerca de 0,00272 m/s²"
     type: number
     check: compute
     formula: moon_centripetal_accel
     expected: 0.00272
     unit: m/s²
     tolerance: 0.005
-    status: verified
-  - text: "g dividido por 3600 dá cerca de 0,00272 m/s², o mesmo valor"
+    status: calculated
+  - id: claim-003
+    text: "g dividido por 3600 dá cerca de 0,00272 m/s², o mesmo valor"
     type: number
     check: compute
     formula: g_over_3600
     expected: 0.00272
     unit: m/s²
     tolerance: 0.005
-    status: verified
-  - text: "Huygens deduziu a fórmula da força centrífuga (v²/r) por volta de 1659, em De vi centrifuga, publicado só em 1703"
+    status: calculated
+  - id: claim-004
+    text: "Huygens deduziu a fórmula da força centrífuga (v²/r) por volta de 1659, em De vi centrifuga, publicado só em 1703"
     type: date
     check: source
     sources: [https://en.wikipedia.org/wiki/Christiaan_Huygens, https://en.wikipedia.org/wiki/History_of_centrifugal_and_centripetal_forces]
-    status: verified
-  - text: "No teste da Lua, Newton comparou a aceleração da Lua com g: como a Lua está a cerca de 60 raios terrestres, a aceleração é cerca de 1/3600 de g"
+    status: pending
+  - id: claim-005
+    text: "No teste da Lua, Newton comparou a aceleração da Lua com g: como a Lua está a cerca de 60 raios terrestres, a aceleração é cerca de 1/3600 de g"
     type: attribution
     check: source
     sources: [https://pwg.gsfc.nasa.gov/stargaze/Sgravity.htm]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "4.5: Movimento circular uniforme (Física Universitária I, OpenStax)"

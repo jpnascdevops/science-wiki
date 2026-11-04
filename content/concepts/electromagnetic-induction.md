@@ -29,28 +29,31 @@ equations:
 - tex: \Phi_B = B\,A\cos\theta
   spoken: fi B é igual a B vezes A vezes cosseno de teta
 claims:
-- text: Uma bobina de 100 voltas e 0,01 m², com o campo indo de 0 a 0,1 T em 0,1 s, ganha uma voltagem de 1 V
+- id: claim-001
+  text: Uma bobina de 100 voltas e 0,01 m², com o campo indo de 0 a 0,1 T em 0,1 s, ganha uma voltagem de 1 V
   type: number
   check: compute
   formula: coil_emf_100turns
   expected: 1.0
   unit: V
   tolerance: 0.001
-  status: verified
-- text: Uma bobina de 200 voltas e 0,02 m², girando a 60 Hz num campo de 0,05 T, chega a uns 75 V de pico
+  status: calculated
+- id: claim-002
+  text: Uma bobina de 200 voltas e 0,02 m², girando a 60 Hz num campo de 0,05 T, chega a uns 75 V de pico
   type: number
   check: compute
   formula: generator_peak_emf_60hz
   expected: 75.4
   unit: V
   tolerance: 0.001
-  status: verified
-- text: Michael Faraday descobriu a indução eletromagnética em 1831
+  status: calculated
+- id: claim-003
+  text: Michael Faraday descobriu a indução eletromagnética em 1831
   type: date
   check: source
   sources:
   - https://britannica.com/science/Faradays-law-of-induction
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Induction - An Introduction: Crash Course Physics #34'

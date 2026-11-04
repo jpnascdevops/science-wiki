@@ -23,32 +23,36 @@ equations:
   - tex: P(\text{não } A) = 1 - P(A)
     spoken: "P de não A é igual a um menos P de A"
 claims:
-  - text: "A chance de a soma de dois dados dar 7 é 6 em 36, cerca de 16,7%"
+  - id: claim-001
+    text: "A chance de a soma de dois dados dar 7 é 6 em 36, cerca de 16,7%"
     type: number
     check: compute
     formula: two_dice_seven_percent
     expected: 16.67
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "A chance de tirar pelo menos um 6 em quatro lançamentos de um dado é cerca de 51,8%"
+    status: calculated
+  - id: claim-002
+    text: "A chance de tirar pelo menos um 6 em quatro lançamentos de um dado é cerca de 51,8%"
     type: number
     check: compute
     formula: at_least_one_six_in_four_percent
     expected: 51.77
     unit: "%"
     tolerance: 0.001
-    status: verified
-  - text: "A troca de cartas entre Pascal e Fermat em 1654 sobre jogos de azar é considerada o início da teoria da probabilidade; Huygens publicou De ratiociniis in ludo aleae em 1657"
+    status: calculated
+  - id: claim-003
+    text: "A troca de cartas entre Pascal e Fermat em 1654 sobre jogos de azar é considerada o início da teoria da probabilidade; Huygens publicou De ratiociniis in ludo aleae em 1657"
     type: date
     check: source
     sources: ["https://en.wikipedia.org/wiki/History_of_probability"]
-    status: verified
-  - text: "Kolmogorov deu a fundamentação axiomática da probabilidade em 1933"
+    status: pending
+  - id: claim-004
+    text: "Kolmogorov deu a fundamentação axiomática da probabilidade em 1933"
     type: date
     check: source
     sources: ["https://ar5iv.arxiv.org/html/1802.06071"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "3: Tópicos de probabilidade (Estatísticas introdutórias, OpenStax/LibreTexts)"

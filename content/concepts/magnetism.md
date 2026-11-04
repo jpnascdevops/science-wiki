@@ -26,14 +26,16 @@ equations:
 - tex: \oint \vec{B}\cdot\mathrm{d}\vec{A} = 0
   spoken: a integral fechada de B escalar d A é igual a zero
 claims:
-- text: Na superfície da Terra, o campo magnético vai de cerca de 25 a 65 microtesla, conforme o lugar
+- id: claim-001
+  text: Na superfície da Terra, o campo magnético vai de cerca de 25 a 65 microtesla, conforme o lugar
   type: reference
   check: source
   sources:
   - https://www.ncei.noaa.gov/products/geomagnetism-frequently-asked-questions
   - https://hyperphysics.gsu.edu/hbase/magnetic/magearth.html
-  status: verified
-- text: Em De Magnete (1600), William Gilbert descreveu a Terra como um grande ímã e separou o efeito do âmbar atritado do efeito dos ímãs
+  status: pending
+- id: claim-002
+  text: Em De Magnete (1600), William Gilbert descreveu a Terra como um grande ímã e separou o efeito do âmbar atritado do efeito dos ímãs
   type: date
   check: source
   sources:
@@ -41,7 +43,7 @@ claims:
   - https://en.wikipedia.org/wiki/William_Gilbert_(physicist)
   - https://query.libretexts.org/Idioma_Portugues/Fisica_Universitaria_II_-_Termodinamica_Eletricidade_e_Magnetismo_(OpenStax)/05%3A_Cargas_eletricas_e_campos/5.02%3A_Carga_el%C3%A9trica
   - https://hyperphysics.gsu.edu/hbase/magnetic/magearth.html
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Magnetism: Crash Course Physics #32'

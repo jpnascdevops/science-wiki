@@ -21,32 +21,36 @@ equations:
   - tex: k_B T_c = \frac{2J}{\ln\left(1 + \sqrt{2}\right)}
     spoken: "k B vezes T c é igual a dois J sobre logaritmo natural de um mais raiz de dois"
 claims:
-  - text: "O calor latente de fusão do gelo é cerca de 334 kJ/kg"
+  - id: claim-001
+    text: "O calor latente de fusão do gelo é cerca de 334 kJ/kg"
     type: number
     check: compute
     formula: ice_latent_heat_kj_kg
     expected: 334
     unit: kJ/kg
     tolerance: 0.005
-    status: verified
-  - text: "No modelo de Ising em duas dimensões, a temperatura crítica é k T_c ≈ 2,269 J"
+    status: calculated
+  - id: claim-002
+    text: "No modelo de Ising em duas dimensões, a temperatura crítica é k T_c ≈ 2,269 J"
     type: number
     check: compute
     formula: ising_onsager_tc
     expected: 2.269
     unit: J/k
     tolerance: 0.001
-    status: verified
-  - text: "O modelo de Ising foi proposto por Wilhelm Lenz (1920) e resolvido em uma dimensão por Ernst Ising (1925); Lars Onsager resolveu exatamente o caso bidimensional em 1944"
+    status: calculated
+  - id: claim-003
+    text: "O modelo de Ising foi proposto por Wilhelm Lenz (1920) e resolvido em uma dimensão por Ernst Ising (1925); Lars Onsager resolveu exatamente o caso bidimensional em 1944"
     type: date
     check: source
     sources: ["https://arxiv.org/html/2601.11671v1"]
-    status: verified
-  - text: "O ponto triplo da água é cerca de 273,16 K e 611,657 Pa; desde 2019 é um valor medido, não mais a definição do kelvin"
+    status: pending
+  - id: claim-004
+    text: "O ponto triplo da água é cerca de 273,16 K e 611,657 Pa; desde 2019 é um valor medido, não mais a definição do kelvin"
     type: number
     check: source
     sources: ["https://en.wikipedia.org/wiki/Triple_point"]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Estados da Matéria (PhET, simulação com diagrama P-T)"

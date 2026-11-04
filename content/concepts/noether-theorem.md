@@ -19,24 +19,34 @@ equations:
   - tex: \frac{\partial \mathcal{L}}{\partial q} = 0 \;\Rightarrow\; p = \frac{\partial \mathcal{L}}{\partial \dot{q}} = \text{constante}
     spoken: "se a derivada parcial de L em relação a q é zero, então p, a derivada parcial de L em relação a q ponto, é constante"
 claims:
-  - text: "O momento angular orbital da Terra em torno do Sol é cerca de 2,7 × 10⁴⁰ kg·m²/s"
+  - id: claim-001
+    text: "O momento angular orbital da Terra em torno do Sol é cerca de 2,7 × 10⁴⁰ kg·m²/s"
     type: number
     check: compute
     formula: earth_orbital_angular_momentum
     expected: 2.66e40
     unit: kg·m²/s
     tolerance: 0.01
-    status: verified
-  - text: "Emmy Noether publicou o teorema sobre simetrias e leis de conservação em 1918 (Invariante Variationsprobleme)"
+    status: calculated
+  - id: claim-002
+    text: "Emmy Noether publicou o teorema sobre simetrias e leis de conservação em 1918 (Invariante Variationsprobleme)"
     type: date
     check: source
     sources: ["https://ar5iv.labs.arxiv.org/html/physics/0503066", "https://auth.aps.commonspotcloud.com/publications/apsnews/201303/physicshistory.cfm"]
-    status: verified
-  - text: "Einstein escreveu ao New York Times em 1935, após a morte de Noether, elogiando-a"
+    status: pending
+  - id: claim-003
+    text: "Einstein escreveu ao New York Times em 1935, após a morte de Noether, elogiando-a"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/OfTheDay/oftheday-05-04", "https://auth.aps.commonspotcloud.com/publications/apsnews/201303/physicshistory.cfm"]
-    status: verified
+    status: pending
+  - id: claim-004
+    text: "Se a lagrangiana não depende de uma coordenada q, o momento conjugado a q é conservado ao longo das soluções de Euler-Lagrange."
+    type: conceptual
+    check: source
+    covers: [equation]
+    sources: ["https://davidtong.org/teaching/classical-dynamics/dynhtml/S2"]
+    status: pending
 resources:
   - kind: watch
     title: "PBS Space Time - Noether's Theorem and The Symmetries of Reality"

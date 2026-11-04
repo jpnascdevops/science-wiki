@@ -23,37 +23,42 @@ equations:
   - tex: \bar{v} = \sqrt{\frac{8\,k_B T}{\pi m}}
     spoken: "v barra é igual à raiz quadrada de oito k B T sobre pi m"
 claims:
-  - text: "A velocidade média de uma molécula de N₂ a 300 K é cerca de 476 m/s"
+  - id: claim-001
+    text: "A velocidade média de uma molécula de N₂ a 300 K é cerca de 476 m/s"
     type: number
     check: compute
     formula: n2_mean_speed_300k
     expected: 476
     unit: m/s
     tolerance: 0.003
-    status: verified
-  - text: "Aquecer 1 litro de água de 20 °C a 100 °C exige cerca de 335 kJ"
+    status: calculated
+  - id: claim-002
+    text: "Aquecer 1 litro de água de 20 °C a 100 °C exige cerca de 335 kJ"
     type: number
     check: compute
     formula: heat_1l_water_20_to_100_kj
     expected: 335
     unit: kJ
     tolerance: 0.003
-    status: verified
-  - text: "O zero absoluto é −273,15 °C; desde 2019 (revisão aprovada em 2018), o kelvin é definido fixando a constante de Boltzmann em 1,380649 × 10⁻²³ J/K"
+    status: calculated
+  - id: claim-003
+    text: "O zero absoluto é −273,15 °C; desde 2019 (revisão aprovada em 2018), o kelvin é definido fixando a constante de Boltzmann em 1,380649 × 10⁻²³ J/K"
     type: definition
     check: source
     sources: ["https://www.britannica.com/science/absolute-zero", "https://www.nist.gov/si-redefinition/kelvin/kelvin-boltzmann-constant"]
-    status: verified
-  - text: "Kelvin propôs a escala absoluta de temperatura em 1848"
+    status: pending
+  - id: claim-004
+    text: "Kelvin propôs a escala absoluta de temperatura em 1848"
     type: date
     check: source
     sources: ["https://mathshistory.st-andrews.ac.uk/SH/thomson_sh.pdf"]
-    status: verified
-  - text: "Fahrenheit e Celsius criaram suas escalas em 1724 e 1742"
+    status: pending
+  - id: claim-005
+    text: "Fahrenheit e Celsius criaram suas escalas em 1724 e 1742"
     type: date
     check: source
     sources: ["https://kids.britannica.com/students/article/Daniel-Gabriel-Fahrenheit/274252", "https://www.britannica.com/technology/Celsius-temperature-scale"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "1.2: Temperatura e equilíbrio térmico (Física Universitária II, OpenStax/LibreTexts)"

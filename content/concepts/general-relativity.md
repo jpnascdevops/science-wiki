@@ -22,26 +22,30 @@ equations:
   - tex: \delta = \frac{4 G M}{c^2 b}
     spoken: "delta é igual a quatro G M sobre c ao quadrado vezes b"
 claims:
-  - text: "Einstein publicou a relatividade geral em 1915"
+  - id: claim-001
+    text: "Einstein publicou a relatividade geral em 1915"
     type: date
     check: source
     sources: [https://pt.wikipedia.org/wiki/Relatividade_geral]
-    status: verified
-  - text: "No eclipse de 29 de maio de 1919, em Sobral (CE), a deflexão prevista era 0,87 segundo de arco por Newton e 1,75 por Einstein; as melhores placas de Sobral mediram 1,98 ± 0,12"
+    status: pending
+  - id: claim-002
+    text: "No eclipse de 29 de maio de 1919, em Sobral (CE), a deflexão prevista era 0,87 segundo de arco por Newton e 1,75 por Einstein; as melhores placas de Sobral mediram 1,98 ± 0,12"
     type: number
     check: source
     sources: [https://revistapesquisa.fapesp.br/quando-a-luz-se-curvou/]
-    status: verified
-  - text: "A relatividade geral explica os cerca de 43 segundos de arco por século que faltavam na precessão de Mercúrio"
+    status: pending
+  - id: claim-003
+    text: "A relatividade geral explica os cerca de 43 segundos de arco por século que faltavam na precessão de Mercúrio"
     type: conceptual
     check: source
     sources: [https://arxiv.org/pdf/1705.04397]
-    status: verified
-  - text: "Lemaître (1927) usou a relatividade geral para descrever um universo em expansão e ligou isso à recessão das galáxias; Friedmann já tinha achado soluções em expansão em 1922"
+    status: pending
+  - id: claim-004
+    text: "Lemaître (1927) usou a relatividade geral para descrever um universo em expansão e ligou isso à recessão das galáxias; Friedmann já tinha achado soluções em expansão em 1922"
     type: attribution
     check: source
     sources: [https://mathshistory.st-andrews.ac.uk/Biographies/Lemaitre/]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Pesquisa FAPESP: Quando a luz se curvou"

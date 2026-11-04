@@ -27,21 +27,23 @@ equations:
 - tex: E = k\,\frac{Q}{r^2}
   spoken: E é igual a k vezes Q sobre r ao quadrado
 claims:
-- text: Uma carga de 1 nC produz, a 1 m de distância, um campo de cerca de 9 N/C
+- id: claim-001
+  text: Uma carga de 1 nC produz, a 1 m de distância, um campo de cerca de 9 N/C
   type: number
   check: compute
   formula: field_1nc_1m
   expected: 8.99
   unit: N/C
   tolerance: 0.002
-  status: verified
-- text: Michael Faraday introduziu as linhas de força nos anos 1830 e, até cerca de 1850, chegou à ideia de campo como algo que existe no espaço
+  status: calculated
+- id: claim-002
+  text: Michael Faraday introduziu as linhas de força nos anos 1830 e, até cerca de 1850, chegou à ideia de campo como algo que existe no espaço
   type: date
   check: source
   sources:
   - https://www.britannica.com:443/print/article/213098
   - https://www.britannica.com/biography/Michael-Faraday/Later-life
-  status: verified
+  status: pending
 resources:
 - kind: watch
   title: 'Electric Fields: Crash Course Physics #26'

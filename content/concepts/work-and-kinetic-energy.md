@@ -23,37 +23,42 @@ equations:
   - tex: W_{\text{total}} = \Delta E_c
     spoken: "W total é igual a delta E c"
 claims:
-  - text: "Um carro de 1000 kg a 72 km/h (20 m/s) tem 200 kJ de energia cinética"
+  - id: claim-001
+    text: "Um carro de 1000 kg a 72 km/h (20 m/s) tem 200 kJ de energia cinética"
     type: number
     check: compute
     formula: ke_car_20ms_kj
     expected: 200
     unit: kJ
     tolerance: 0.001
-    status: verified
-  - text: "A 144 km/h (40 m/s), o mesmo carro tem 800 kJ, quatro vezes mais"
+    status: calculated
+  - id: claim-002
+    text: "A 144 km/h (40 m/s), o mesmo carro tem 800 kJ, quatro vezes mais"
     type: number
     check: compute
     formula: ke_car_40ms_kj
     expected: 800
     unit: kJ
     tolerance: 0.001
-    status: verified
-  - text: "Coriolis introduziu o termo trabalho (travail) no sentido da física em 1829, com o fator 1/2 na energia cinética"
+    status: calculated
+  - id: claim-003
+    text: "Coriolis introduziu o termo trabalho (travail) no sentido da física em 1829, com o fator 1/2 na energia cinética"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Gaspard-Gustave_de_Coriolis, https://en.wikipedia.org/wiki/Vis_viva]
-    status: verified
-  - text: "Émilie du Châtelet, partindo dos experimentos de 's Gravesande, defendeu que a força viva (vis viva) é proporcional a m v²"
+    status: pending
+  - id: claim-004
+    text: "Émilie du Châtelet, partindo dos experimentos de 's Gravesande, defendeu que a força viva (vis viva) é proporcional a m v²"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Kinetic_energy, https://en.wikipedia.org/wiki/History_of_energy]
-    status: verified
-  - text: "William Thomson (Lord Kelvin) é creditado por cunhar o termo energia cinética por volta de 1849–1851; ele se firmou com o tratado de Thomson e Tait (1867)"
+    status: pending
+  - id: claim-005
+    text: "William Thomson (Lord Kelvin) é creditado por cunhar o termo energia cinética por volta de 1849–1851; ele se firmou com o tratado de Thomson e Tait (1867)"
     type: attribution
     check: source
     sources: [https://en.wikipedia.org/wiki/Kinetic_energy, https://spark.iop.org/history-concept-energy-and-work]
-    status: verified
+    status: pending
 resources:
   - kind: study
     title: "Cap. 7: Trabalho e energia cinética (Física Universitária I, OpenStax)"

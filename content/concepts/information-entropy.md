@@ -21,32 +21,36 @@ equations:
   - tex: E_{\min} = k_B T \ln 2
     spoken: "E mínima é igual a k B T vezes logaritmo natural de dois"
 claims:
-  - text: "Uma moeda que dá cara 90% das vezes tem entropia de cerca de 0,47 bit por lançamento"
+  - id: claim-001
+    text: "Uma moeda que dá cara 90% das vezes tem entropia de cerca de 0,47 bit por lançamento"
     type: number
     check: compute
     formula: coin_90_entropy_bits
     expected: 0.469
     unit: bits
     tolerance: 0.002
-    status: verified
-  - text: "A 300 K, o custo mínimo para apagar 1 bit é cerca de 2,9 × 10⁻²¹ J"
+    status: calculated
+  - id: claim-002
+    text: "A 300 K, o custo mínimo para apagar 1 bit é cerca de 2,9 × 10⁻²¹ J"
     type: number
     check: compute
     formula: landauer_300k_joule
     expected: 2.87e-21
     unit: J
     tolerance: 0.003
-    status: verified
-  - text: "Claude Shannon publicou Uma Teoria Matemática da Comunicação em 1948, definindo a entropia da informação"
+    status: calculated
+  - id: claim-003
+    text: "Claude Shannon publicou Uma Teoria Matemática da Comunicação em 1948, definindo a entropia da informação"
     type: date
     check: source
     sources: ["https://www.britannica.com/biography/Claude-Shannon", "https://www.britannica.com/topic/A-Mathematical-Theory-of-Communication"]
-    status: verified
-  - text: "Rolf Landauer mostrou em 1961 que apagar um bit dissipa no mínimo kT ln 2 de calor"
+    status: pending
+  - id: claim-004
+    text: "Rolf Landauer mostrou em 1961 que apagar um bit dissipa no mínimo kT ln 2 de calor"
     type: date
     check: source
     sources: ["https://doi.org/10.1038/nature10872"]
-    status: verified
+    status: pending
 resources:
   - kind: read
     title: "Information theory - Entropy (Britannica)"
