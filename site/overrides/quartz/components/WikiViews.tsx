@@ -182,6 +182,9 @@ function Home({ from, data }: { from: string; data: any }) {
           <a class="wv-btn internal" href={resolveRelative(from as FullSlug, "timeline" as FullSlug)}>
             Linha do tempo
           </a>
+          <a class="wv-btn internal" href={resolveRelative(from as FullSlug, "playground" as FullSlug)}>
+            Parquinho
+          </a>
         </div>
         <dl class="wv-stats">
           <div>

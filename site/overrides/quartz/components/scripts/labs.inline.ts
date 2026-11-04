@@ -3643,6 +3643,715 @@ function inductionLab(box: HTMLElement) {
   render(); draw()
 }
 
+function holdButton(b: HTMLButtonElement, set: (on: boolean) => void) {
+  b.style.touchAction = "none"
+  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); set(true) })
+  const off = () => set(false)
+  b.addEventListener("pointerup", off)
+  b.addEventListener("pointercancel", off)
+  b.addEventListener("lostpointercapture", off)
+}
+
+function orbitSandbox(box: HTMLElement) {
+  const W = 520, H = 380, CX = 260, CY = 190
+  const ctx = canvas(box, W, H, "Caixa de areia de órbitas: arraste para lançar planetas em volta de uma estrela")
+  const sm = slider(box, "Massa da estrela", 1, 5, 2, 0.5)
+  const [bDemo, bClear] = btnRow(box, ["Sistema de exemplo", "Limpar"])
+  const [rN, rEat, rOut] = readouts(box, ["Planetas em órbita", "Engolidos pela estrela", "Fugiram para o espaço"])
+  const msg = note(box)
+  type P = { x: number; y: number; vx: number; vy: number; c: string; tr: [number, number][] }
+  let ps: P[] = [], eaten = 0, gone = 0, aim: [number, number, number, number] | null = null
+  const colors = ["--tertiary", "--secondary", "--darkgray"]
+  let ci = 0
+  const GM = () => 200 * Number(sm.input.value)
+  const add = (x: number, y: number, vx: number, vy: number) => { ps.push({ x, y, vx, vy, c: colors[ci++ % 3], tr: [] }) }
+  const circ = (r: number) => Math.sqrt(GM() / r)
+  const demo = () => {
+    ps = []; eaten = 0; gone = 0
+    for (const r of [60, 105, 160]) { const v = circ(r); add(CX + r, CY, 0, -v) }
+    const r = 120, v = circ(r) * 1.25; add(CX - r, CY, 0, v)
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const glow = ctx.createRadialGradient(CX, CY, 2, CX, CY, 34)
+    glow.addColorStop(0, cssVar("--tertiary")); glow.addColorStop(1, "transparent")
+    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(CX, CY, 34, 0, 2 * Math.PI); ctx.fill()
+    ctx.fillStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.arc(CX, CY, 6 + Number(sm.input.value) * 1.5, 0, 2 * Math.PI); ctx.fill()
+    for (const p of ps) {
+      const col = cssVar(p.c)
+      ctx.strokeStyle = col; ctx.globalAlpha = 0.45; ctx.lineWidth = 1.5
+      ctx.beginPath(); p.tr.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke()
+      ctx.globalAlpha = 1; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, 2 * Math.PI); ctx.fill()
+    }
+    if (aim) {
+      const [x0, y0, x1, y1] = aim
+      ctx.fillStyle = cssVar("--secondary"); ctx.beginPath(); ctx.arc(x0, y0, 4.5, 0, 2 * Math.PI); ctx.fill()
+      if (Math.hypot(x1 - x0, y1 - y0) > 3) arrow(ctx, x0, y0, x1, y1, cssVar("--secondary"), 2)
+      const r = Math.hypot(x0 - CX, y0 - CY)
+      if (r > 20) {
+        ctx.setLineDash([3, 5]); ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 1
+        ctx.beginPath(); ctx.arc(CX, CY, r, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([])
+      }
+    }
+  }
+  const render = () => {
+    sm.out.textContent = `${fmt(Number(sm.input.value), 1)} ×`
+    rN.textContent = String(ps.length); rEat.textContent = String(eaten); rOut.textContent = String(gone)
+    if (aim) {
+      const [x0, y0, x1, y1] = aim
+      const r = Math.hypot(x0 - CX, y0 - CY), v = Math.hypot(x1 - x0, y1 - y0) * 0.04, vc = circ(Math.max(r, 1))
+      msg.textContent = v < 0.05
+        ? "Agora arraste para dar a velocidade (a seta). Sem velocidade, o planeta cai direto na estrela."
+        : v < vc * 0.9 ? "Devagar demais para uma órbita circular aqui: vai virar uma elipse que mergulha perto da estrela (ou cai nela)."
+        : v < vc * 1.1 ? "Perto da velocidade de órbita circular! Se a seta estiver de lado (perpendicular ao raio), o planeta dá voltas quase redondas."
+        : v < vc * 1.41 ? "Mais rápido que o circular: elipse alongada, que se afasta e volta."
+        : "Acima da velocidade de escape (√2 vezes a circular): o planeta vai embora e não volta."
+      return
+    }
+    msg.textContent = ps.length === 0
+      ? "Clique (ou toque) num ponto, arraste para escolher a velocidade e solte para lançar um planeta. Tente fazer órbitas redondas, elipses compridas, ou um planeta que escapa."
+      : "Repare: perto da estrela o planeta anda mais rápido, longe dela mais devagar (segunda lei de Kepler). Aumente a massa da estrela e veja todas as órbitas apertarem."
+  }
+  const l = loop(box, () => {
+    const k = GM()
+    for (let s = 0; s < 4; s++)
+      for (const p of ps) {
+        const h = 0.25
+        const acc = (x: number, y: number) => { const dx = x - CX, dy = y - CY, r2 = dx * dx + dy * dy + 9, r = Math.sqrt(r2); return [(-k * dx) / (r2 * r), (-k * dy) / (r2 * r)] }
+        const [ax, ay] = acc(p.x, p.y)
+        p.vx += ax * h / 2; p.vy += ay * h / 2
+        p.x += p.vx * h; p.y += p.vy * h
+        const [bx, by] = acc(p.x, p.y)
+        p.vx += bx * h / 2; p.vy += by * h / 2
+      }
+    const keep: P[] = []
+    for (const p of ps) {
+      const r = Math.hypot(p.x - CX, p.y - CY)
+      if (r < 8 + Number(sm.input.value) * 1.5) { eaten++; continue }
+      if (r > 900) { gone++; continue }
+      p.tr.push([p.x, p.y]); if (p.tr.length > 260) p.tr.shift()
+      keep.push(p)
+    }
+    if (keep.length !== ps.length) { ps = keep; render() }
+    draw()
+  })
+  pointer(ctx, W, H, (x, y) => { aim = [x, y, x, y]; render(); draw(); return true }, (x, y, d) => {
+    if (d && aim) { aim[2] = x; aim[3] = y; render(); draw() }
+  }, () => {
+    if (aim) {
+      const [x0, y0, x1, y1] = aim
+      if (ps.length > 12) ps.shift()
+      add(x0, y0, (x1 - x0) * 0.04, (y1 - y0) * 0.04)
+      aim = null; render(); draw()
+    }
+  })
+  sm.input.addEventListener("input", () => (render(), draw()))
+  bDemo.addEventListener("click", () => (demo(), render(), draw()))
+  bClear.addEventListener("click", () => { ps = []; eaten = 0; gone = 0; render(); draw() })
+  playBtn(box, l, bDemo.parentElement as HTMLElement)
+  demo(); render(); draw()
+}
+
+function plinko(box: HTMLElement) {
+  const W = 520, H = 400, ROWS = 12, TOP = 30, DY = 20, DX = 26
+  const ctx = canvas(box, W, H, "Tabuleiro de Galton: bolinhas caindo entre pinos")
+  const sp = slider(box, "Chance de quicar para a direita", 10, 90, 50, 5)
+  const [b1, b10, b200, bZero] = btnRow(box, ["Soltar 1", "Soltar 10", "Chuva de 200", "Zerar"])
+  const [rN, rM, rS] = readouts(box, ["Bolinhas", "Média (casa)", "Desvio padrão"])
+  const msg = note(box)
+  const bins = new Array(ROWS + 1).fill(0)
+  let balls: { path: number[]; t: number }[] = [], queue = 0, total = 0
+  const binX = (k: number) => W / 2 + (k - ROWS / 2) * DX
+  const p = () => Number(sp.input.value) / 100
+  const spawn = () => {
+    const path: number[] = []
+    for (let i = 0; i < ROWS; i++) path.push(Math.random() < p() ? 1 : 0)
+    balls.push({ path, t: 0 })
+  }
+  const pos = (b: { path: number[]; t: number }): [number, number] => {
+    const row = Math.min(ROWS, Math.floor(b.t)), f = b.t - row
+    let k = 0
+    for (let i = 0; i < row; i++) k += b.path[i]
+    const x0 = W / 2 + (k - row / 2) * DX
+    if (row >= ROWS) return [x0, TOP + ROWS * DY + f * 30]
+    const dir = b.path[row] ? 1 : -1
+    return [x0 + dir * (DX / 2) * f, TOP + row * DY + DY * f - 10 * Math.sin(Math.PI * f) + 0]
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--gray")
+    for (let r = 0; r < ROWS; r++)
+      for (let i = 0; i <= r; i++) { ctx.beginPath(); ctx.arc(W / 2 + (i - r / 2) * DX, TOP + r * DY + 6, 2.6, 0, 2 * Math.PI); ctx.fill() }
+    const base = H - 8, maxH = 120, peak = Math.max(1, ...bins)
+    const scale = Math.min(maxH / peak, 6)
+    ctx.strokeStyle = cssVar("--lightgray"); ctx.lineWidth = 1
+    for (let k = 0; k <= ROWS + 1; k++) { const x = binX(k) - DX / 2; ctx.beginPath(); ctx.moveTo(x, base - maxH - 10); ctx.lineTo(x, base); ctx.stroke() }
+    ctx.fillStyle = cssVar("--secondary")
+    bins.forEach((n, k) => ctx.fillRect(binX(k) - DX / 2 + 3, base - n * scale, DX - 6, n * scale))
+    if (total > 20) {
+      const pp = p(), mu = ROWS * pp, sd = Math.sqrt(ROWS * pp * (1 - pp))
+      ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 2.5; ctx.beginPath()
+      for (let i = 0; i <= 200; i++) {
+        const k = -0.5 + (i / 200) * (ROWS + 1)
+        const y = (total / (sd * Math.sqrt(2 * Math.PI))) * Math.exp(-((k - mu) ** 2) / (2 * sd * sd))
+        const X = binX(k), Y = base - Math.min(maxH + 20, y * scale)
+        i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y)
+      }
+      ctx.stroke()
+    }
+    ctx.fillStyle = cssVar("--tertiary")
+    for (const b of balls) { const [x, y] = pos(b); ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI); ctx.fill() }
+  }
+  const render = () => {
+    sp.out.textContent = `${sp.input.value}%`
+    rN.textContent = String(total)
+    const mean = total ? bins.reduce((s, n, k) => s + n * k, 0) / total : 0
+    const sd = total ? Math.sqrt(bins.reduce((s, n, k) => s + n * (k - mean) ** 2, 0) / total) : 0
+    rM.textContent = total ? fmt(mean, 2) : "—"; rS.textContent = total > 1 ? fmt(sd, 2) : "—"
+    msg.textContent = total < 20
+      ? "Cada pino é uma moeda: direita ou esquerda. Ninguém sabe onde uma bolinha vai cair, mas solte muitas e veja o que aparece."
+      : p() === 0.5
+        ? `Com moedas honestas, a pilha forma o sino da distribuição normal (curva laranja). Teoria: média 6 e desvio ${fmt(Math.sqrt(3), 2)}. Cada bolinha é aleatória; a forma da pilha não é.`
+        : `Com moeda viciada a ${sp.input.value}%, o sino anda para ${p() > 0.5 ? "a direita" : "a esquerda"} e fica mais estreito. Média esperada: ${fmt(ROWS * p(), 1)}.`
+  }
+  const l = loop(box, () => {
+    if (queue > 0 && Math.random() < 0.5) { spawn(); queue-- }
+    for (const b of balls) b.t += 0.12
+    const done = balls.filter((b) => b.t >= ROWS + 0.6)
+    if (done.length) {
+      done.forEach((b) => { bins[b.path.reduce((s, x) => s + x, 0)]++; total++ })
+      balls = balls.filter((b) => b.t < ROWS + 0.6)
+      render()
+    }
+    draw()
+  })
+  const drop = (n: number) => {
+    if (!l.running) { for (let i = 0; i < n; i++) { let k = 0; for (let j = 0; j < ROWS; j++) k += Math.random() < p() ? 1 : 0; bins[k]++; total++ } render(); draw(); return }
+    queue += n
+  }
+  b1.addEventListener("click", () => drop(1))
+  b10.addEventListener("click", () => drop(10))
+  b200.addEventListener("click", () => drop(200))
+  bZero.addEventListener("click", () => { bins.fill(0); total = 0; balls = []; queue = 0; render(); draw() })
+  sp.input.addEventListener("input", () => { bins.fill(0); total = 0; balls = []; render(); draw() })
+  render(); draw()
+}
+
+function demonGame(box: HTMLElement) {
+  const W = 520, H = 280, MID = 260, GAP = 46
+  const ctx = canvas(box, W, H, "Jogo do demônio de Maxwell: abra a porta para separar moléculas rápidas e lentas")
+  const [bDoor, bNew] = btnRow(box, ["Segure para abrir a porta", "Embaralhar de novo"])
+  const [rL, rR, rScore, rOpen] = readouts(box, ["Lado esquerdo (quer lentas)", "Lado direito (quer rápidas)", "Moléculas no lado certo", "Vezes que abriu a porta"])
+  const msg = note(box)
+  type M = { x: number; y: number; vx: number; vy: number; fast: boolean }
+  let ms: M[] = [], open = false, opens = 0, won = false
+  const shuffle = () => {
+    ms = []
+    for (let i = 0; i < 30; i++) {
+      const fast = i % 2 === 0, sp = fast ? 3.2 + Math.random() : 0.9 + Math.random() * 0.4, a = Math.random() * 2 * Math.PI
+      ms.push({ x: 20 + Math.random() * (W - 40), y: 20 + Math.random() * (H - 40), vx: sp * Math.cos(a), vy: sp * Math.sin(a), fast })
+    }
+    ms.forEach((m) => { if (Math.abs(m.x - MID) < 10) m.x += 20 })
+    opens = 0; won = false
+  }
+  const side = (m: M) => (m.x < MID ? "L" : "R")
+  const stats = () => {
+    const L = ms.filter((m) => side(m) === "L"), R = ms.filter((m) => side(m) === "R")
+    const T = (g: M[]) => (g.length ? g.reduce((s, m) => s + m.vx * m.vx + m.vy * m.vy, 0) / g.length : 0)
+    const good = ms.filter((m) => (m.fast ? side(m) === "R" : side(m) === "L")).length
+    return { L, R, TL: T(L), TR: T(R), good }
+  }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const s = stats(), tint = (T: number) => Math.min(0.22, Math.max(0, (T - 2) / 30))
+    ctx.fillStyle = cssVar("--tertiary"); ctx.globalAlpha = tint(s.TL); ctx.fillRect(0, 0, MID, H)
+    ctx.globalAlpha = tint(s.TR); ctx.fillRect(MID, 0, W - MID, H); ctx.globalAlpha = 1
+    ctx.strokeStyle = cssVar("--darkgray"); ctx.lineWidth = 4
+    ctx.beginPath(); ctx.moveTo(MID, 0); ctx.lineTo(MID, H / 2 - GAP / 2); ctx.moveTo(MID, H / 2 + GAP / 2); ctx.lineTo(MID, H); ctx.stroke()
+    if (!open) { ctx.strokeStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.moveTo(MID, H / 2 - GAP / 2); ctx.lineTo(MID, H / 2 + GAP / 2); ctx.stroke() }
+    for (const m of ms) { ctx.fillStyle = cssVar(m.fast ? "--tertiary" : "--secondary"); ctx.beginPath(); ctx.arc(m.x, m.y, m.fast ? 5 : 4.5, 0, 2 * Math.PI); ctx.fill() }
+    ctx.fillStyle = cssVar("--gray"); ctx.font = "12px system-ui, sans-serif"; ctx.textAlign = "center"
+    ctx.fillText("lentas aqui", MID / 2, 16); ctx.fillText("rápidas aqui", MID + (W - MID) / 2, 16)
+  }
+  const render = () => {
+    const s = stats()
+    rL.textContent = `${s.L.length} moléculas, agitação ${fmt(s.TL, 1)}`
+    rR.textContent = `${s.R.length} moléculas, agitação ${fmt(s.TR, 1)}`
+    rScore.textContent = `${s.good} de ${ms.length}`
+    rOpen.textContent = String(opens)
+    if (s.good >= 27) won = true
+    msg.textContent = won
+      ? `Você esquentou um lado e esfriou o outro sem gastar energia empurrando nada, só abrindo uma porta (${opens} vezes). Parece violar a segunda lei! A saída: para decidir quando abrir, você teve que observar e lembrar cada molécula. Apagar essa memória custa energia e gera entropia, pelo menos o que você "economizou" (princípio de Landauer).`
+      : open
+        ? "Porta aberta! Qualquer molécula que chegar passa, rápida ou lenta, para qualquer lado. Feche antes que as erradas escapem."
+        : "Você é o demônio de Maxwell. Segure o botão (ou a barra de espaço, ou toque na caixa) para abrir a porta só quando uma molécula rápida (laranja) for para a direita ou uma lenta (azul) for para a esquerda. Meta: 27 no lado certo."
+  }
+  const setOpen = (v: boolean) => { if (v && !open) opens++; open = v; bDoor.setAttribute("aria-pressed", String(v)); render() }
+  holdButton(bDoor, setOpen)
+  const c = ctx.canvas as HTMLCanvasElement
+  c.style.touchAction = "none"
+  c.addEventListener("pointerdown", (e) => { c.setPointerCapture(e.pointerId); setOpen(true) })
+  c.addEventListener("pointerup", () => setOpen(false))
+  c.addEventListener("pointercancel", () => setOpen(false))
+  window.addEventListener("keydown", (e) => { if (box.isConnected && e.code === "Space" && document.activeElement === bDoor) { e.preventDefault(); if (!open) setOpen(true) } })
+  window.addEventListener("keyup", (e) => { if (box.isConnected && e.code === "Space" && open) setOpen(false) })
+  const l = loop(box, () => {
+    for (const m of ms) {
+      const ox = m.x
+      m.x += m.vx; m.y += m.vy
+      if (m.y < 5 || m.y > H - 5) { m.vy = -m.vy; m.y = Math.max(5, Math.min(H - 5, m.y)) }
+      if (m.x < 5 || m.x > W - 5) { m.vx = -m.vx; m.x = Math.max(5, Math.min(W - 5, m.x)) }
+      const crossed = (ox - MID) * (m.x - MID) <= 0 && ox !== m.x
+      if (crossed) {
+        const inGap = Math.abs(m.y - H / 2) < GAP / 2 - 3
+        if (!(open && inGap)) { m.vx = -m.vx; m.x = ox < MID ? MID - 5 : MID + 5 }
+      }
+    }
+    render(); draw()
+  })
+  bNew.addEventListener("click", () => { shuffle(); render(); draw() })
+  playBtn(box, l, bDoor.parentElement as HTMLElement)
+  shuffle(); render(); draw()
+}
+
+function hockeyLab(box: HTMLElement) {
+  const W = 520, H = 320
+  const ctx = canvas(box, W, H, "Hóquei elétrico: posicione cargas para guiar o disco até o gol")
+  const [bPos, bNeg, bGo, bReset] = btnRow(box, ["Colocar +", "Colocar −", "Lançar o disco", "Tirar todas"])
+  const [bL1, bL2, bL3] = btnRow(box, ["Nível 1", "Nível 2", "Nível 3"])
+  const [rLvl, rQ, rTry] = readouts(box, ["Nível", "Cargas usadas", "Tentativas"])
+  const msg = note(box)
+  const levels: { walls: [number, number, number, number][]; goal: [number, number, number, number] }[] = [
+    { walls: [], goal: [470, 120, 40, 80] },
+    { walls: [[250, 60, 16, 200]], goal: [470, 120, 40, 80] },
+    { walls: [[170, 0, 16, 200], [330, 120, 16, 200]], goal: [470, 20, 40, 80] },
+  ]
+  let lvl = 0, place = 1, Q: { x: number; y: number; q: number }[] = [], puck = { x: 40, y: 160, vx: 0, vy: 0 }, state = "edit", tries = 0, tr: [number, number][] = []
+  const hitWall = (x: number, y: number) => levels[lvl].walls.some(([wx, wy, ww, wh]) => x > wx - 7 && x < wx + ww + 7 && y > wy - 7 && y < wy + wh + 7)
+  const inGoal = (x: number, y: number) => { const [gx, gy, gw, gh] = levels[lvl].goal; return x > gx && x < gx + gw && y > gy && y < gy + gh }
+  const resetPuck = () => { puck = { x: 40, y: 160, vx: 0, vy: 0 }; tr = [] }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    const [gx, gy, gw, gh] = levels[lvl].goal
+    ctx.fillStyle = cssVar("--tertiary"); ctx.globalAlpha = 0.2; ctx.fillRect(gx, gy, gw, gh); ctx.globalAlpha = 1
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 2; ctx.strokeRect(gx, gy, gw, gh)
+    ctx.fillStyle = cssVar("--tertiary"); ctx.font = "bold 12px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillText("GOL", gx + gw / 2, gy + gh / 2 + 4)
+    ctx.fillStyle = cssVar("--darkgray")
+    levels[lvl].walls.forEach(([x, y, w, h]) => ctx.fillRect(x, y, w, h))
+    ctx.strokeStyle = cssVar("--secondary"); ctx.globalAlpha = 0.6; ctx.lineWidth = 1.5
+    ctx.beginPath(); tr.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke(); ctx.globalAlpha = 1
+    Q.forEach((c) => ball(ctx, c.x, c.y, 10, c.q))
+    ctx.fillStyle = cssVar("--dark"); ctx.beginPath(); ctx.arc(puck.x, puck.y, 9, 0, 2 * Math.PI); ctx.fill()
+    ball(ctx, puck.x, puck.y, 7, 1)
+  }
+  const render = () => {
+    rLvl.textContent = `${lvl + 1} de 3`; rQ.textContent = String(Q.length); rTry.textContent = String(tries)
+    bPos.setAttribute("aria-pressed", String(place > 0)); bNeg.setAttribute("aria-pressed", String(place < 0))
+    ;[bL1, bL2, bL3].forEach((b, i) => b.setAttribute("aria-pressed", String(i === lvl)))
+    bGo.textContent = state === "run" ? "Parar" : "Lançar o disco"
+    msg.textContent =
+      state === "win" ? `Gol! Com ${Q.length} carga${Q.length === 1 ? "" : "s"} e ${tries} tentativa${tries === 1 ? "" : "s"}. ${lvl < 2 ? "Tente o próximo nível, ou o mesmo com menos cargas." : "Você zerou o hóquei elétrico."}`
+        : state === "crash" ? "Bateu na parede. Ajuste as cargas (clique numa carga para tirá-la) e lance de novo."
+        : state === "lost" ? "O disco saiu do campo. Lembre: ele é positivo, então é empurrado pelas + e puxado pelas −."
+        : state === "run" ? "O disco sente a soma das forças de todas as cargas, a cada instante, e a força muda conforme ele anda."
+        : "O disco (+) começa parado à esquerda. Clique no campo para colocar cargas; clique numa carga para tirá-la. Depois lance e torça."
+  }
+  pointer(ctx, W, H, (x, y) => {
+    if (state === "run") return false
+    const i = Q.findIndex((c) => Math.hypot(c.x - x, c.y - y) < 14)
+    if (i >= 0) Q.splice(i, 1)
+    else if (Math.hypot(x - puck.x, y - puck.y) > 24 && !hitWall(x, y) && Q.length < 12) Q.push({ x, y, q: place })
+    state = "edit"; resetPuck(); render(); draw()
+    return false
+  }, () => {})
+  const l = loop(box, () => {
+    if (state !== "run") return
+    for (let s = 0; s < 6; s++) {
+      let ax = 0, ay = 0
+      for (const c of Q) {
+        const dx = puck.x - c.x, dy = puck.y - c.y, r2 = dx * dx + dy * dy + 100, r = Math.sqrt(r2)
+        ax += (c.q * 20000 * dx) / (r2 * r); ay += (c.q * 20000 * dy) / (r2 * r)
+      }
+      puck.vx += ax * 0.1; puck.vy += ay * 0.1
+      puck.x += puck.vx * 0.1; puck.y += puck.vy * 0.1
+      if (inGoal(puck.x, puck.y)) { state = "win"; break }
+      if (hitWall(puck.x, puck.y)) { state = "crash"; break }
+      if (puck.x < -20 || puck.x > W + 20 || puck.y < -20 || puck.y > H + 20) { state = "lost"; break }
+    }
+    tr.push([puck.x, puck.y])
+    if (state !== "run") render()
+    draw()
+  })
+  l.running = true
+  bPos.addEventListener("click", () => { place = 1; render() })
+  bNeg.addEventListener("click", () => { place = -1; render() })
+  bGo.addEventListener("click", () => {
+    if (state === "run") { state = "edit"; resetPuck() } else { resetPuck(); state = "run"; tries++ }
+    if (state === "run" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      for (let n = 0; n < 3000 && state === "run"; n++) {
+        let ax = 0, ay = 0
+        for (const c of Q) { const dx = puck.x - c.x, dy = puck.y - c.y, r2 = dx * dx + dy * dy + 100, r = Math.sqrt(r2); ax += (c.q * 20000 * dx) / (r2 * r); ay += (c.q * 20000 * dy) / (r2 * r) }
+        puck.vx += ax * 0.1; puck.vy += ay * 0.1; puck.x += puck.vx * 0.1; puck.y += puck.vy * 0.1
+        if (n % 6 === 0) tr.push([puck.x, puck.y])
+        if (inGoal(puck.x, puck.y)) state = "win"
+        else if (hitWall(puck.x, puck.y)) state = "crash"
+        else if (puck.x < -20 || puck.x > W + 20 || puck.y < -20 || puck.y > H + 20) state = "lost"
+      }
+      if (state === "run") state = "lost"
+    }
+    render(); draw()
+  })
+  bReset.addEventListener("click", () => { Q = []; state = "edit"; resetPuck(); render(); draw() })
+  ;[bL1, bL2, bL3].forEach((b, i) => b.addEventListener("click", () => { lvl = i; Q = []; tries = 0; state = "edit"; resetPuck(); render(); draw() }))
+  render(); draw()
+}
+
+function landerGame(box: HTMLElement) {
+  const W = 520, H = 340, G_MOON = 1.62, PX_M = 3
+  const ctx = canvas(box, W, H, "Pouso lunar: controle o motor para pousar devagar na plataforma")
+  const [bLeft, bThrust, bRight] = btnRow(box, ["◀ Girar", "Motor", "Girar ▶"])
+  const [bStart] = btnRow(box, ["Nova descida"])
+  const [rAlt, rVy, rVx, rFuel] = readouts(box, ["Altura", "Velocidade vertical", "Velocidade horizontal", "Combustível"])
+  const msg = note(box)
+  let s = { x: 80, y: 40, vx: 6, vy: 0, a: 0, fuel: 100 }, thrust = false, left = false, right = false, state = "fly"
+  const pad = [330, 410], ground = (x: number) => (x > pad[0] && x < pad[1] ? 300 : 300 - 30 * Math.sin(x / 37) - 18 * Math.sin(x / 13 + 1) - 25)
+  const groundAt = (x: number) => Math.min(H - 4, ground(x))
+  const start = () => { s = { x: 60 + Math.random() * 60, y: 40, vx: 4 + Math.random() * 4, vy: 0, a: 0, fuel: 100 }; state = "fly" }
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.fillStyle = cssVar("--lightgray"); ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.moveTo(0, H)
+    for (let x = 0; x <= W; x += 4) ctx.lineTo(x, groundAt(x))
+    ctx.lineTo(W, H); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(pad[0], 300); ctx.lineTo(pad[1], 300); ctx.stroke()
+    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.a)
+    if (thrust && s.fuel > 0 && state === "fly") {
+      ctx.fillStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.moveTo(-5, 10); ctx.lineTo(5, 10); ctx.lineTo(0, 22 + Math.random() * 8); ctx.closePath(); ctx.fill()
+    }
+    ctx.fillStyle = state === "crash" ? cssVar("--gray") : cssVar("--secondary")
+    ctx.fillRect(-9, -8, 18, 14)
+    ctx.strokeStyle = cssVar("--darkgray"); ctx.lineWidth = 2
+    ctx.beginPath(); ctx.moveTo(-8, 6); ctx.lineTo(-13, 12); ctx.moveTo(8, 6); ctx.lineTo(13, 12); ctx.stroke()
+    ctx.restore()
+  }
+  const alt = () => Math.max(0, (groundAt(s.x) - (s.y + 12)) / PX_M)
+  const render = () => {
+    rAlt.textContent = `${fmt(alt(), 1)} m`
+    rVy.textContent = `${fmt(Math.abs(s.vy), 1)} m/s ${s.vy > 0.05 ? "descendo" : s.vy < -0.05 ? "subindo" : ""}`
+    rVx.textContent = `${fmt(Math.abs(s.vx), 1)} m/s`
+    rFuel.textContent = `${fmt(s.fuel, 0)}%`
+    bThrust.setAttribute("aria-pressed", String(thrust))
+    msg.textContent =
+      state === "land" ? "Pouso perfeito! O motor joga gás para baixo e o gás empurra a nave para cima: ação e reação. Você freou exatamente o suficiente contra a gravidade da Lua (1,62 m/s²)."
+        : state === "crash" ? "Pouso forçado... Para pousar: na plataforma laranja, descendo a menos de 2 m/s, de lado a menos de 1 m/s, e com a nave quase em pé."
+        : s.fuel <= 0 ? "Sem combustível! Agora só a gravidade manda."
+        : "Segure Motor (ou a seta para cima) e gire com ◀ ▶ (ou as setas). O motor empurra para onde a nave aponta: incline para frear o movimento de lado."
+  }
+  holdButton(bThrust, (v) => { thrust = v; render() })
+  holdButton(bLeft, (v) => (left = v))
+  holdButton(bRight, (v) => (right = v))
+  const key = (down: boolean) => (e: KeyboardEvent) => {
+    if (!box.isConnected || state !== "fly" || !box.contains(document.activeElement)) return
+    if (e.code === "ArrowUp" || e.code === "KeyW") thrust = down
+    else if (e.code === "ArrowLeft" || e.code === "KeyA") left = down
+    else if (e.code === "ArrowRight" || e.code === "KeyD") right = down
+    else return
+    e.preventDefault(); render()
+  }
+  window.addEventListener("keydown", key(true))
+  window.addEventListener("keyup", key(false))
+  const l = loop(box, () => {
+    if (state !== "fly") return
+    const dt = 1 / 60
+    if (left) s.a -= 1.8 * dt
+    if (right) s.a += 1.8 * dt
+    s.a = Math.max(-1.4, Math.min(1.4, s.a))
+    let ax = 0, ay = G_MOON
+    if (thrust && s.fuel > 0) { ax += 4.2 * Math.sin(s.a); ay -= 4.2 * Math.cos(s.a); s.fuel = Math.max(0, s.fuel - 9 * dt) }
+    s.vx += ax * dt; s.vy += ay * dt
+    s.x += s.vx * dt * PX_M; s.y += s.vy * dt * PX_M
+    if (s.x < 10) { s.x = 10; s.vx = Math.abs(s.vx) * 0.3 }
+    if (s.x > W - 10) { s.x = W - 10; s.vx = -Math.abs(s.vx) * 0.3 }
+    if (s.y < 10) { s.y = 10; s.vy = Math.max(0, s.vy) }
+    if (s.y + 12 >= groundAt(s.x)) {
+      s.y = groundAt(s.x) - 12
+      const onPad = s.x > pad[0] + 8 && s.x < pad[1] - 8
+      state = onPad && s.vy < 2 && Math.abs(s.vx) < 1 && Math.abs(s.a) < 0.18 ? "land" : "crash"
+      thrust = false
+    }
+    render(); draw()
+  })
+  l.running = !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  bStart.addEventListener("click", () => { start(); l.running = true; render(); draw() })
+  ;(ctx.canvas as HTMLCanvasElement).tabIndex = 0
+  render(); draw()
+}
+
+function epicycles(box: HTMLElement) {
+  const W = 520, H = 360, N = 256
+  const ctx = canvas(box, W, H, "Epiciclos: círculos girando que desenham uma figura")
+  const sn = slider(box, "Número de círculos", 1, 128, 20)
+  const [bHeart, bStar, bNote, bClear] = btnRow(box, ["Coração", "Estrela", "Infinito", "Desenhar a minha"])
+  const [rN] = readouts(box, ["Círculos girando"])
+  const msg = note(box)
+  let coef: { k: number; re: number; im: number; amp: number }[] = [], t = 0, path: [number, number][] = [], drawing: [number, number][] = [], mode = "play"
+  const resample = (pts2: [number, number][]) => {
+    const seg: number[] = [0]
+    for (let i = 1; i <= pts2.length; i++) { const a = pts2[i - 1], b = pts2[i % pts2.length]; seg.push(seg[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1])) }
+    const L = seg[seg.length - 1], out: [number, number][] = []
+    let j = 0
+    for (let i = 0; i < N; i++) {
+      const d = (i / N) * L
+      while (seg[j + 1] < d) j++
+      const a = pts2[j], b = pts2[(j + 1) % pts2.length], f = (d - seg[j]) / (seg[j + 1] - seg[j] || 1)
+      out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f])
+    }
+    return out
+  }
+  const setShape = (pts2: [number, number][]) => {
+    const z = resample(pts2)
+    coef = []
+    for (let k = -N / 2; k < N / 2; k++) {
+      let re = 0, im = 0
+      for (let n = 0; n < N; n++) { const a = (-2 * Math.PI * k * n) / N; re += z[n][0] * Math.cos(a) - z[n][1] * Math.sin(a); im += z[n][0] * Math.sin(a) + z[n][1] * Math.cos(a) }
+      re /= N; im /= N
+      coef.push({ k, re, im, amp: Math.hypot(re, im) })
+    }
+    coef.sort((a, b) => (a.k === 0 ? -1 : b.k === 0 ? 1 : b.amp - a.amp))
+    t = 0; path = []; mode = "play"
+  }
+  const heart = () => Array.from({ length: 200 }, (_, i) => { const s = (i / 200) * 2 * Math.PI; return [260 + 8 * 16 * Math.sin(s) ** 3, 170 - 8 * (13 * Math.cos(s) - 5 * Math.cos(2 * s) - 2 * Math.cos(3 * s) - Math.cos(4 * s))] as [number, number] })
+  const star = () => Array.from({ length: 10 }, (_, i) => { const r = i % 2 ? 60 : 150, a = (i / 10) * 2 * Math.PI - Math.PI / 2; return [260 + r * Math.cos(a), 185 + r * Math.sin(a)] as [number, number] })
+  const infinity = () => Array.from({ length: 300 }, (_, i) => { const u = (i / 300) * 2 * Math.PI, d = 1 + Math.sin(u) ** 2; return [260 + (190 * Math.cos(u)) / d, 180 + (190 * Math.sin(u) * Math.cos(u)) / d] as [number, number] })
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    if (mode === "draw") {
+      ctx.strokeStyle = cssVar("--secondary"); ctx.lineWidth = 2
+      ctx.beginPath(); drawing.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke()
+      return
+    }
+    const n = Number(sn.input.value)
+    let x = 0, y = 0
+    ctx.lineWidth = 1
+    for (let i = 0; i < Math.min(n + 1, coef.length); i++) {
+      const c = coef[i], a = 2 * Math.PI * c.k * t
+      const nx = x + c.re * Math.cos(a) - c.im * Math.sin(a), ny = y + c.re * Math.sin(a) + c.im * Math.cos(a)
+      if (i > 0) {
+        ctx.strokeStyle = cssVar("--gray"); ctx.globalAlpha = 0.35; ctx.beginPath(); ctx.arc(x, y, c.amp, 0, 2 * Math.PI); ctx.stroke()
+        ctx.globalAlpha = 0.8; ctx.strokeStyle = cssVar("--darkgray"); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(nx, ny); ctx.stroke(); ctx.globalAlpha = 1
+      }
+      x = nx; y = ny
+    }
+    path.push([x, y]); if (path.length > 2 * N) path.shift()
+    ctx.strokeStyle = cssVar("--tertiary"); ctx.lineWidth = 2.5
+    ctx.beginPath(); path.forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py))); ctx.stroke()
+    ctx.fillStyle = cssVar("--tertiary"); ctx.beginPath(); ctx.arc(x, y, 3.5, 0, 2 * Math.PI); ctx.fill()
+  }
+  const render = () => {
+    sn.out.textContent = sn.input.value; rN.textContent = sn.input.value
+    msg.textContent = mode === "draw"
+      ? "Desenhe uma figura com o dedo ou o mouse, numa linha só, e solte. Os círculos vão aprender a desenhá-la."
+      : Number(sn.input.value) < 6
+        ? "Poucos círculos só pegam a forma grosseira. Cada círculo gira com uma frequência inteira: é uma série de Fourier no plano complexo."
+        : "Cada círculo gira numa velocidade diferente, preso na ponta do anterior. Somados, desenham a figura. Os maiores carregam a forma; os pequenos, os detalhes. Era a ideia dos epiciclos de Ptolomeu, com a matemática de Fourier."
+  }
+  const l = loop(box, () => { if (mode !== "play") return; t += 1 / (N * 2); if (t >= 1) t -= 1; draw() })
+  pointer(ctx, W, H, (x, y) => { if (mode !== "draw") return false; drawing = [[x, y]]; draw(); return true }, (x, y, d) => {
+    if (d && mode === "draw") { const p0 = drawing[drawing.length - 1]; if (Math.hypot(x - p0[0], y - p0[1]) > 2) drawing.push([x, y]); draw() }
+  }, () => { if (mode === "draw" && drawing.length > 10) { setShape(drawing); render() } })
+  sn.input.addEventListener("input", () => { path = []; render(); if (!l.running) staticDraw() })
+  const staticDraw = () => { path = []; const n0 = t; for (let i = 0; i < N * 2; i++) { t = i / (N * 2); draw() } t = n0 }
+  const pick = (f: () => [number, number][]) => { setShape(f()); render(); if (!l.running) staticDraw(); else draw() }
+  bHeart.addEventListener("click", () => pick(heart))
+  bStar.addEventListener("click", () => pick(star))
+  bNote.addEventListener("click", () => pick(infinity))
+  bClear.addEventListener("click", () => { mode = "draw"; drawing = []; render(); draw() })
+  playBtn(box, l, bHeart.parentElement as HTMLElement)
+  setShape(heart()); render(); if (!l.running) staticDraw(); else draw()
+}
+
+function pendulumWave(box: HTMLElement) {
+  const W = 520, H = 300, N = 15, CYCLE = 60
+  const ctx = canvas(box, W, H, "Onda de pêndulos: quinze pêndulos de comprimentos diferentes")
+  const ss = slider(box, "Velocidade do tempo", 1, 8, 2)
+  const [bRe] = btnRow(box, ["Recomeçar"])
+  const [rT, rNext] = readouts(box, ["Tempo", "Volta a se alinhar em"])
+  const msg = note(box)
+  let t = 0
+  const per = (i: number) => CYCLE / (51 + i)
+  const len = (i: number) => 9.81 * (per(i) / (2 * Math.PI)) ** 2
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H)
+    ctx.strokeStyle = cssVar("--darkgray"); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(30, 20); ctx.lineTo(W - 30, 20); ctx.stroke()
+    for (let i = 0; i < N; i++) {
+      const x0 = 50 + i * ((W - 100) / (N - 1)), L = 70 + (len(i) / len(0)) * 190
+      const th = 0.32 * Math.cos((2 * Math.PI * t) / per(i))
+      const x = x0 + L * Math.sin(th) * 0.55, y = 20 + L * Math.cos(th)
+      ctx.strokeStyle = cssVar("--gray"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, 20); ctx.lineTo(x, y); ctx.stroke()
+      ctx.fillStyle = cssVar(i % 2 ? "--secondary" : "--tertiary"); ctx.beginPath(); ctx.arc(x, y, 8, 0, 2 * Math.PI); ctx.fill()
+    }
+  }
+  const render = () => {
+    ss.out.textContent = `${ss.input.value}×`
+    const tm = t % CYCLE
+    rT.textContent = `${fmt(tm, 1)} s`
+    rNext.textContent = `${fmt(CYCLE - tm, 1)} s`
+    msg.textContent = tm < 2 || tm > CYCLE - 2
+      ? "Todos juntos! Cada pêndulo faz um número diferente de balanços por minuto (51, 52, ..., 65), e em 60 s todos voltam ao começo ao mesmo tempo."
+      : Math.abs(tm - CYCLE / 2) < 2
+        ? "Metade do ciclo: os pêndulos se dividem em dois grupos alternados, como um zíper."
+        : "Ondas, serpentes, grupos de três e de quatro: nada empurra um pêndulo para o lado. É só a diferença de períodos (T = 2π√(L/g)) se acumulando."
+  }
+  const l = loop(box, () => { t += Number(ss.input.value) / 60; render(); draw() })
+  ss.input.addEventListener("input", render)
+  bRe.addEventListener("click", () => { t = 0; render(); draw() })
+  playBtn(box, l, bRe.parentElement as HTMLElement)
+  render(); draw()
+}
+
+function harmonicsSynth(box: HTMLElement) {
+  const plot = chart(box, 520, 180, "Forma da onda somando harmônicos")
+  plot.append(svg("line", { x1: 10, x2: 510, y1: 90, y2: 90, class: "axis" }))
+  const wave = svg("polyline", { class: "curve page" })
+  plot.appendChild(wave)
+  const sf = slider(box, "Nota (Hz)", 110, 660, 220, 1)
+  const hs = [1, 2, 3, 4, 5, 6].map((n) => slider(box, `Harmônico ${n} (${n}× a nota)`, 0, 100, n === 1 ? 100 : 0, 5))
+  const [bPlay, bSine, bSquare, bSaw, bOrgan] = btnRow(box, ["Tocar", "Pura", "Quadrada", "Dente de serra", "Órgão"])
+  const msg = note(box)
+  let ac: AudioContext | null = null, osc: OscillatorNode | null = null, gain: GainNode | null = null
+  const amps = () => hs.map((h) => Number(h.input.value) / 100)
+  const apply = () => {
+    if (!ac || !osc) return
+    const a = amps(), real = new Float32Array(7), imag = new Float32Array(7)
+    a.forEach((v, i) => (imag[i + 1] = v))
+    osc.setPeriodicWave(ac.createPeriodicWave(real, imag))
+    osc.frequency.setTargetAtTime(Number(sf.input.value), ac.currentTime, 0.02)
+  }
+  const stop = () => { if (osc) { gain!.gain.setTargetAtTime(0, ac!.currentTime, 0.03); const o = osc; setTimeout(() => o.stop(), 150) } osc = null; render() }
+  const start = () => {
+    const AC = window.AudioContext || (window as any).webkitAudioContext
+    if (!AC) { msg.textContent = "Este navegador não tem áudio da Web; a forma da onda continua funcionando."; return }
+    ac = ac ?? new AC()
+    gain = ac.createGain(); gain.gain.value = 0
+    osc = ac.createOscillator(); osc.connect(gain); gain.connect(ac.destination)
+    apply(); osc.start(); gain.gain.setTargetAtTime(0.12, ac.currentTime, 0.03)
+    const watch = setInterval(() => { if (!box.isConnected) { stop(); clearInterval(watch) } else if (!osc) clearInterval(watch) }, 500)
+    render()
+  }
+  const render = () => {
+    sf.out.textContent = `${sf.input.value} Hz`
+    hs.forEach((h) => (h.out.textContent = `${h.input.value}%`))
+    const a = amps(), list: [number, number][] = []
+    let peak = 0
+    const ys: number[] = []
+    for (let i = 0; i <= 400; i++) { const x = (i / 400) * 2 * Math.PI * 2; const y = a.reduce((s, v, k) => s + v * Math.sin((k + 1) * x), 0); ys.push(y); peak = Math.max(peak, Math.abs(y)) }
+    ys.forEach((y, i) => list.push([10 + (i / 400) * 500, 90 - (peak ? y / peak : 0) * 75]))
+    wave.setAttribute("points", pts(list))
+    bPlay.textContent = osc ? "Parar o som" : "Tocar"
+    bPlay.setAttribute("aria-pressed", String(!!osc))
+    const used = a.filter((v) => v > 0).length
+    msg.textContent = used === 0
+      ? "Tudo zerado: silêncio, e uma linha reta."
+      : used === 1 && a[0] > 0
+        ? "Uma senoide pura: o som mais simples que existe, meio apito. Agora misture harmônicos e ouça o timbre mudar, com a mesma nota."
+        : "Mesma nota, outro timbre. Um violão, um clarinete e uma voz cantando a mesma nota diferem só na receita de harmônicos. É a série de Fourier que você ouve."
+  }
+  const preset = (v: number[]) => { hs.forEach((h, i) => (h.input.value = String(v[i]))); apply(); render() }
+  bPlay.addEventListener("click", () => (osc ? stop() : start()))
+  bSine.addEventListener("click", () => preset([100, 0, 0, 0, 0, 0]))
+  bSquare.addEventListener("click", () => preset([100, 0, 35, 0, 20, 0]))
+  bSaw.addEventListener("click", () => preset([100, 50, 35, 25, 20, 15]))
+  bOrgan.addEventListener("click", () => preset([100, 70, 0, 45, 0, 25]))
+  ;[sf, ...hs].forEach((s) => s.input.addEventListener("input", () => { apply(); render() }))
+  render()
+}
+
+function rippleTank(box: HTMLElement) {
+  const W = 520, H = 320, NX = 156, NY = 96, S = W / NX
+  const ctx = canvas(box, W, H, "Tanque de ondas: toque na água para fazer ondas")
+  const [bDrop, bTwo, bSlit, bClear] = btnRow(box, ["Pingos", "Duas fontes", "Fenda dupla", "Acalmar a água"])
+  const sf = slider(box, "Frequência das fontes", 2, 6, 4, 0.5)
+  const msg = note(box)
+  let u = new Float32Array(NX * NY), v = new Float32Array(NX * NY), wall = new Uint8Array(NX * NY), mode = "drop", t = 0
+  const damp = new Float32Array(NX * NY)
+  const sponge = (leftOpen: boolean) => {
+    for (let y = 0; y < NY; y++)
+      for (let x = 0; x < NX; x++) {
+        const d = Math.min(leftOpen ? 99 : x, NX - 1 - x, y, NY - 1 - y), z = Math.max(0, (14 - d) / 14)
+        damp[y * NX + x] = 0.999 - 0.12 * z * z
+      }
+  }
+  const off = document.createElement("canvas"); off.width = NX; off.height = NY
+  const octx = off.getContext("2d")!, img = octx.createImageData(NX, NY)
+  const hex = (c: string) => {
+    const d = document.createElement("div"); d.style.color = c; document.body.appendChild(d)
+    const m = getComputedStyle(d).color.match(/\d+/g)!.map(Number); d.remove(); return m
+  }
+  let cPos = [240, 170, 80], cNeg = [120, 200, 220], cWall = [120, 120, 120], themeKey = ""
+  const colors = () => { const k = cssVar("--tertiary") + cssVar("--secondary"); if (k !== themeKey) { cPos = hex(cssVar("--tertiary")); cNeg = hex(cssVar("--secondary")); cWall = hex(cssVar("--darkgray")); themeKey = k } }
+  const setMode = (m: string) => {
+    mode = m; u.fill(0); v.fill(0); wall.fill(0); t = 0; sponge(m === "slit")
+    if (m === "slit") for (let y = 0; y < NY; y++) { const g = Math.abs(y - NY / 2 + 10) < 4 || Math.abs(y - NY / 2 - 10) < 4; if (!g) for (let x = 50; x < 53; x++) wall[y * NX + x] = 1 }
+    ;[bDrop, bTwo, bSlit].forEach((b, i) => b.setAttribute("aria-pressed", String(["drop", "two", "slit"][i] === m)))
+    render()
+  }
+  const poke = (gx: number, gy: number, amp: number) => {
+    for (let dy = -3; dy <= 3; dy++)
+      for (let dx = -3; dx <= 3; dx++) {
+        const x = gx + dx, y = gy + dy
+        if (x > 0 && x < NX - 1 && y > 0 && y < NY - 1) u[y * NX + x] += amp * Math.exp(-(dx * dx + dy * dy) / 3)
+      }
+  }
+  const step = () => {
+    t += 1
+    const w = (Number(sf.input.value) * 2 * Math.PI) / 100
+    if (mode === "two") { const s = 1.2 * Math.sin(w * t); u[(NY / 2 - 14) * NX + 40] = s; u[(NY / 2 + 14) * NX + 40] = s }
+    if (mode === "slit") { const s = Math.sin(w * t); for (let y = 1; y < NY - 1; y++) u[y * NX + 3] = s }
+    for (let y = 1; y < NY - 1; y++)
+      for (let x = 1; x < NX - 1; x++) {
+        const i = y * NX + x
+        if (wall[i]) { v[i] = 0; continue }
+        v[i] += 0.25 * (u[i - 1] + u[i + 1] + u[i - NX] + u[i + NX] - 4 * u[i])
+        v[i] *= damp[i]
+      }
+    for (let i = 0; i < u.length; i++) { u[i] += v[i]; if (wall[i]) u[i] = 0 }
+    for (let x = 0; x < NX; x++) { u[x] = u[NX + x] * 0.9; u[(NY - 1) * NX + x] = u[(NY - 2) * NX + x] * 0.9 }
+    for (let y = 0; y < NY; y++) { if (mode !== "slit") u[y * NX] = u[y * NX + 1] * 0.9; u[y * NX + NX - 1] = u[y * NX + NX - 2] * 0.9 }
+  }
+  const draw = () => {
+    colors()
+    const d = img.data
+    for (let i = 0; i < u.length; i++) {
+      const k = i * 4
+      if (wall[i]) { d[k] = cWall[0]; d[k + 1] = cWall[1]; d[k + 2] = cWall[2]; d[k + 3] = 255; continue }
+      const a = Math.max(-1, Math.min(1, u[i] * (mode === "slit" && i % NX > 53 ? 4 : 1.6))), c = a > 0 ? cPos : cNeg
+      d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = Math.round(Math.abs(a) * 230)
+    }
+    octx.putImageData(img, 0, 0)
+    ctx.clearRect(0, 0, W, H)
+    ctx.imageSmoothingEnabled = true
+    ctx.drawImage(off, 0, 0, W, H)
+  }
+  const render = () => {
+    sf.out.textContent = sf.input.value
+    msg.textContent = mode === "drop"
+      ? "Toque ou arraste o dedo na água. Onde duas ondas se cruzam, elas se somam e depois seguem como se nada tivesse acontecido."
+      : mode === "two"
+        ? "Duas fontes no mesmo ritmo: onde crista encontra crista, a onda dobra; onde crista encontra vale, some. As faixas calmas são a interferência destrutiva. Mude a frequência e veja as faixas se aproximarem."
+        : "Uma onda reta bate numa parede com duas fendas. Cada fenda vira uma nova fonte, e do outro lado aparecem faixas de interferência. É o experimento de Thomas Young, do começo do século XIX, que convenceu os físicos de que a luz é uma onda."
+  }
+  pointer(ctx, W, H, (x, y) => { poke(Math.floor(x / S), Math.floor(y / S), 2); return true }, (x, y, d) => { if (d) poke(Math.floor(x / S), Math.floor(y / S), 0.6) })
+  const l = loop(box, () => { step(); step(); draw() })
+  bDrop.addEventListener("click", () => setMode("drop"))
+  bTwo.addEventListener("click", () => setMode("two"))
+  bSlit.addEventListener("click", () => setMode("slit"))
+  bClear.addEventListener("click", () => { u.fill(0); v.fill(0); draw() })
+  sf.input.addEventListener("input", render)
+  playBtn(box, l, bDrop.parentElement as HTMLElement)
+  setMode("two")
+  for (let i = 0; i < 300; i++) step()
+  draw()
+}
+
 const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   "escape-velocity": ["Laboratório: espremendo a Terra", escapeVelocity],
   lorentz: ["Laboratório: o tempo perto da luz", lorentz],
@@ -3701,6 +4410,15 @@ const LABS: Record<string, [string, (box: HTMLElement) => void]> = {
   circuit: ["Laboratório: série ou paralelo?", circuitLab],
   "wire-field": ["Laboratório: o experimento de Ørsted", wireField],
   induction: ["Laboratório: um ímã atravessando a bobina", inductionLab],
+  orbits: ["Brinquedo: crie seu sistema solar", orbitSandbox],
+  plinko: ["Brinquedo: chuva de bolinhas", plinko],
+  demon: ["Jogo: o demônio de Maxwell", demonGame],
+  hockey: ["Jogo: hóquei elétrico", hockeyLab],
+  lander: ["Jogo: pouso na Lua", landerGame],
+  epicycles: ["Brinquedo: círculos que desenham", epicycles],
+  "pendulum-wave": ["Brinquedo: a dança dos pêndulos", pendulumWave],
+  synth: ["Brinquedo: sintetizador de harmônicos", harmonicsSynth],
+  ripple: ["Brinquedo: tanque de ondas", rippleTank],
 }
 
 function mountLabs() {

@@ -295,6 +295,7 @@ def main() -> int:
     (OUT / "roadmap.md").write_text(render_roadmap(concepts, nodes, tinfo), encoding="utf-8")
     (OUT / "timeline.md").write_text(render_timeline(concepts, nodes, history), encoding="utf-8")
     (OUT / "index.md").write_text(render_index(concepts, nodes, tinfo, history), encoding="utf-8")
+    (OUT / "playground.md").write_text((ROOT / "content" / "playground.md").read_text(encoding="utf-8"), encoding="utf-8")
     print(f"exported {len(concepts)} concepts and {len(people_list)} people to {OUT.relative_to(ROOT)}")
     return 0
 
