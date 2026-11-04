@@ -103,9 +103,11 @@ O site sai em `site/public`. O Quartz fica fixado na versão v4.5.2.
 
 No GitHub, ative Pages com a fonte "GitHub Actions" (Settings > Pages). O `pages.yml`
 executa o workflow reutilizável `checks.yml` no mesmo commit antes de gerar e publicar.
-Falhas ou resultados inconclusivos de rede bloqueiam publicação; tente novamente após
-falhas temporárias. As verificações incluem URLs de fontes e materiais, com tentativas
-adicionais para indisponibilidade temporária. Relatórios e resultados são preservados
+Testes, esquema, cálculos e referências do arXiv bloqueiam publicação; tente novamente após
+falhas temporárias. Os links de fontes e materiais são verificados e aparecem no relatório,
+separados entre evidência e material, mas não bloqueiam: muitos sites recusam acessos
+automáticos (403, 405), e isso não diz nada sobre a página. Use `check_links.py --strict`
+para tratar qualquer link não confirmado como erro. Relatórios e resultados são preservados
 mesmo quando uma checagem falha. Rascunhos com revisão pendente continuam publicáveis,
 explicitamente identificados, enquanto conteúdo que se declara revisado deve comprovar isso.
 

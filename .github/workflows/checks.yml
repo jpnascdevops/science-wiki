@@ -30,7 +30,7 @@ jobs:
       - name: Check arXiv references
         if: ${{ !cancelled() }}
         run: python scripts/check_arxiv.py
-      - name: Check resource links
+      - name: Check links (reported, not blocking)
         if: ${{ !cancelled() }}
         run: python scripts/check_links.py
       - name: Fact-check report

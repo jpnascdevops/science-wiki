@@ -76,7 +76,8 @@ def main() -> int:
         print(f"- {name} ({result['checked_at']}): {dict(Counter(row['outcome'] for row in result['results']))}")
         for row in result['results']:
             if row['outcome'] != 'passed':
-                print(f"  - {row.get('concept', row.get('url', ''))}: {row['outcome']} — {row['detail']}")
+                role = f" ({row['role']})" if row.get('role') else ""
+                print(f"  - {row.get('concept', row.get('url', ''))}{role}: {row['outcome']} — {row['detail']}")
     return 0
 
 

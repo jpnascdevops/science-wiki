@@ -25,7 +25,7 @@ def status(url: str) -> int | str:
 
 
 def classify(code):
-    if not isinstance(code, int) or code in (401, 403, 408, 429) or code >= 500:
+    if not isinstance(code, int) or code in (401, 403, 405, 408, 429) or code >= 500:
         return "inconclusive"
     return "passed" if code < 400 else "failed"
 
@@ -41,25 +41,36 @@ def check_url(url):
     return {"url": url, "outcome": outcome, "detail": str(code)}
 
 
-def main() -> int:
+def main(strict: bool = False) -> int:
     snapshot = snapshot_hash()
-    urls = set()
+    roles: dict[str, set[str]] = {}
     missing = []
     for cid, c in load_all().items():
         for resource in c.meta.get("resources", []):
             if resource.get("url"):
-                urls.add(resource["url"])
+                roles.setdefault(resource["url"], set()).add("resource")
             else:
-                missing.append({"concept": cid, "outcome": "inconclusive", "detail": "resource missing URL: " + resource["title"]})
+                missing.append({"concept": cid, "role": "resource", "outcome": "inconclusive", "detail": "resource missing URL: " + resource["title"]})
         for claim in c.meta.get("claims", []):
-            urls.update(claim.get("sources", []))
+            for url in claim.get("sources", []):
+                roles.setdefault(url, set()).add("evidence")
     with ThreadPoolExecutor(max_workers=4) as pool:
-        rows = list(pool.map(check_url, sorted(urls))) + missing
+        rows = list(pool.map(check_url, sorted(roles)))
+    for row in rows:
+        row["role"] = "evidence" if "evidence" in roles[row["url"]] else "resource"
+    rows += missing
     save_results("links", rows, snapshot)
     for row in rows:
-        print(f"{row['outcome']}: {row.get('url', row.get('concept'))}: {row['detail']}")
-    return int(any(row["outcome"] != "passed" for row in rows))
+        if row["outcome"] != "passed":
+            print(f"{row['outcome']} ({row['role']}): {row.get('url', row.get('concept'))}: {row['detail']}")
+    for role in ("evidence", "resource"):
+        group = [r for r in rows if r["role"] == role]
+        count = {o: sum(r["outcome"] == o for r in group) for o in ("passed", "failed", "inconclusive")}
+        print(f"{role}: {len(group)} links, {count['passed']} passed, {count['failed']} failed, {count['inconclusive']} inconclusive")
+    if strict:
+        return int(any(row["outcome"] != "passed" for row in rows))
+    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(strict="--strict" in sys.argv[1:]))
