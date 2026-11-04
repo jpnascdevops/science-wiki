@@ -15,47 +15,48 @@ def normalize(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
 
 
-def fetch_title(arxiv_id: str) -> str | None:
-    with urllib.request.urlopen(API.format(arxiv_id), timeout=20) as resp:
+def fetch_titles(ids: list[str]) -> dict[str, str | None]:
+    req = urllib.request.Request(API.format(",".join(ids)) + f"&max_results={len(ids)}", headers={"User-Agent": "science-wiki-reference-check"})
+    with urllib.request.urlopen(req, timeout=30) as resp:
         root = ET.fromstring(resp.read())
-    entry = root.find(f"{ATOM}entry")
-    if entry is None:
-        return None
-    title = entry.findtext(f"{ATOM}title")
-    if not title or title.strip() == "Error":
-        return None
-    return " ".join(title.split())
+    found: dict[str, str | None] = {i: None for i in ids}
+    for entry in root.findall(f"{ATOM}entry"):
+        url = entry.findtext(f"{ATOM}id") or ""
+        title = entry.findtext(f"{ATOM}title")
+        aid = re.sub(r"v\d+$", "", url.split("/abs/")[-1])
+        if aid in found and title and title.strip() != "Error":
+            found[aid] = " ".join(title.split())
+    return found
 
 
-def main() -> int:
+def main(strict: bool = False) -> int:
     snapshot = snapshot_hash()
+    claims = [(cid, claim) for cid, c in load_all().items() for claim in c.meta.get("claims", []) if claim["check"] == "arxiv"]
+    ids = sorted({claim["arxiv"] for _, claim in claims})
+    seen: dict[str, str | None] = {}
+    for attempt in range(4):
+        try:
+            seen = fetch_titles(ids) if ids else {}
+            break
+        except Exception:
+            seen = {i: "__unreachable__" for i in ids}
+            if attempt < 3:
+                time.sleep(10 * (attempt + 1))
     rows = []
-    seen = {}
-    for cid, c in load_all().items():
-        for claim in c.meta.get("claims", []):
-            if claim["check"] != "arxiv":
-                continue
-            aid = claim["arxiv"]
-            if aid not in seen:
-                for attempt in range(3):
-                    try:
-                        seen[aid] = fetch_title(aid)
-                        time.sleep(3)
-                        break
-                    except Exception as exc:
-                        seen[aid] = "__unreachable__"
-                        time.sleep(3 * (attempt + 1))
-            title = seen[aid]
-            if title == "__unreachable__":
-                outcome = "inconclusive"
-            else:
-                outcome = "passed" if title and normalize(claim.get("expected_title", "")) == normalize(title) else "failed"
-            detail = f"{aid}: {title!r}; title matching only, not scientific support"
-            rows.append(result_row(cid, claim, outcome, detail))
-            print(f"{outcome}: {cid}: {detail}")
+    for cid, claim in claims:
+        aid = claim["arxiv"]
+        title = seen.get(aid)
+        if title == "__unreachable__":
+            outcome = "inconclusive"
+        else:
+            outcome = "passed" if title and normalize(claim.get("expected_title", "")) == normalize(title) else "failed"
+        detail = f"{aid}: {title!r}; title matching only, not scientific support"
+        rows.append(result_row(cid, claim, outcome, detail))
+        print(f"{outcome}: {cid}: {detail}")
     save_results("arxiv", rows, snapshot)
-    return int(any(row["outcome"] != "passed" for row in rows))
+    bad = {"failed", "inconclusive"} if strict else {"failed"}
+    return int(any(row["outcome"] in bad for row in rows))
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(strict="--strict" in sys.argv[1:]))

@@ -103,8 +103,9 @@ O site sai em `site/public`. O Quartz fica fixado na versão v4.5.2.
 
 No GitHub, ative Pages com a fonte "GitHub Actions" (Settings > Pages). O `pages.yml`
 executa o workflow reutilizável `checks.yml` no mesmo commit antes de gerar e publicar.
-Testes, esquema, cálculos e referências do arXiv bloqueiam publicação; tente novamente após
-falhas temporárias. Os links de fontes e materiais são verificados e aparecem no relatório,
+Testes, esquema e cálculos bloqueiam publicação, e uma referência do arXiv com título
+errado também. Quando o arXiv não responde, o resultado fica inconclusivo no relatório e
+não bloqueia (`check_arxiv.py --strict` muda isso). Os links de fontes e materiais são verificados e aparecem no relatório,
 separados entre evidência e material, mas não bloqueiam: muitos sites recusam acessos
 automáticos (403, 405), e isso não diz nada sobre a página. Use `check_links.py --strict`
 para tratar qualquer link não confirmado como erro. Relatórios e resultados são preservados

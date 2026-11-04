@@ -28,12 +28,13 @@ class VerificationTests(unittest.TestCase):
             self.assertAlmostEqual(expected, case["delta_action"], places=14)
             self.assertAlmostEqual(actual, expected, places=6)
 
-    def test_arxiv_outage_fails_and_records_inconclusive(self):
-        with patch.object(check_arxiv, "fetch_title", side_effect=OSError("offline")), \
+    def test_arxiv_outage_records_inconclusive_and_fails_only_when_strict(self):
+        with patch.object(check_arxiv, "fetch_titles", side_effect=OSError("offline")), \
              patch.object(check_arxiv.time, "sleep"), \
              patch.object(check_arxiv, "save_results") as save, \
              patch("builtins.print"):
-            self.assertEqual(check_arxiv.main(), 1)
+            self.assertEqual(check_arxiv.main(), 0)
+            self.assertEqual(check_arxiv.main(strict=True), 1)
             self.assertTrue(save.call_args.args[1])
             self.assertTrue(all(row["outcome"] == "inconclusive" for row in save.call_args.args[1]))
 
